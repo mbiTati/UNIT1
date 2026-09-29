@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 · Programming — Présentation</title>
+<meta name="description" content="Présentation officielle de l'Unité 1 Programming — École Schulz Genève, cohorte BI2. Projet fil rouge : ClubConnect.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>01</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,500&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #0F766E;
+  --teal-bright: #5EEAD4;
+  --teal-dark: #0D5E57;
+  --navy: #16294D;
+  --navy-light: #1E3A5F;
+  --border: #E7E9EE;
+  --muted: #64707E;
+  --ink: #12161C;
+  --page: #F1F5F4;
+  --white: #FFFFFF;
+  --gold: #F59E0B;
+  --success: #2E7D32;
+  --warning: #B26A00;
+  --error: #C62828;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--page);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   BARRE DE PROGRESSION DE LECTURE
+   ============================================================ */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, var(--teal), var(--teal-bright));
+  z-index: 2000;
+  transition: width .1s linear;
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(22,41,77,.94);
+  padding: 6px 10px;
+  border-radius: 4px;
+  display: flex;
+  gap: 2px;
+  z-index: 1000;
+  border: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(10px);
+  max-width: calc(100vw - 40px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav::-webkit-scrollbar { display: none; }
+.nav a {
+  padding: 8px 16px;
+  color: #B9C2CE;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .02em;
+  border-radius: 3px;
+  transition: background .2s, color .2s;
+  white-space: nowrap;
+}
+.nav a:hover { color: #fff; }
+.nav a.active { background: var(--teal); color: #fff; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--navy);
+}
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .22;
+}
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(15,118,110,.35), transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(94,234,212,.15), transparent 55%);
+  pointer-events: none;
+}
+.hero-content {
+  position: relative;
+  text-align: left;
+  color: #fff;
+  padding: 100px 40px 60px;
+  max-width: 900px;
+  width: 100%;
+}
+.hero-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+.hero-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  background: var(--teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 22px;
+  color: #fff;
+  border: 1px solid rgba(94,234,212,.4);
+}
+.hero-brand-text {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #B9C2CE;
+  line-height: 1.5;
+}
+.hero-brand-text strong {
+  color: #fff;
+  font-weight: 500;
+  display: block;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(48px, 9vw, 92px);
+  line-height: 1;
+  letter-spacing: -.02em;
+  margin-bottom: 16px;
+}
+.hero h2 {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: clamp(18px, 2.4vw, 24px);
+  color: #C4CFE0;
+  margin-bottom: 32px;
+  max-width: 640px;
+  line-height: 1.5;
+}
+.hero h2 strong { color: var(--teal-bright); font-weight: 500; }
+.hero-meta {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255,255,255,.12);
+  max-width: 700px;
+}
+.hero-meta-item {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #8FA2BF;
+}
+.hero-meta-item strong {
+  display: block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 24px;
+  color: var(--teal-bright);
+  margin-top: 6px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.section { padding: 88px 40px; }
+.section-white { background: var(--white); }
+.section-alt { background: var(--page); }
+.section-inner { max-width: 1080px; margin: 0 auto; }
+.section-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 16px;
+}
+.section h2 {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.15;
+  letter-spacing: -.01em;
+  margin-bottom: 20px;
+  max-width: 760px;
+}
+.section-intro {
+  font-size: 17px;
+  color: var(--muted);
+  max-width: 680px;
+  line-height: 1.7;
+  margin-bottom: 48px;
+}
+.section-intro strong { color: var(--ink); font-weight: 500; }
+
+/* ============================================================
+   OBJECTIF
+   ============================================================ */
+.objectif-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+.objectif-text p {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 18px;
+}
+.objectif-text p:last-child { margin-bottom: 0; }
+.objectif-text strong { color: var(--ink); font-weight: 500; }
+.objectif-img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  display: block;
+  border-radius: 4px;
+  filter: grayscale(15%);
+}
+
+/* ============================================================
+   LO — SYNTHÈSE + DÉTAIL
+   ============================================================ */
+.lo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 64px;
+}
+.lo-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--teal);
+  padding: 20px 18px;
+  border-radius: 3px;
+}
+.lo-card .lo-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  color: var(--teal);
+  margin-bottom: 10px;
+}
+.lo-card p {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.lo-detail {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 28px;
+  padding: 32px 0;
+  border-top: 1px solid var(--border);
+}
+.lo-detail:last-child { border-bottom: 1px solid var(--border); }
+.lo-detail-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 48px;
+  color: var(--teal);
+  line-height: 1;
+}
+.lo-detail h3 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.3;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+.lo-detail .lo-sub {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 14px;
+}
+.lo-detail p {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 14px;
+  max-width: 720px;
+}
+.lo-detail ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 24px;
+  max-width: 720px;
+}
+.lo-detail li {
+  font-size: 14px;
+  color: var(--ink);
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.6;
+}
+.lo-detail li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--teal);
+}
+
+/* ============================================================
+   CRITÈRES D'ÉVALUATION
+   ============================================================ */
+.crit-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.crit-block {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 28px;
+}
+.crit-block h3 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 17px;
+  color: var(--navy);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.crit-list { display: grid; gap: 10px; }
+.crit-item {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 16px;
+  align-items: start;
+  padding: 12px 14px;
+  border-radius: 3px;
+  border-left: 3px solid;
+}
+.crit-item.pass  { background: rgba(15,118,110,.05); border-color: var(--teal); }
+.crit-item.merit { background: rgba(245,158,11,.06); border-color: var(--gold); }
+.crit-item.dist  { background: rgba(22,41,77,.05);  border-color: var(--navy); }
+.crit-code {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: .04em;
+}
+.crit-item.pass .crit-code  { color: var(--teal-dark); }
+.crit-item.merit .crit-code { color: var(--warning); }
+.crit-item.dist .crit-code  { color: var(--navy); }
+.crit-text {
+  font-size: 14px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+/* ============================================================
+   PROJET
+   ============================================================ */
+.projet-header {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  min-height: 440px;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 40px;
+  background: var(--navy);
+}
+.projet-header img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .32;
+}
+.projet-header-vignette {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(22,41,77,.95) 30%, transparent 80%);
+}
+.projet-header-content {
+  position: relative;
+  color: #fff;
+  padding: 56px 48px;
+  max-width: 720px;
+}
+.projet-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--teal-bright);
+  margin-bottom: 16px;
+}
+.projet-header-content h3 {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(26px, 3.6vw, 40px);
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.projet-header-content p {
+  font-size: 16px;
+  color: #C4CFE0;
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+.projet-phases {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 40px;
+}
+.phase {
+  padding: 24px 20px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--teal);
+  border-radius: 4px;
+  transition: transform .25s, box-shadow .25s;
+}
+.phase:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(15,118,110,.1);
+}
+.phase-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 10px;
+}
+.phase h4 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--ink);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+.phase p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.phase-output {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+
+/* ============================================================
+   PROGRESSION UNIT 1 → UNIT 19
+   ============================================================ */
+.progression {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 32px;
+  align-items: center;
+  margin-top: 40px;
+}
+.prog-card {
+  padding: 32px 28px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--white);
+}
+.prog-card.now  { border-top: 4px solid var(--teal); }
+.prog-card.next { border-top: 4px solid var(--navy); }
+.prog-card h4 {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.prog-card .prog-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 24px;
+  color: var(--ink);
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.prog-card p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.prog-card ul { list-style: none; margin-top: 12px; padding: 0; }
+.prog-card li {
+  font-size: 13px;
+  color: var(--ink);
+  padding: 4px 0 4px 18px;
+  position: relative;
+}
+.prog-card li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--teal);
+}
+.prog-arrow {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 42px;
+  color: var(--teal);
+  text-align: center;
+}
+
+/* ============================================================
+   ROUTES / COURS & RESSOURCES
+   ============================================================ */
+.routes-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.filter-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 9px 15px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--muted);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.filter-btn:hover { border-color: var(--teal); color: var(--teal); }
+.filter-btn.active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+.filter-btn .count {
+  opacity: .5;
+  margin-left: 7px;
+  font-size: 10px;
+}
+
+.routes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.route-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 26px 22px 22px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.route-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent, var(--teal));
+  border-radius: 4px 4px 0 0;
+}
+a.route-card:hover {
+  transform: translateY(-4px);
+  border-color: transparent;
+  box-shadow: 0 16px 36px rgba(18,22,28,.10);
+}
+.route-card.soon { opacity: .5; }
+
+.route-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.route-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--accent, var(--teal));
+  padding: 3px 8px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.route-status {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.route-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.route-status.ready { color: var(--success); }
+
+.route-title {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.route-desc {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  flex: 1;
+}
+.route-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent, var(--teal));
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+}
+.route-arrow { transition: transform .25s; }
+a.route-card:hover .route-arrow { transform: translateX(4px); }
+.route-card.soon .route-foot { color: var(--muted); }
+
+.routes-empty {
+  grid-column: 1 / -1;
+  padding: 40px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+}
+
+.routes-note {
+  margin-top: 28px;
+  padding: 18px 22px;
+  border-left: 3px solid var(--teal);
+  background: rgba(15,118,110,.05);
+  border-radius: 0 3px 3px 0;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+.routes-note strong { color: var(--ink); font-weight: 500; }
+.routes-note code {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: rgba(22,41,77,.07);
+  padding: 2px 6px;
+  border-radius: 2px;
+  color: var(--navy);
+}
+
+/* ============================================================
+   TRANSITION
+   ============================================================ */
+.transition {
+  background: var(--teal);
+  color: #fff;
+  padding: 72px 40px;
+}
+.transition-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.transition p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(20px, 2.6vw, 28px);
+  line-height: 1.4;
+  flex: 1;
+  min-width: 280px;
+}
+.transition strong {
+  color: #fff;
+  font-weight: 500;
+  border-bottom: 2px solid var(--teal-bright);
+  padding-bottom: 2px;
+}
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 3px;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: .02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .2s;
+  white-space: nowrap;
+}
+.btn-light { background: #fff; color: var(--teal); }
+.btn-light:hover { background: #E0F2F1; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  background: #0A0918;
+  color: #64707E;
+  padding: 40px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .04em;
+  text-align: center;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1000px) {
+  .routes-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 900px) {
+  .nav { top: auto; bottom: 12px; padding: 4px 6px; max-width: calc(100vw - 24px); }
+  .nav a { padding: 6px 12px; font-size: 12px; }
+  .objectif-grid { grid-template-columns: 1fr; gap: 32px; }
+  .objectif-img { height: 280px; }
+  .lo-grid { grid-template-columns: 1fr 1fr; }
+  .lo-detail { grid-template-columns: 1fr; gap: 12px; padding: 24px 0; }
+  .lo-detail-num { font-size: 36px; }
+  .lo-detail ul { grid-template-columns: 1fr; }
+  .projet-phases { grid-template-columns: 1fr 1fr; }
+  .progression { grid-template-columns: 1fr; }
+  .prog-arrow { transform: rotate(90deg); }
+  .projet-header-content { padding: 32px 24px; }
+  .section { padding: 56px 20px; }
+  .transition { padding: 56px 20px; }
+}
+@media (max-width: 600px) {
+  .hero-content { padding: 80px 20px 40px; }
+  .hero-meta { gap: 20px; }
+  .lo-grid { grid-template-columns: 1fr; }
+  .projet-phases { grid-template-columns: 1fr; }
+  .routes-grid { grid-template-columns: 1fr; }
+  .transition-inner { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- NAVIGATION -->
+<nav class="nav">
+  <a href="#objectif" class="active">Objectif</a>
+  <a href="#lo">Les 4 LO</a>
+  <a href="#criteres">Critères</a>
+  <a href="#projet">ClubConnect</a>
+  <a href="#progression">Progression</a>
+  <a href="#pages">Cours</a>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<header class="hero" id="hero">
+  <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1920&q=80" alt="" class="hero-img">
+  <div class="hero-vignette"></div>
+  <div class="hero-content">
+    <div class="hero-brand">
+      <div class="hero-logo">E</div>
+      <div class="hero-brand-text">
+        <strong>École Schulz Genève</strong>
+        BTEC HND Computing · Niveau 4 · Core
+      </div>
+    </div>
+    <h1>Unit 1</h1>
+    <h2>
+      Programming — les fondations du développement logiciel.<br>
+      <strong>Algorithmes, paradigmes, IDE, débogage.</strong>
+    </h2>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        Cohorte
+        <strong>BI2</strong>
+      </div>
+      <div class="hero-meta-item">
+        Crédits
+        <strong>15</strong>
+      </div>
+      <div class="hero-meta-item">
+        Learning Outcomes
+        <strong>4</strong>
+      </div>
+      <div class="hero-meta-item">
+        Code unité
+        <strong>H/618/7388</strong>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     01. OBJECTIF
+     ============================================================ -->
+<section class="section section-white" id="objectif">
+  <div class="section-inner">
+    <div class="section-label">01 · Objectif de l'unité</div>
+    <h2>Apprendre à écrire du code qui fonctionne et qui se maintient</h2>
+
+    <div class="objectif-grid">
+      <div class="objectif-text">
+        <p>
+          Programmer, ce n'est pas seulement taper du code. C'est savoir
+          <strong>décomposer un problème</strong>, écrire un algorithme,
+          choisir un paradigme adapté, et utiliser un environnement de
+          développement professionnel pour transformer cet algorithme en
+          application exécutable.
+        </p>
+        <p>
+          Unit 1 te fait passer du statut d'utilisateur à celui de
+          <strong>développeur</strong>. Tu apprends à lire et écrire du code,
+          à comprendre comment il se transforme en programme exécutable, et
+          à corriger méthodiquement les erreurs.
+        </p>
+        <p>
+          À la fin de cette unité, tu maîtrises les bases : algorithmes,
+          paradigmes de programmation, utilisation d'un IDE, débogage
+          structuré et respect d'un standard de code.
+        </p>
+      </div>
+      <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=900&q=80" alt="" class="objectif-img">
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     02. LES 4 LO
+     ============================================================ -->
+<section class="section section-alt" id="lo">
+  <div class="section-inner">
+    <div class="section-label">02 · Learning Outcomes</div>
+    <h2>Quatre étapes, une seule progression</h2>
+    <p class="section-intro">
+      Chaque LO prépare au suivant. On définit d'abord un algorithme (LO1),
+      on choisit un paradigme (LO2), on implémente dans un IDE (LO3), puis on
+      débogue et on applique un standard (LO4).
+    </p>
+
+    <div class="lo-grid">
+      <div class="lo-card">
+        <div class="lo-tag">LO1</div>
+        <p>Définir un algorithme et le processus d'écriture</p>
+      </div>
+      <div class="lo-card">
+        <div class="lo-tag">LO2</div>
+        <p>Expliquer les paradigmes de programmation</p>
+      </div>
+      <div class="lo-card">
+        <div class="lo-tag">LO3</div>
+        <p>Implémenter un algorithme dans un IDE</p>
+      </div>
+      <div class="lo-card">
+        <div class="lo-tag">LO4</div>
+        <p>Déboguer et respecter un coding standard</p>
+      </div>
+    </div>
+
+    <div class="lo-detail">
+      <div class="lo-detail-num">1</div>
+      <div>
+        <h3>Définir un algorithme et décrire le processus de programmation</h3>
+        <div class="lo-sub">Comprendre le quoi avant de coder</div>
+        <p>
+          Un algorithme précède toujours le code. Il faut comprendre
+          <strong>comment un algorithme se transforme en programme</strong> :
+          quelles étapes techniques interviennent entre l'écriture et l'exécution.
+        </p>
+        <ul>
+          <li>Définir un algorithme (exemple : tri à bulles)</li>
+          <li>Relation entre algorithme et code source</li>
+          <li>Rôle du préprocesseur, compilateur, linker, interpréteur</li>
+          <li>Étapes de l'écriture à l'exécution</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lo-detail">
+      <div class="lo-detail-num">2</div>
+      <div>
+        <h3>Expliquer les paradigmes procédural, orienté-objet et événementiel</h3>
+        <div class="lo-sub">Choisir un modèle de structuration</div>
+        <p>
+          Trois paradigmes structurent le code de façon différente. Chacun a ses
+          forces, ses limites et ses cas d'usage. Il faut savoir les reconnaître
+          dans un code existant.
+        </p>
+        <ul>
+          <li>Procédural — fonctions, séquence, contrôle</li>
+          <li>Orienté-objet — classes, héritage, encapsulation</li>
+          <li>Événementiel — déclencheurs, callbacks</li>
+          <li>Types de données : constantes, variables, structures</li>
+          <li>Portée des variables, passage de paramètres</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lo-detail">
+      <div class="lo-detail-num">3</div>
+      <div>
+        <h3>Implémenter des algorithmes de base dans un IDE</h3>
+        <div class="lo-sub">Coder, compiler, exécuter</div>
+        <p>
+          C'est le cœur technique de l'unité. Tu codes en Java dans un IDE
+          professionnel, tu compiles, tu exécutes, tu vérifies. Tu écris du
+          code logique, lisible et maintenable.
+        </p>
+        <ul>
+          <li>Développer des applications simples</li>
+          <li>Code logique et maintenable</li>
+          <li>Considérations de sécurité</li>
+          <li>Compiler, gérer et déployer le code</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lo-detail">
+      <div class="lo-detail-num">4</div>
+      <div>
+        <h3>Déterminer le processus de débogage et l'importance du coding standard</h3>
+        <div class="lo-sub">Corriger avec méthode</div>
+        <p>
+          Un bug n'est pas une fatalité. Il se traque méthodiquement avec les
+          outils de l'IDE. Et un code écrit dans un standard partagé est beaucoup
+          plus facile à maintenir, pour soi comme pour l'équipe.
+        </p>
+        <ul>
+          <li>Watch lists, breakpoints, tracing</li>
+          <li>Corriger vulnérabilités, défauts et bugs</li>
+          <li>Techniques structurées de résolution</li>
+          <li>Coding standard : bénéfices individuels et collectifs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     03. CRITÈRES D'ÉVALUATION
+     ============================================================ -->
+<section class="section section-white" id="criteres">
+  <div class="section-inner">
+    <div class="section-label">03 · Critères d'évaluation</div>
+    <h2>Ce qui est attendu pour valider chaque LO</h2>
+    <p class="section-intro">
+      Trois niveaux de réussite : <strong>Pass</strong> (valider),
+      <strong>Merit</strong> (approfondir), <strong>Distinction</strong> (évaluer
+      de façon critique). Chaque critère est explicite et vérifiable.
+    </p>
+
+    <div class="crit-grid">
+      <div class="crit-block">
+        <h3>LO1 — Définir un algorithme et le processus de programmation</h3>
+        <div class="crit-list">
+          <div class="crit-item pass">
+            <div class="crit-code">P1</div>
+            <div class="crit-text">Définir un algorithme et décrire le processus de construction d'une application.</div>
+          </div>
+          <div class="crit-item pass">
+            <div class="crit-code">P2</div>
+            <div class="crit-text">Déterminer les étapes depuis l'écriture du code jusqu'à l'exécution.</div>
+          </div>
+          <div class="crit-item merit">
+            <div class="crit-code">M1</div>
+            <div class="crit-text">Analyser le processus d'écriture de code, y compris les défis potentiels rencontrés.</div>
+          </div>
+          <div class="crit-item dist">
+            <div class="crit-code">D1</div>
+            <div class="crit-text">Évaluer l'implémentation d'un algorithme dans un langage adapté et la relation entre l'algorithme écrit et la variante codée.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="crit-block">
+        <h3>LO2 — Expliquer les paradigmes de programmation</h3>
+        <div class="crit-list">
+          <div class="crit-item pass">
+            <div class="crit-code">P3</div>
+            <div class="crit-text">Discuter des paradigmes procédural, orienté-objet et événementiel ; leurs caractéristiques et leurs relations.</div>
+          </div>
+          <div class="crit-item merit">
+            <div class="crit-code">M2</div>
+            <div class="crit-text">Comparer les paradigmes dans le code source d'une application donnée.</div>
+          </div>
+          <div class="crit-item dist">
+            <div class="crit-code">D2</div>
+            <div class="crit-text">Évaluer de façon critique le code source d'une application qui implémente les trois paradigmes, en termes de structure et de caractéristiques.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="crit-block">
+        <h3>LO3 — Implémenter avec un IDE</h3>
+        <div class="crit-list">
+          <div class="crit-item pass">
+            <div class="crit-code">P4</div>
+            <div class="crit-text">Écrire un programme qui implémente un algorithme dans un IDE.</div>
+          </div>
+          <div class="crit-item merit">
+            <div class="crit-code">M3</div>
+            <div class="crit-text">Améliorer l'algorithme écrit en utilisant les fonctionnalités de l'IDE pour gérer le processus de développement.</div>
+          </div>
+          <div class="crit-item dist">
+            <div class="crit-code">D3</div>
+            <div class="crit-text">Évaluer l'utilisation d'un IDE pour le développement d'applications par contraste avec l'absence d'IDE.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="crit-block">
+        <h3>LO4 — Débogage et coding standard</h3>
+        <div class="crit-list">
+          <div class="crit-item pass">
+            <div class="crit-code">P5</div>
+            <div class="crit-text">Expliquer le processus de débogage et les facilités de débogage disponibles dans l'IDE.</div>
+          </div>
+          <div class="crit-item pass">
+            <div class="crit-code">P6</div>
+            <div class="crit-text">Expliquer le standard de code utilisé dans le code produit.</div>
+          </div>
+          <div class="crit-item merit">
+            <div class="crit-code">M4</div>
+            <div class="crit-text">Examiner comment le débogage peut aider à développer des applications plus sécurisées et robustes.</div>
+          </div>
+          <div class="crit-item dist">
+            <div class="crit-code">D4</div>
+            <div class="crit-text">Évaluer le rôle et l'objectif d'un standard de code, et pourquoi il est nécessaire en équipe comme pour l'individu.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     04. CLUBCONNECT
+     ============================================================ -->
+<section class="section section-alt" id="projet">
+  <div class="section-inner">
+    <div class="section-label">04 · Projet fil rouge</div>
+    <h2>ClubConnect — la première brique</h2>
+    <p class="section-intro">
+      Le projet fil rouge <strong>ClubConnect</strong> démarre en Unit 1.
+      À la fin de cette unité, tu auras une application Java fonctionnelle avec
+      des classes, des algorithmes simples et un code conforme à un standard.
+    </p>
+
+    <div class="projet-header">
+      <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600&q=80" alt="">
+      <div class="projet-header-vignette"></div>
+      <div class="projet-header-content">
+        <div class="projet-tag">Projet fil rouge · Année 1 · Unit 1</div>
+        <h3>Une application de gestion de club sportif, en Java</h3>
+        <p>
+          Modélisation de membres, d'activités et d'inscriptions. Premiers
+          algorithmes de tri et de recherche. Interface en console. Code
+          structuré et commenté.
+        </p>
+      </div>
+    </div>
+
+    <div class="projet-phases">
+      <div class="phase">
+        <div class="phase-num">Phase 01 · LO1</div>
+        <h4>Algorithmes</h4>
+        <p>Écrire sur papier les algorithmes de base : tri des membres par nom, recherche par email, calcul du nombre d'inscriptions.</p>
+        <div class="phase-output">Rapport d'algorithmes</div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">Phase 02 · LO2</div>
+        <h4>Paradigmes</h4>
+        <p>Choisir la POO pour modéliser Membre, Activité, Inscription. Identifier les événements d'interface en console.</p>
+        <div class="phase-output">Diagramme de classes</div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">Phase 03 · LO3</div>
+        <h4>Implémentation</h4>
+        <p>Coder les classes de base en Java, dans IntelliJ ou Eclipse. Compiler, exécuter, tester avec des données réelles.</p>
+        <div class="phase-output">Code Java fonctionnel</div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">Phase 04 · LO4</div>
+        <h4>Débogage</h4>
+        <p>Utiliser breakpoints et watch lists pour traquer les bugs. Appliquer un coding standard cohérent.</p>
+        <div class="phase-output">Rapport de débogage</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     05. PROGRESSION UNIT 1 → UNIT 19
+     ============================================================ -->
+<section class="section section-white" id="progression">
+  <div class="section-inner">
+    <div class="section-label">05 · Progression</div>
+    <h2>Le même projet, deux années de croissance</h2>
+    <p class="section-intro">
+      ClubConnect n'est pas un exercice jetable. C'est un projet qui se
+      construit sur deux années consécutives. Ce que tu écris en Unit 1
+      devient la base de l'Unit 19.
+    </p>
+
+    <div class="progression">
+      <div class="prog-card now">
+        <h4>Année 1 · Unit 1</h4>
+        <div class="prog-title">Le Socle</div>
+        <p>Algorithmes de base, paradigmes, IDE, débogage, coding standard.</p>
+        <ul>
+          <li>Classes Membre, Activité, Inscription</li>
+          <li>Algorithmes de tri simples</li>
+          <li>Console en Java</li>
+          <li>Code structuré et commenté</li>
+        </ul>
+      </div>
+      <div class="prog-arrow">→</div>
+      <div class="prog-card next">
+        <h4>Année 2 · Unit 19</h4>
+        <div class="prog-title">Le Moteur</div>
+        <p>Structures avancées, graphes, algorithmes, analyse de performance.</p>
+        <ul>
+          <li>ADT, listes chaînées, arbres, graphes</li>
+          <li>Tables de hachage, file de priorité</li>
+          <li>Moteur de matching complet</li>
+          <li>Benchmark sur 50 000 membres</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     06. COURS & RESSOURCES  ← LES LIENS VERS TES PAGES
+     ============================================================
+     Cette section est générée automatiquement à partir du tableau
+     ROUTES (voir le <script> en bas de page).
+     Pour ajouter une page : ajoute simplement un objet dans ROUTES.
+     ============================================================ -->
+<section class="section section-alt" id="pages">
+  <div class="section-inner">
+    <div class="section-label">06 · Cours &amp; Ressources</div>
+    <h2>Toutes les pages de l'unité</h2>
+    <p class="section-intro">
+      Les supports de cours, TD, TP et ressources sont regroupés ici.
+      <strong>Nouvelles pages ajoutées au fur et à mesure</strong> — reviens
+      régulièrement, de nouvelles cartes apparaissent.
+    </p>
+
+    <div class="routes-toolbar" id="routesToolbar">
+      <button class="filter-btn active" data-filter="all">Tout</button>
+      <button class="filter-btn" data-filter="LO1">LO1</button>
+      <button class="filter-btn" data-filter="LO2">LO2</button>
+      <button class="filter-btn" data-filter="LO3">LO3</button>
+      <button class="filter-btn" data-filter="LO4">LO4</button>
+      <button class="filter-btn" data-filter="PROJET">Projet</button>
+      <button class="filter-btn" data-filter="RESS">Ressources</button>
+    </div>
+
+    <div class="routes-grid" id="routesGrid"></div>
+
+    <div class="routes-note">
+      <strong>Note pour l'enseignant / le mainteneur :</strong>
+      pour publier une nouvelle page, crée le fichier HTML dans
+      <code>pages/</code> puis ajoute une entrée dans le tableau
+      <code>ROUTES</code> du script en bas de ce document. La carte et le
+      lien se génèrent automatiquement. Passe <code>status</code> à
+      <code>"ready"</code> pour rendre la carte cliquable.
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TRANSITION
+     ============================================================ -->
+<section class="transition">
+  <div class="transition-inner">
+    <p>
+      Unit 1 t'apprend à <strong>écrire du code</strong>. Unit 19 t'apprendra
+      à <strong>écrire du bon code</strong>.
+    </p>
+    <a href="#pages" class="btn btn-light">Voir les cours</a>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  École Schulz Genève · Unit 1 — Programming · Cohorte BI2 · 2026-2027
+</footer>
+
+<script>
+/* ══════════════════════════════════════════════════════════════════════
+   ⚙️  ROUTES — AJOUTE TES NOUVELLES PAGES ICI
+   ──────────────────────────────────────────────────────────────────────
+   POUR AJOUTER UNE PAGE :
+     1. Crée ton fichier HTML, par exemple : pages/lo2-poo.html
+     2. Ajoute un objet dans le tableau ROUTES ci-dessous
+     3. Sauvegarde — la carte apparaît automatiquement dans la grille.
+
+   CHAMPS :
+     title   → titre affiché sur la carte
+     desc    → description courte (une phrase)
+     href    → chemin relatif vers ta page HTML
+     tag     → "LO1" | "LO2" | "LO3" | "LO4" | "PROJET" | "RESS"
+     status  → "ready" (cliquable) | "soon" (grisée, non cliquable)
+   ══════════════════════════════════════════════════════════════════════ */
+
+const ROUTES = [
+
+  /* ── LO1 · Algorithmes & processus de programmation ───────────── */
+  {
+    title:  "Algo P1 — Variables, types, séquence (interactif)",
+    desc:   "Rappel de cours et exercices à remplir directement, envoi par mail intégré.",
+    href:   "pages/Algo_P1_Interactif.html",
+    tag:    "LO1",
+    status: "ready"
+  },
+  {
+    title:  "Algo P1 + P2 — Texte complet",
+    desc:   "Support intégral : introduction, cours, if/else, ET/OU, type char, table ASCII et exercices.",
+    href:   "pages/Algo_P1_P2_Complet.html",
+    tag:    "LO1",
+    status: "ready"
+  },
+  {
+    title:  "Algorithmes — les fondamentaux",
+    desc:   "Définition, pseudo-code, organigrammes et complexité de base.",
+    href:   "pages/lo1-algorithmes.html",
+    tag:    "LO1",
+    status: "soon"
+  },
+  {
+    title:  "Du code source à l'exécution",
+    desc:   "Préprocesseur, compilateur, linker, interpréteur : qui fait quoi et quand.",
+    href:   "pages/lo1-code-execution.html",
+    tag:    "LO1",
+    status: "soon"
+  },
+  {
+    title:  "TD · Tri à bulles",
+    desc:   "Écrire, tracer pas à pas puis optimiser l'algorithme de tri à bulles.",
+    href:   "pages/lo1-td-tri-bulles.html",
+    tag:    "LO1",
+    status: "soon"
+  },
+
+  /* ── LO2 · Paradigmes de programmation ────────────────────────── */
+  {
+    title:  "Kit cartes — 7 activités physiques (Algo P1-P2)",
+    desc:   "Variables, séquence, opérateurs, if/else, ET/OU et tri à bulles, avec un simple jeu de 52 cartes.",
+    href:   "pages/Kit_Cartes_Algo_P1_P2.html",
+    tag:    "LO2",
+    status: "ready"
+  },
+  {
+    title:  "Les trois paradigmes",
+    desc:   "Procédural, orienté-objet, événementiel : caractéristiques et différences.",
+    href:   "pages/lo2-paradigmes.html",
+    tag:    "LO2",
+    status: "soon"
+  },
+  {
+    title:  "POO — classes, héritage, encapsulation",
+    desc:   "Modéliser le réel : objets, attributs, méthodes, visibilité.",
+    href:   "pages/lo2-poo.html",
+    tag:    "LO2",
+    status: "soon"
+  },
+  {
+    title:  "Programmation événementielle",
+    desc:   "Déclencheurs, callbacks et boucle d'événements expliqués simplement.",
+    href:   "pages/lo2-evenementiel.html",
+    tag:    "LO2",
+    status: "soon"
+  },
+
+  /* ── LO3 · Implémentation dans un IDE ─────────────────────────── */
+  {
+    title:  "Prise en main de l'IDE",
+    desc:   "Installer, configurer et naviguer dans IntelliJ IDEA ou Eclipse.",
+    href:   "pages/lo3-ide.html",
+    tag:    "LO3",
+    status: "soon"
+  },
+  {
+    title:  "Java — premiers pas",
+    desc:   "Variables, types, conditions, boucles, méthodes : le socle du langage.",
+    href:   "pages/lo3-java-bases.html",
+    tag:    "LO3",
+    status: "soon"
+  },
+  {
+    title:  "TP · ClubConnect — Phase 3",
+    desc:   "Implémenter les classes Membre, Activité et Inscription en Java.",
+    href:   "pages/lo3-tp-clubconnect.html",
+    tag:    "LO3",
+    status: "soon"
+  },
+
+  /* ── LO4 · Débogage & coding standard ─────────────────────────── */
+  {
+    title:  "Débogage structuré",
+    desc:   "Breakpoints, watch lists, pas-à-pas : traquer un bug méthodiquement.",
+    href:   "pages/lo4-debogage.html",
+    tag:    "LO4",
+    status: "soon"
+  },
+  {
+    title:  "Coding standard",
+    desc:   "Nommage, indentation, commentaires : pourquoi un standard partagé.",
+    href:   "pages/lo4-coding-standard.html",
+    tag:    "LO4",
+    status: "soon"
+  },
+
+  /* ── Projet fil rouge ─────────────────────────────────────────── */
+  {
+    title:  "Cahier des charges ClubConnect",
+    desc:   "Périmètre, fonctionnalités attendues et livrables de l'Unit 1.",
+    href:   "pages/projet-cahier-des-charges.html",
+    tag:    "PROJET",
+    status: "soon"
+  },
+  {
+    title:  "Barème & modalités de rendu",
+    desc:   "Grille d'évaluation P/M/D et calendrier des remises.",
+    href:   "pages/projet-bareme.html",
+    tag:    "PROJET",
+    status: "soon"
+  },
+
+  /* ── Ressources transverses ───────────────────────────────────── */
+  {
+    title:  "Fiches de révision",
+    desc:   "L'essentiel de l'unité en quelques pages, pour préparer l'évaluation.",
+    href:   "pages/ressources-revision.html",
+    tag:    "RESS",
+    status: "soon"
+  }
+
+];
+
+/* ─────────────────────────────────────────────────────────────────────
+   COULEURS PAR CATÉGORIE — modifie si tu veux changer les accents
+   ───────────────────────────────────────────────────────────────────── */
+const CATEGORIES = {
+  LO1:    { color: "#0F766E" },
+  LO2:    { color: "#16294D" },
+  LO3:    { color: "#D97706" },
+  LO4:    { color: "#6D28D9" },
+  PROJET: { color: "#0E7490" },
+  RESS:   { color: "#64707E" }
+};
+
+/* ─────────────────────────────────────────────────────────────────────
+   MOTEUR DE RENDU — pas besoin de toucher à ça
+   ───────────────────────────────────────────────────────────────────── */
+(function () {
+  const grid     = document.getElementById('routesGrid');
+  const buttons  = document.querySelectorAll('.filter-btn');
+
+  function cardHTML(route) {
+    const ready = route.status === 'ready';
+    const inner = `
+      <div class="route-top">
+        <span class="route-tag">${route.tag}</span>
+        <span class="route-status ${ready ? 'ready' : ''}">
+          ${ready ? 'Disponible' : 'À venir'}
+        </span>
+      </div>
+      <div class="route-title">${route.title}</div>
+      <p class="route-desc">${route.desc}</p>
+      <div class="route-foot">
+        <span>${ready ? 'Ouvrir la page' : 'Bientôt disponible'}</span>
+        <span class="route-arrow">→</span>
+      </div>`;
+    return ready
+      ? `<a class="route-card" style="--accent:${(CATEGORIES[route.tag] || {}).color || '#0F766E'}" href="${route.href}">${inner}</a>`
+      : `<div class="route-card soon" style="--accent:${(CATEGORIES[route.tag] || {}).color || '#0F766E'}">${inner}</div>`;
+  }
+
+  function render(filter) {
+    const list = ROUTES.filter(r => filter === 'all' || r.tag === filter);
+    grid.innerHTML = list.length
+      ? list.map(cardHTML).join('')
+      : '<p class="routes-empty">Aucune page dans cette catégorie pour le moment.</p>';
+  }
+
+  /* Compteurs sur les boutons de filtre */
+  buttons.forEach(btn => {
+    const f = btn.dataset.filter;
+    const n = f === 'all' ? ROUTES.length : ROUTES.filter(r => r.tag === f).length;
+    btn.insertAdjacentHTML('beforeend', `<span class="count">${n}</span>`);
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render(f);
+    });
+  });
+
+  render('all');
+})();
+
+/* ─────────────────────────────────────────────────────────────────────
+   SCROLL SPY — surligne le lien actif dans la navigation
+   ───────────────────────────────────────────────────────────────────── */
+(function () {
+  const sections = document.querySelectorAll('section[id], header[id]');
+  const navLinks = document.querySelectorAll('.nav a');
+  const bar      = document.getElementById('scrollProgress');
+
+  function onScroll() {
+    /* Barre de progression */
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+
+    /* Lien actif */
+    let current = '';
+    sections.forEach(section => {
+      if (window.scrollY >= section.offsetTop - 150) current = section.id;
+    });
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+
+</body>
+</html>

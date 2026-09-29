@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Algo P1 + P2 — Texte complet | Unit 1</title>
+<style>
+:root { --teal:#0D7377; --cyan:#14A3C7; --mint:#32E0C4; --ink:#1B2B2B; --muted:#5A6B6B; --bg-card:#F7F9F8; --code-bg:#1E2B2B; --code-fg:#E1F5EE; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system, Segoe UI, Calibri, sans-serif; color:var(--ink); background:#FFFFFF; line-height:1.65; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+header { background:var(--teal); color:white; padding:2.5rem 2rem; }
+header .kicker { font-size:0.85rem; letter-spacing:0.05em; color:var(--mint); font-weight:600; }
+header h1 { margin:0.5rem 0 0.3rem; font-size:1.9rem; }
+header p { margin:0; color:#BFEFE9; font-size:1rem; }
+.layout { display:grid; grid-template-columns:240px 1fr; gap:2rem; max-width:1100px; margin:0 auto; padding:2rem; }
+nav.toc { position:sticky; top:1rem; align-self:start; background:var(--bg-card); border-radius:10px; padding:1.1rem; max-height:calc(100vh - 2rem); overflow-y:auto; }
+nav.toc .toc-title { font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); margin-bottom:0.6rem; }
+.toc-link { display:block; padding:0.32rem 0.5rem; border-radius:6px; color:var(--ink); text-decoration:none; font-size:0.85rem; }
+.toc-link:hover { background:#E1F5EE; }
+.toc-part { font-weight:700; color:var(--teal); font-size:0.8rem; text-transform:uppercase; margin:0.8rem 0 0.3rem; }
+main { min-width:0; }
+h2.section-title { font-size:1.2rem; color:var(--teal); border-bottom:2px solid #E1F5EE; padding-bottom:0.4rem; margin-top:2.1rem; }
+h3.part-title { font-size:1.5rem; color:white; background:var(--teal); padding:1rem 1.3rem; border-radius:10px; margin-top:3rem; }
+.code { background:var(--code-bg); color:var(--code-fg); padding:1rem 1.2rem; border-radius:8px; overflow-x:auto; font-family:"Courier New", monospace; font-size:0.87rem; white-space:pre; }
+table.ref { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.88rem; }
+table.ref th, table.ref td { border:1px solid #E0E0E0; padding:0.45rem 0.6rem; text-align:left; }
+table.ref th { background:var(--bg-card); }
+table.annot td { border:1px solid #E0E0E0; padding:0.4rem 0.6rem; vertical-align:top; }
+table.annot td.instr { font-family:"Courier New", monospace; background:var(--code-bg); color:var(--code-fg); white-space:pre; font-size:0.85rem; width:45%; }
+.card { background:var(--bg-card); border-radius:10px; padding:1.1rem 1.3rem; margin:1rem 0; }
+.note { background:#FAEEDA; border-left:4px solid #BA7517; padding:0.7rem 1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.problem { background:#E6F1FB; border-left:4px solid #378ADD; padding:0.7rem 1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; font-weight:600; }
+.exo-item { margin-bottom:1.2rem; }
+.exo-item label { display:block; font-weight:600; margin-bottom:0.4rem; }
+.exo-item textarea, .exo-item input[type=text] { width:100%; font-family:"Courier New", monospace; font-size:0.88rem; padding:0.55rem 0.75rem; border:1px solid #CCCCCC; border-radius:6px; resize:vertical; }
+.exo-item textarea { min-height:45px; }
+table.trace { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.87rem; }
+table.trace th, table.trace td { border:1px solid #CCCCCC; padding:0.4rem 0.5rem; text-align:center; }
+table.trace th { background:var(--bg-card); }
+table.trace td.instr { text-align:left; font-family:"Courier New", monospace; }
+table.trace input { width:65px; text-align:center; border:1px solid #CCCCCC; border-radius:4px; padding:0.25rem; font-family:"Courier New", monospace; }
+table.ascii { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.8rem; }
+table.ascii th, table.ascii td { border:1px solid #E0E0E0; padding:0.3rem 0.45rem; text-align:center; }
+table.ascii th { background:var(--bg-card); }
+table.ascii td.sig { text-align:left; }
+.name-field { margin:1.5rem 0; }
+.name-field label { display:block; font-weight:700; margin-bottom:0.4rem; }
+.name-field input { width:100%; max-width:400px; padding:0.7rem 0.9rem; border:1px solid #CCCCCC; border-radius:6px; font-size:1rem; }
+.send-box { background:#FAEEDA; border-radius:10px; padding:1.5rem; text-align:center; margin:2.5rem 0; }
+.send-btn { background:var(--teal); color:white; border:none; padding:0.9rem 2rem; border-radius:8px; font-size:1.05rem; font-weight:700; cursor:pointer; margin-top:0.8rem; }
+.send-btn:hover { background:var(--cyan); }
+.send-note { font-size:0.85rem; color:#633806; margin-top:0.7rem; }
+.error-msg { color:#A32D2D; font-size:0.9rem; margin-top:0.6rem; display:none; }
+footer { text-align:center; padding:2rem; color:var(--muted); font-size:0.85rem; }
+@media (max-width:800px) { .layout { grid-template-columns:1fr; } nav.toc { position:static; max-height:none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">UNIT 1 — PROGRAMMING</div>
+  <h1>Algo P1 + P2 — Texte complet</h1>
+  <p>Reprise intégrale du support : introduction, cours, remarques, énoncés de problème, table ASCII et exercices.</p>
+</header>
+
+<div class="layout">
+  <nav class="toc">
+    <div class="toc-title">Sommaire</div>
+    <div class="toc-part">Partie 1</div>
+    <a class="toc-link" href="#p1-intro">Introduction</a>
+    <a class="toc-link" href="#p1-premier">Premier algorithme</a>
+    <a class="toc-link" href="#p1-analyse">Analyse détaillée</a>
+    <a class="toc-link" href="#p1-variable">Notion de variable</a>
+    <a class="toc-link" href="#p1-type">Notion de type</a>
+    <a class="toc-link" href="#p1-remarques">Quelques remarques</a>
+    <a class="toc-link" href="#p1-sequence">La séquence</a>
+    <a class="toc-link" href="#p1-operateurs">Opérateurs arithmétiques</a>
+    <a class="toc-link" href="#p1-affectation">L'affectation</a>
+    <a class="toc-link" href="#p1-exos">Exercices P1</a>
+    <div class="toc-part">Partie 2</div>
+    <a class="toc-link" href="#p2-objectifs">Objectifs</a>
+    <a class="toc-link" href="#p2-probleme1">Problème — COMPARE</a>
+    <a class="toc-link" href="#p2-syntaxe">Convention de blocs Java</a>
+    <a class="toc-link" href="#p2-saisir">La primitive saisir()</a>
+    <a class="toc-link" href="#p2-if">La structure if</a>
+    <a class="toc-link" href="#p2-comparaison">Opérateurs de comparaison</a>
+    <a class="toc-link" href="#p2-egalite">Égalité, différence, négation</a>
+    <a class="toc-link" href="#p2-probleme2">Problème — if sans else</a>
+    <a class="toc-link" href="#p2-ifelse">if … else</a>
+    <a class="toc-link" href="#p2-probleme3">Problème — CompareV2</a>
+    <a class="toc-link" href="#p2-etou">Opérateurs ET / OU</a>
+    <a class="toc-link" href="#p2-char">Le type char</a>
+    <a class="toc-link" href="#p2-ascii">Table ASCII</a>
+    <a class="toc-link" href="#p2-exos">Exercices P2</a>
+    <a class="toc-link" href="#envoi">Envoyer mes réponses</a>
+  </nav>
+
+  <main>
+
+    <h3 class="part-title">Partie 1 — Variable, type, séquence</h3>
+
+    <h2 class="section-title" id="p1-intro">Introduction</h2>
+    <p>À l'origine l'algorithmique a été pensée pour introduire les concepts liés à la programmation ; pour ce faire on pensait qu'il fallait se dégager des contraintes syntaxiques des langages pour se concentrer justement sur les concepts. Cette approche est aujourd'hui abandonnée (ou presque) et au contraire nous allons utiliser une syntaxe très proche des langages "modernes".</p>
+    <p>À cela plusieurs raisons : à l'époque les langages étaient très différents, il n'y avait quasiment rien de commun par exemple entre le C et le COBOL ; ce n'est (presque) plus le cas aujourd'hui où l'on assiste à une convergence des syntaxes, par exemple le C# et Java sont vraiment très proches, à telle enseigne que sur des séquences simples on peut pratiquement faire du copier/coller d'un langage à l'autre et à un iota près cela fonctionne ! Même le PHP dans sa dernière version tend à rejoindre ces derniers.</p>
+    <p>Un autre reproche que l'on pouvait faire à l'algorithmique, c'est qu'il fallait quand même mettre en place un formalisme, formalisme qui n'était ni normalisé ni standardisé et qui au final était abandonné dès lors qu'on passait aux langages réels.</p>
+    <p>En conclusion, nous allons faire de l'algorithmique, mais dans une syntaxe très proche du Java qui est devenu au fil des années un standard ; on aurait tout aussi bien pu choisir le C# voire le PHP 7 !</p>
+
+    <h2 class="section-title" id="p1-premier">Premier algorithme</h2>
+    <p>Nous allons étudier notre premier algorithme et à travers lui quelques éléments communs à tous les algorithmes.</p>
+    <p>Cet algorithme déclare trois variables, affecte la valeur 10 à la première variable, la valeur 2 à la deuxième, puis effectue la somme des deux variables à une troisième variable dont le contenu est affiché.</p>
+    <pre class="code">program Premier
+{
+    int nombre1, nombre2, resultat;
+    nombre1 = 10;
+    nombre2 = 2;
+    resultat = nombre1 + nombre2;
+    afficher(resultat);
+}</pre>
+    <table class="annot">
+      <tr><td class="instr">program Premier {</td><td>Identifie le module (Premier) et sa nature (Programme).</td></tr>
+      <tr><td class="instr">int nombre1, nombre2, resultat;</td><td>Déclare les variables et leur type.</td></tr>
+      <tr><td class="instr">nombre1 = 10;</td><td>Affecte la valeur 10 à la variable nombre1.</td></tr>
+      <tr><td class="instr">nombre2 = 2;</td><td>Affecte la valeur 2 à la variable nombre2.</td></tr>
+      <tr><td class="instr">resultat = nombre1 + nombre2;</td><td>Affecte la somme de nombre1 et nombre2 à la variable resultat.</td></tr>
+      <tr><td class="instr">afficher(resultat);</td><td>Affiche le contenu de la variable resultat.</td></tr>
+    </table>
+
+    <h2 class="section-title" id="p1-analyse">Analyse détaillée</h2>
+    <p>Nous allons maintenant examiner plus en détail chacune des instructions composant l'algorithme PREMIER.</p>
+    <p><strong>{ et } :</strong> ces deux bornes délimitent le groupe d'actions réalisées par l'algorithme, elles constituent en quelque sorte les frontières de l'algorithme.</p>
+    <p><strong>afficher(expression) :</strong> primitive de traitement permettant d'afficher (sous-entendu à l'écran) le contenu de expression. Expression peut être :</p>
+    <ul>
+      <li>Du texte : "Le résultat est :"</li>
+      <li>Une variable : resultat</li>
+      <li>Un combiné des deux (séparés par des ,) : "Le résultat est : ", resultat</li>
+      <li>Le résultat d'un calcul entre deux variables ou une constante et une variable</li>
+    </ul>
+    <table class="ref">
+      <tr><th>Expression</th><th>Écran</th></tr>
+      <tr><td><code>afficher(resultat);</code></td><td>10</td></tr>
+      <tr><td><code>afficher("Bonjour");</code></td><td>Bonjour</td></tr>
+      <tr><td><code>afficher("Le résultat est :" + resultat);</code></td><td>Le résultat est : 10</td></tr>
+      <tr><td><code>afficher(nb1 + nb2)</code></td><td>8</td></tr>
+    </table>
+    <div class="note">Remarque : le signe + entre une chaîne et un nombre (constante ou variable) ne provoque pas une addition (on n'additionne pas du texte et des valeurs numériques), mais un affichage des deux valeurs entre les parenthèses.</div>
+
+    <h2 class="section-title" id="p1-variable">La notion de variable</h2>
+    <p>Les langages de programmation font un usage intensif de variables, cela permet de réutiliser plusieurs fois un même programme sans avoir à le réécrire à chaque fois. Il faut considérer une variable comme une boîte : cette boîte dispose d'un nom qui permettra de la distinguer des autres boîtes, et d'un contenu qui pourra varier.</p>
+    <div class="card">Exemple de boîte : nom de la variable <code>TOTAL_TTC</code>, contenu <code>125,75</code>.</div>
+    <p>Pour exister une variable doit d'abord être déclarée et avoir un type, cela se fait toujours en début de programme, avant la première instruction, exemple :</p>
+    <pre class="code">double total_ht, total_ttc;
+int quantite;</pre>
+    <p>Les variables total_ht et total_ttc sont déclarées de type double (nombres décimaux), c'est à dire qu'elles pourront recevoir des valeurs décimales (20.6, 125.75, …).</p>
+    <div class="note">Important : en informatique, la marque décimale est le point <code>.</code> et non la virgule.</div>
+    <p>La variable quantite est déclarée de type int (entier), elle ne pourra donc contenir que des nombres entiers (1, 12, 789, …), mais pas des nombres décimaux.</p>
+    <p>Sur les variables on peut effectuer les opérations suivantes :</p>
+    <p><strong>Affecter une valeur à une variable :</strong></p>
+    <pre class="code">total_ttc = 125.75;</pre>
+    <p><strong>Affecter le résultat d'une opération à une variable :</strong></p>
+    <pre class="code">total_ttc = 125.75 * 1.206;
+total_ttc = total_ht * taux_tva;</pre>
+    <p><strong>Affecter le contenu d'une variable à une autre variable :</strong></p>
+    <pre class="code">prix1 = prix2;</pre>
+    <p><strong>Afficher le contenu d'une variable :</strong></p>
+    <pre class="code">afficher(total_ttc);</pre>
+
+    <h2 class="section-title" id="p1-type">La notion de type</h2>
+    <p>Pour faire comprendre la notion de variable nous avons pris l'image d'une boîte ayant un nom. À cela il faut ajouter le type qui indique quelle sorte de contenu peut être mis dans cette boîte. Continuons à filer la métaphore : si on dispose de trois boîtes, sur l'une est marqué Chocolat, sur l'autre est marqué Sel, et enfin sur la dernière est marqué Sucre — il ne viendrait à l'idée de personne de mettre du sucre dans la boîte à sel ! En effet la boîte à Sel ne pourra contenir que du Sel et rien d'autre, Sel est le type de cette boîte.</p>
+    <p>Pour les variables c'est pareil : la variable quantite est de type int, cela signifie que l'on peut écrire :</p>
+    <pre class="code">quantite = 10;
+quantite = 2 * nombre1;</pre>
+    <p>mais l'on ne peut pas écrire :</p>
+    <pre class="code">quantite = 10.3;</pre>
+    <p>En effet 10.3 est une valeur de type décimal alors que la variable quantite est de type int (entier).</p>
+    <p>Pour le moment nous nous limiterons à deux types :</p>
+    <ul>
+      <li><strong>int</strong> qui ne peut contenir que des nombres entiers : 0, 1, 2 … 125, 145879 …</li>
+      <li><strong>double</strong> qui ne peut contenir que des nombres décimaux : 0.5, 18.75, 852.127 …</li>
+    </ul>
+    <p>En réalité, mais on le verra plus tard, le type double englobe le type int, en effet il sera tout à fait autorisé d'écrire les instructions suivantes :</p>
+    <pre class="code">double nombre1;
+nombre1 = 5;</pre>
+    <p>Le langage Java (langage sur lequel on s'appuie) se chargera de transformer 5 en 5.0. Mais en ce qui nous concerne on s'abstiendra de pratiquer ce genre d'écriture pour le moment : si on veut manipuler des entiers, on déclarera une variable de type int, et si l'on veut manipuler des nombres décimaux on déclarera une variable de type double.</p>
+
+    <h2 class="section-title" id="p1-remarques">Quelques remarques</h2>
+    <ul>
+      <li>Vous aurez remarqué que toutes les lignes se terminent par un point-virgule (;). C'est un marqueur indiquant que la ligne d'instruction s'arrête ici.</li>
+      <li>On ne met pas d'accent ou de signe diacritique aux variables.</li>
+      <li>Les noms des types (int, double, String …) sont en anglais.</li>
+      <li>Les variables et instructions sont en minuscules.</li>
+    </ul>
+
+    <h2 class="section-title" id="p1-sequence">La séquence</h2>
+    <p>C'est la structure de traitement la plus simple, celle où les instructions s'exécutent les unes après les autres dans l'ordre où elles ont été écrites. Ainsi le groupe d'actions suivantes constitue une séquence.</p>
+    <pre class="code">nombre1 = 10;
+nombre2 = 2;
+resultat = nombre1 + nombre2;
+afficher(resultat);</pre>
+
+    <h2 class="section-title" id="p1-operateurs">Les opérateurs arithmétiques</h2>
+    <table class="ref">
+      <tr><th>Signe</th><th>Opération</th><th>Exemple</th><th>Résultat</th></tr>
+      <tr><td>+</td><td>somme</td><td>resultat = 3 + 5;</td><td>8</td></tr>
+      <tr><td>-</td><td>différence</td><td>resultat = 7 – 4;</td><td>3</td></tr>
+      <tr><td>*</td><td>produit</td><td>resultat = 2 * 5;</td><td>10</td></tr>
+      <tr><td>/</td><td>quotient</td><td>resultat = 11 / 2;</td><td>5,5</td></tr>
+      <tr><td>^</td><td>puissance</td><td>resultat = 3 ^ 2;</td><td>9</td></tr>
+      <tr><td>%</td><td>division entière</td><td>resultat = 11 % 2;</td><td>5</td></tr>
+      <tr><td>mod</td><td>reste de la division entière</td><td>resultat = 11 mod 2;</td><td>1</td></tr>
+    </table>
+
+    <h2 class="section-title" id="p1-affectation">L'affectation</h2>
+    <p>Le signe = est le signe d'affectation qui est l'opération consistant à donner une valeur à une variable, exemples :</p>
+    <table class="ref">
+      <tr><th>Instruction</th><th>Commentaire</th></tr>
+      <tr><td><code>nombre1 = 3;</code></td><td>La variable nombre1 contient la valeur 3.</td></tr>
+      <tr><td><code>nombre1 = 3 * 2;</code></td><td>La variable nombre1 contient le résultat de la multiplication de 3 et 2, donc la valeur 6.</td></tr>
+      <tr><td><code>nombre1 = nombre2 - 6;</code></td><td>La variable nombre1 contient le résultat de la différence entre la valeur de nombre2 (par exemple 18) et 6, donc la valeur 12.</td></tr>
+    </table>
+
+    <h2 class="section-title" id="p1-exos">Exercices — Partie 1</h2>
+    <div class="card">
+      <p><strong>Ex1 — Traduire en écriture algorithmique les actions suivantes :</strong></p>
+      <div id="exo1">
+        <div class="exo-item"><label>a) Déclarer une variable total de type entier.</label><textarea data-q="p1a"></textarea></div>
+        <div class="exo-item"><label>b) Déclarer une variable pouvant recevoir la valeur 19.6.</label><textarea data-q="p1b"></textarea></div>
+        <div class="exo-item"><label>c) Afficher le texte "Bonjour".</label><textarea data-q="p1c"></textarea></div>
+        <div class="exo-item"><label>d) Affecter la valeur 18 à la variable total.</label><textarea data-q="p1d"></textarea></div>
+        <div class="exo-item"><label>e) Déclarer deux variables pouvant recevoir les valeurs 5 et 12.</label><textarea data-q="p1e"></textarea></div>
+        <div class="exo-item"><label>f) Affecter ces valeurs à ces variables.</label><textarea data-q="p1f"></textarea></div>
+        <div class="exo-item"><label>g) Affecter le résultat du produit de ces deux variables à une autre variable.</label><textarea data-q="p1g"></textarea></div>
+        <div class="exo-item"><label>h) Afficher le contenu de cette variable.</label><textarea data-q="p1h"></textarea></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex2 — Quelles sont les valeurs successives de nb1, nb2 et nb3 ?</strong></p>
+      <pre class="code">int nb1, nb2, nb3;
+nb1 = 8;
+nb2 = 4;</pre>
+      <table class="trace" id="traceTable">
+        <tr><th>Instruction</th><th>nb1</th><th>nb2</th><th>nb3</th></tr>
+        <tr><td class="instr">nb3 = nb1 / nb2;</td><td><input data-q="p1t1-nb1"></td><td><input data-q="p1t1-nb2"></td><td><input data-q="p1t1-nb3"></td></tr>
+        <tr><td class="instr">nb3 = nb2 + nb2;</td><td><input data-q="p1t2-nb1"></td><td><input data-q="p1t2-nb2"></td><td><input data-q="p1t2-nb3"></td></tr>
+        <tr><td class="instr">nb1 = nb3 - nb2;</td><td><input data-q="p1t3-nb1"></td><td><input data-q="p1t3-nb2"></td><td><input data-q="p1t3-nb3"></td></tr>
+        <tr><td class="instr">nb2 = nb1 ^ 2;</td><td><input data-q="p1t4-nb1"></td><td><input data-q="p1t4-nb2"></td><td><input data-q="p1t4-nb3"></td></tr>
+        <tr><td class="instr">nb3 = nb1 * nb2;</td><td><input data-q="p1t5-nb1"></td><td><input data-q="p1t5-nb2"></td><td><input data-q="p1t5-nb3"></td></tr>
+        <tr><td class="instr">nb1 = (2 * nb3) / nb2;</td><td><input data-q="p1t6-nb1"></td><td><input data-q="p1t6-nb2"></td><td><input data-q="p1t6-nb3"></td></tr>
+        <tr><td class="instr">nb1 = nb2 - 1;</td><td><input data-q="p1t7-nb1"></td><td><input data-q="p1t7-nb2"></td><td><input data-q="p1t7-nb3"></td></tr>
+        <tr><td class="instr">nb2 = nb1 mod 2;</td><td><input data-q="p1t8-nb1"></td><td><input data-q="p1t8-nb2"></td><td><input data-q="p1t8-nb3"></td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex3 — Y a-t-il des erreurs, et si oui lesquelles ?</strong></p>
+      <pre class="code">Program Pg1
+{</pre>
+      <div class="exo-item"><textarea data-q="p1ex3" style="min-height:80px;"></textarea></div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex4 — Périmètre et aire d'un rectangle :</strong> réalisez l'algorithme qui calcule et affiche, à partir de la longueur et de la largeur, le périmètre et l'aire d'un rectangle.</p>
+      <div class="exo-item"><textarea data-q="p1ex4" style="min-height:120px;"></textarea></div>
+    </div>
+    <div class="note">Faire corriger les exercices par le formateur pour pouvoir accéder à la suite du cours.</div>
+
+    <h3 class="part-title">Partie 2 — Structure de contrôle if, opérateurs de comparaison</h3>
+
+    <h2 class="section-title" id="p2-objectifs">Objectifs</h2>
+    <ul>
+      <li>Type de donnée : char.</li>
+      <li>Primitives saisir() et afficher().</li>
+      <li>Opérateurs de comparaison.</li>
+      <li>Structure de contrôle : l'alternative if { ... }, if {...} else { ... }</li>
+    </ul>
+
+    <h2 class="section-title" id="p2-probleme1">Problème</h2>
+    <p>Que fait cet algorithme ?</p>
+    <pre class="code">program Compare {
+    int nombre1, nombre2;
+    saisir(nombre1);
+    saisir(nombre2);
+    if (nombre1 &lt;= nombre2) {
+        afficher(nombre1, "est &lt;= " + nombre2);
+    }
+}</pre>
+
+    <h2 class="section-title" id="p2-syntaxe">La convention de blocs Java</h2>
+    <p>Puisque nous nous appuyons sur le langage Java, nous allons prendre l'habitude d'en utiliser tout de suite les us et coutumes, et notamment l'écriture des blocs d'instructions qui s'écrivent toujours comme suit :</p>
+    <pre class="code">structure_controle {
+    actions;
+}</pre>
+    <p>L'ouverture du bloc d'instructions portées se fait juste à la suite de la structure de contrôle qui porte ce bloc, exemples :</p>
+    <pre class="code">program Compare {
+    actions;
+}
+
+if (nombre1 &lt;= nombre2) {
+    actions;
+}</pre>
+    <div class="card"><strong>Description du programme :</strong> saisie de deux nombres ; si le premier nombre est inférieur ou égal au deuxième, affichage que le premier nombre est plus petit ou égal au deuxième.</div>
+
+    <h2 class="section-title" id="p2-saisir">La primitive saisir()</h2>
+    <p><code>saisir(variable)</code> : primitive de traitement permettant d'effectuer une saisie (sous-entendu au clavier) et d'affecter ce qui a été tapé à une variable, exemple :</p>
+    <pre class="code">saisir(taux_tva);</pre>
+    <p>Après réalisation de cette instruction, la variable taux_tva contiendra ce qui a été saisi par l'utilisateur au clavier, par exemple 5.2 ou bien 20.6.</p>
+
+    <h2 class="section-title" id="p2-if">La structure if</h2>
+    <pre class="code">if (condition) {
+    action1;
+    action2;
+    actionN;
+}</pre>
+    <p>Si la condition entre parenthèses est vérifiée alors les actions définies entre les délimiteurs de bloc { et } seront exécutées, sinon elles ne le seront pas. <code>if(condition)</code> est une structure de contrôle de type alternative.</p>
+    <p>Les délimiteurs de blocs fixent les limites des actions conditionnées par le if. Dans l'exemple ci-dessous, l'instruction <code>afficher("Fin du programme");</code> s'exécutera que la condition soit vérifiée ou non, car elle ne fait pas partie du bloc soumis à la condition :</p>
+    <pre class="code">if (nombre1 &lt;= nombre2) {
+    afficher(nombre1, "est &lt;= " + nombre2);
+}
+afficher("Fin du programme");</pre>
+
+    <h2 class="section-title" id="p2-comparaison">Les opérateurs de comparaison</h2>
+    <p><code>expression1 &lt;= expression2</code> : la suite &lt;= est un opérateur de comparaison qui veut dire : est-ce que expression1 est plus petite ou égale à expression2 ? Si la réponse est positive on dira que la condition est vérifiée (ou vraie). Si la réponse est négative on dira que la condition est non vérifiée (ou fausse). Expression peut être une variable (nombre1, a, x, ...) ou une constante (0, 234, ...).</p>
+    <p>Il y a d'autres opérateurs de comparaison : &lt;, &gt;, &gt;=, ==, !=</p>
+
+    <h2 class="section-title" id="p2-egalite">Égalité, différence, négation</h2>
+    <p><strong>L'opérateur d'égalité :</strong> comme l'opérateur d'affectation est le signe =, il a fallu trouver une autre façon de tester l'égalité entre deux valeurs, c'est l'opérateur == qui a été choisi. Donc si on veut savoir si deux variables contiennent des valeurs égales, il faudra écrire :</p>
+    <pre class="code">if (nombre1 == nombre2)</pre>
+    <p><strong>L'opérateur de différence :</strong> l'opérateur de différence (ou de non égalité) est !=, donc si l'on veut savoir si deux variables (ou une variable et une constante) sont différentes, on écrira :</p>
+    <pre class="code">if (nombre1 != nombre2)
+if (nombre1 != 3)</pre>
+    <p><strong>L'opérateur de négation :</strong> l'opérateur de négation est !. Il est utilisé, on l'a vu, pour construire la différence (non égalité) ; on le retrouvera souvent lorsqu'on abordera le type booléen.</p>
+
+    <h2 class="section-title" id="p2-probleme2">Problème</h2>
+    <p>Si le premier nombre saisi n'est pas inférieur ou égal au deuxième, on n'a aucun message nous l'indiquant. Il faut donc modifier le programme comme suit :</p>
+    <pre class="code">program Compare {
+    int nombre1, nombre2;
+    saisir(nombre1);
+    saisir(nombre2);
+    if (nombre1 &lt;= nombre2) {
+        afficher(nombre1, "est &lt;= " + nombre2);
+    } else {
+        afficher(nombre1, "est &gt;" + nombre2);
+    }
+}</pre>
+    <p>Nous venons d'introduire la structure de contrôle Si … Sinon (if … else).</p>
+
+    <h2 class="section-title" id="p2-ifelse">if … else</h2>
+    <pre class="code">if (condition) {
+    actions1;
+} else {
+    actions2;
+}</pre>
+    <p>Si la condition est vérifiée, alors les actions 1 seront exécutées et on sort du if ; si la condition n'est pas vérifiée (else), ce seront alors les actions 2 qui seront exécutées puis on sortira du if.</p>
+
+    <h2 class="section-title" id="p2-probleme3">Problème</h2>
+    <p>Le programme COMPARE est incomplet, en effet si nombre1 == nombre2, on ne le sait pas.</p>
+    <pre class="code">program CompareV2 {
+    int nb1, nb2;
+    saisir(nb1);
+    saisir(nb2);
+    if (nb1 &lt; nb2) {
+        afficher(nb1, " est &lt; à " + nb2);
+    } else {
+        if (nb1 &gt; nb2) {
+            afficher(nb1, " est &gt; à " + nb2);
+        } else {
+            afficher("Ils sont égaux");
+        }
+    }
+}</pre>
+    <p>On peut fort bien imbriquer des if ... else puisque cette structure est elle aussi une action. Cela permet de tester les trois conditions &gt;, &lt; et ==. À noter que l'égalité n'a pas été testée, elle a été déduite de la non supériorité et de la non infériorité.</p>
+
+    <h2 class="section-title" id="p2-etou">Les opérateurs ET, OU</h2>
+    <p>Il est possible de combiner des conditions en utilisant les opérateurs ET (&&) ou OU (||). On peut légitimement être surpris par les symboles utilisés pour représenter le ET et le OU — on s'attendrait plutôt à voir AND et OR — mais ce n'est pas le cas ; encore une fois nous avons fait le choix de "coller" plus ou moins fidèlement au langage Java, pour qu'une fois la phase algorithmique passée, on passe très facilement à la codification en Java ou même si besoin en C# !</p>
+    <pre class="code">if ((condition1) &amp;&amp; (condition2)) {
+    actions;
+}
+if ((condition1) || (condition2)) {
+    actions;
+}</pre>
+    <p><strong>L'opérateur && (ET) :</strong> les actions portées par le Si ne seront exécutées que si la condition1 est vérifiée ET que la condition2 est vérifiée. Exemples :</p>
+    <pre class="code">nb1 = 2;
+nb2 = 5;
+nb3 = 8;
+nb4 = 10;
+
+if ((nb1 &lt; nb2) &amp;&amp; (nb3 &lt; nb4)) {
+    afficher("C'est vrai");
+} else {
+    afficher("C'est faux");
+}</pre>
+    <p>Dans ce cas l'expression "C'est vrai" sera affichée car les deux conditions sont vérifiées : nb1 est plus petit que nb2 ET nb3 est plus petit que nb4.</p>
+    <pre class="code">if ((nb1 &lt; nb2) &amp;&amp; (nb3 == nb4)) {
+    afficher("C'est vrai");
+} else {
+    afficher("C'est faux");
+}</pre>
+    <p>Dans ce cas l'expression "C'est faux" sera affichée, car la condition 1 est bien vérifiée mais la condition 2 ne l'est pas : en effet nb3 n'est pas égal à nb4.</p>
+    <p><strong>L'opérateur OU (||) :</strong></p>
+    <pre class="code">if ((nb1 &lt; nb2) || (nb3 == nb4)) {
+    afficher("C'est vrai");
+} else {
+    afficher("C'est faux");
+}</pre>
+    <p>Dans ce cas l'expression "C'est vrai" sera affichée car il suffit que l'une des deux conditions soit vérifiée, ce qui est le cas : si nb3 n'est pas égal à nb4, en revanche nb1 est bien plus petit que nb2.</p>
+
+    <h2 class="section-title" id="p2-char">Le type char</h2>
+    <p>Ce type de donnée est codé sur 1 octet qui peut prendre une valeur allant de 0 à 255. Tous les caractères (lettres, chiffres, ponctuation, et d'autres signes) sont codés dans une table appelée table ASCII. Les caractères sont notés entre apostrophes ('A', 'B', 'C', '0', '1', ...).</p>
+    <p>L'affectation d'une valeur de type caractère à une variable est identique aux autres types de données :</p>
+    <pre class="code">char lettre;
+lettre = 'F';</pre>
+    <p>Remarque : le caractère 'A' est codé 65d, le caractère 'B' est codé 66d, donc l'expression 'A' &lt; 'B' est tout à fait juste. Attention, il ne faut pas confondre le caractère '0' qui est une donnée de type char et le chiffre 0 qui est une donnée de type entier. Donc l'expression '0' == 0 est impropre car on compare deux données de types différents.</p>
+    <p>Une erreur commune est de croire que seuls les nombres peuvent être comparés ; en fait deux données de même type peuvent parfaitement être comparées, et ce en utilisant n'importe quel opérateur. Les lignes suivantes sont parfaitement correctes :</p>
+    <pre class="code">int nb1, nb2;
+saisir(nb1, nb2);
+if (nb1 &lt; nb2) {
+    actions
+}
+
+char car1, car2;
+saisir(car1, car2);
+if (car1 &gt;= car2) {
+    actions;
+}</pre>
+    <p>Il est bien évident que "in fine" la comparaison de deux caractères se fait par celle de leur code ASCII, qui eux-mêmes ne sont qu'une représentation du code binaire. Mais puisque les langages savent faire la comparaison de deux caractères, il ne faut pas s'en priver !</p>
+    <div class="note">Une variable définie dans un type de donnée ne peut être affectée, comparée, à un autre type de données.</div>
+
+    <h2 class="section-title" id="p2-ascii">Table ASCII</h2>
+    <p>Remarque : afin de ne pas trop tenir de place, la table a été "raccourcie" dans les séquences longues.</p>
+    <table class="ascii">
+      <tr><th>10</th><th>8</th><th>16</th><th>2</th><th>Car.</th><th class="sig">Signification</th></tr>
+      <tr><td>0</td><td>0</td><td>00</td><td>0000000</td><td>NUL</td><td class="sig">Null (nul)</td></tr>
+      <tr><td>32</td><td>040</td><td>20</td><td>0100000</td><td>SP</td><td class="sig">Espace (Space)</td></tr>
+      <tr><td>33</td><td>041</td><td>21</td><td>0100001</td><td>!</td><td class="sig">Point d'exclamation</td></tr>
+      <tr><td>48</td><td>060</td><td>30</td><td>0110000</td><td>0</td><td class="sig">Le chiffre zéro</td></tr>
+      <tr><td>57</td><td>071</td><td>39</td><td>0111001</td><td>9</td><td class="sig">Le chiffre neuf</td></tr>
+      <tr><td>60</td><td>074</td><td>3C</td><td>0111100</td><td>&lt;</td><td class="sig">Inférieur</td></tr>
+      <tr><td>61</td><td>075</td><td>3D</td><td>0111101</td><td>=</td><td class="sig">Égal</td></tr>
+      <tr><td>62</td><td>076</td><td>3E</td><td>0111110</td><td>&gt;</td><td class="sig">Supérieur</td></tr>
+      <tr><td>65</td><td>0101</td><td>41</td><td>1000001</td><td>A</td><td class="sig">—</td></tr>
+      <tr><td>90</td><td>0132</td><td>5A</td><td>1011010</td><td>Z</td><td class="sig">—</td></tr>
+      <tr><td>97</td><td>0141</td><td>61</td><td>1100001</td><td>a</td><td class="sig">—</td></tr>
+      <tr><td>122</td><td>0172</td><td>7A</td><td>1111010</td><td>z</td><td class="sig">—</td></tr>
+      <tr><td>127</td><td>0177</td><td>7F</td><td>1111111</td><td>DEL</td><td class="sig">Delete (effacement)</td></tr>
+    </table>
+    <div class="note">Table raccourcie ici (plages A-Z, a-z, 0-9 abrégées) — table complète disponible auprès du formateur si besoin pour l'Ex5 ci-dessous.</div>
+
+    <h2 class="section-title" id="p2-exos">Exercices — Partie 2</h2>
+    <div class="card">
+      <div class="exo-item"><label>Ex1) Modifier COMPARE en mettant if (nombre1 &gt;= nombre2).</label><textarea data-q="p2ex1"></textarea></div>
+      <div class="exo-item"><label>Ex2) Modifier COMPARE en remplaçant &lt;= par !=.</label><textarea data-q="p2ex2"></textarea></div>
+      <div class="exo-item"><label>Ex3) Faire un programme qui indique si un nombre saisi est positif (&gt;= 0).</label><textarea data-q="p2ex3" style="min-height:80px;"></textarea></div>
+      <div class="exo-item"><label>Ex4) Faire un programme qui indique si un nombre saisi est positif ou négatif.</label><textarea data-q="p2ex4" style="min-height:80px;"></textarea></div>
+      <div class="exo-item"><label>Ex5) À l'aide d'une table ASCII, faire un programme qui indique si le caractère saisi est un caractère non affichable (tous les caractères situés avant l'espace), une lettre majuscule, un chiffre, une lettre minuscule ou un signe (semi-graphique, alphabet grec, ...). Note : s'inspirer du programme CompareV2.</label><textarea data-q="p2ex5" style="min-height:100px;"></textarea></div>
+    </div>
+    <div class="note">Faire corriger les exercices par le formateur.</div>
+
+    <div class="name-field" id="envoi">
+      <label>Nom, prénom</label>
+      <input type="text" id="nomEleve" placeholder="Votre nom et prénom">
+    </div>
+
+    <div class="send-box">
+      <p style="margin:0;font-weight:600;">Une fois vos réponses complétées :</p>
+      <button class="send-btn" onclick="envoyer()">Envoyer mes réponses à Mme Mbi</button>
+      <p class="error-msg" id="errMsg">Merci d'indiquer votre nom avant d'envoyer.</p>
+      <p class="send-note">Ouvre votre application mail habituelle, avec vos réponses déjà remplies dans le message.</p>
+    </div>
+
+  </main>
+</div>
+
+<footer>Unit 1 — Programming · École Schulz Genève · Algo P1 + P2, texte complet</footer>
+
+<script>
+function envoyer() {
+  const nom = document.getElementById("nomEleve").value.trim();
+  const errMsg = document.getElementById("errMsg");
+  if (!nom) { errMsg.style.display = "block"; return; }
+  errMsg.style.display = "none";
+
+  let corps = "Réponses de " + nom + " — Algo P1 + P2\n\n=== PARTIE 1 — Exercice 1 ===\n";
+  document.querySelectorAll('#exo1 textarea').forEach(function (el) {
+    corps += el.getAttribute("data-q") + " : " + (el.value.trim() || "(non répondu)") + "\n";
+  });
+
+  corps += "\n=== PARTIE 1 — Exercice 2 (trace) ===\n";
+  document.querySelectorAll('#traceTable input').forEach(function (el) {
+    corps += el.getAttribute("data-q") + " = " + (el.value.trim() || "?") + "\n";
+  });
+
+  corps += "\n=== PARTIE 1 — Exercice 3 ===\n";
+  corps += (document.querySelector('[data-q="p1ex3"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 1 — Exercice 4 (rectangle) ===\n";
+  corps += (document.querySelector('[data-q="p1ex4"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 2 — Exercices ===\n";
+  ["p2ex1","p2ex2","p2ex3","p2ex4","p2ex5"].forEach(function (q) {
+    const el = document.querySelector('[data-q="' + q + '"]');
+    corps += q + " :\n" + (el.value.trim() || "(non répondu)") + "\n\n";
+  });
+
+  const sujet = "Algo P1+P2 - " + nom;
+  const lien = "mailto:t.mbi@ecole-schulz.ch?subject=" + encodeURIComponent(sujet) + "&body=" + encodeURIComponent(corps);
+  window.location.href = lien;
+}
+</script>
+
+</body>
+</html>

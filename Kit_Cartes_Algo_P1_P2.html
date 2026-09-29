@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kit d'activités cartes — Algo P1-P2 | Unit 1</title>
+<style>
+:root { --teal:#0D7377; --cyan:#14A3C7; --mint:#32E0C4; --ink:#1B2B2B; --muted:#5A6B6B; --bg-card:#F7F9F8; --code-bg:#1E2B2B; --code-fg:#E1F5EE; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system, Segoe UI, Calibri, sans-serif; color:var(--ink); background:#FFFFFF; line-height:1.6; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+header { background:var(--teal); color:white; padding:2.5rem 2rem; }
+header .kicker { font-size:0.85rem; letter-spacing:0.05em; color:var(--mint); font-weight:600; }
+header h1 { margin:0.5rem 0 0.3rem; font-size:1.9rem; }
+header p { margin:0; color:#BFEFE9; font-size:1rem; }
+.materiel-global { max-width:1100px; margin:0 auto; padding:1.5rem 2rem 0; }
+.materiel-global-box { background:#FAEEDA; border-radius:10px; padding:1.2rem 1.4rem; }
+.materiel-global-box .label { font-weight:700; color:#633806; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.03em; margin-bottom:0.5rem; }
+.materiel-global-box ul { margin:0.4rem 0 0; padding-left:1.2rem; }
+.layout { display:grid; grid-template-columns:250px 1fr; gap:2rem; max-width:1100px; margin:0 auto; padding:2rem; }
+nav.toc { position:sticky; top:1rem; align-self:start; background:var(--bg-card); border-radius:10px; padding:1.1rem; max-height:calc(100vh - 2rem); overflow-y:auto; }
+nav.toc .toc-title { font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); margin-bottom:0.6rem; }
+.toc-link { display:flex; align-items:center; gap:0.6rem; padding:0.4rem 0.5rem; border-radius:6px; color:var(--ink); text-decoration:none; font-size:0.87rem; }
+.toc-link:hover { background:#E1F5EE; }
+.toc-num { width:22px; height:22px; border-radius:50%; background:var(--teal); color:white; font-size:0.75rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+main { min-width:0; }
+.activity { border-bottom:1px solid #E5E5E5; padding:2rem 0; }
+.activity:first-child { padding-top:0; }
+.activity-head { display:flex; align-items:center; gap:0.8rem; }
+.activity-head .badge { width:34px; height:34px; border-radius:50%; background:var(--teal); color:white; display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0; }
+.activity-head h2 { margin:0; font-size:1.35rem; }
+.meta-row { margin:0.5rem 0 1rem 3rem; display:flex; gap:1rem; flex-wrap:wrap; }
+.meta-item { font-size:0.82rem; color:var(--muted); background:var(--bg-card); padding:0.25rem 0.7rem; border-radius:999px; }
+.objectif { margin:0 0 1rem; }
+.materiel-box { background:#E1F5EE; border-radius:8px; padding:0.8rem 1.1rem; margin-bottom:1.2rem; }
+.materiel-label { font-weight:700; color:#085041; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.03em; margin-bottom:0.3rem; }
+.materiel-box p { margin:0; }
+h3 { font-size:1rem; color:var(--cyan); margin:1rem 0 0.6rem; }
+.step { display:flex; gap:0.8rem; margin-bottom:0.9rem; }
+.step-num { width:26px; height:26px; border-radius:50%; background:var(--bg-card); border:1.5px solid var(--teal); color:var(--teal); font-weight:700; font-size:0.8rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.step p { margin:0.2rem 0 0; color:var(--muted); font-size:0.92rem; }
+.variante { background:#FAEEDA; border-left:4px solid #BA7517; padding:0.7rem 1rem; border-radius:0 8px 8px 0; margin-top:1rem; font-size:0.9rem; }
+.code { background:var(--code-bg); color:var(--code-fg); padding:0.7rem 1rem; border-radius:6px; font-family:"Courier New", monospace; font-size:0.85rem; }
+footer { text-align:center; padding:2rem; color:var(--muted); font-size:0.85rem; }
+@media (max-width:800px) { .layout { grid-template-columns:1fr; } nav.toc { position:static; max-height:none; } .meta-row { margin-left:0; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">UNIT 1 — PROGRAMMING</div>
+  <h1>Kit d'activités cartes — Notions de base</h1>
+  <p>7 activités physiques, matériel minimal, pour comprendre variables, séquence, opérateurs et conditions avant de coder (Algo P1-P2).</p>
+</header>
+
+<div class="materiel-global">
+  <div class="materiel-global-box">
+    <div class="label">Matériel pour tout le kit (réutilisable d'une activité à l'autre)</div>
+    <ul>
+      <li>Un jeu de cartes à jouer classique (52 cartes) — les enseignes ne comptent pas, sauf activité 5</li>
+      <li>Des étiquettes papier ou post-it + un feutre</li>
+      <li>Une feuille de brouillon par binôme</li>
+    </ul>
+  </div>
+</div>
+
+<div class="layout">
+  <nav class="toc">
+    <div class="toc-title">Les 7 activités</div>
+    <a href="#act1" class="toc-link"><span class="toc-num">1</span>Les boîtes à cartes — variables et types</a>
+<a href="#act2" class="toc-link"><span class="toc-num">2</span>L'ordre compte — la séquence</a>
+<a href="#act3" class="toc-link"><span class="toc-num">3</span>Calcul de cartes — opérateurs arithmétiques</a>
+<a href="#act4" class="toc-link"><span class="toc-num">4</span>Vrai ou faux — comparaisons</a>
+<a href="#act5" class="toc-link"><span class="toc-num">5</span>Deux clés ou un digicode — ET / OU</a>
+<a href="#act6" class="toc-link"><span class="toc-num">6</span>Cartes conditionnelles — if / else</a>
+<a href="#act7" class="toc-link"><span class="toc-num">7</span>Le tri à bulles — Bubble Sort</a>
+  </nav>
+  <main>
+    
+<section class="activity" id="act1">
+  <div class="activity-head">
+    <span class="badge">1</span>
+    <h2>Les boîtes à cartes — variables et types</h2>
+  </div>
+  <div class="meta-row">
+    <span class="meta-item">⏱ 15 min</span>
+    <span class="meta-item">📎 Algo P1 — Notion de variable, notion de type</span>
+  </div>
+  <p class="objectif"><strong>Objectif :</strong> Comprendre qu'une variable est une boîte nommée, et que son type détermine ce qu'elle peut contenir.</p>
+  <div class="materiel-box">
+    <div class="materiel-label">Matériel (peu coûteux)</div>
+    <p>Un jeu de cartes à jouer + des étiquettes papier (ou post-it) + un feutre</p>
+  </div>
+  <h3>Déroulé</h3>
+  
+    <div class="step">
+      <span class="step-num">1</span>
+      <div><strong>Créer deux zones sur la table</strong><p>Une zone "int" (cartes noires = piques/trèfles) et une zone "double" (cartes rouges = cœurs/carreaux). Expliquer : chaque zone est un type, elle n'accepte qu'une sorte de carte.</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">2</span>
+      <div><strong>Distribuer des étiquettes</strong><p>Chaque élève écrit un nom de variable sur une étiquette (ex. "quantite", "total_ttc") et la pose au-dessus d'une des deux zones — il vient de déclarer sa variable.</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">3</span>
+      <div><strong>Piocher et ranger</strong><p>Piocher des cartes une à une. Si la carte correspond au type de la zone où est l'étiquette, la poser dessous ("affectation réussie"). Sinon, la carte est refusée — comme un type incompatible en Java.</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">4</span>
+      <div><strong>Changer le contenu</strong><p>Retirer la carte du dessus d'une étiquette et la remplacer par une nouvelle carte du même type — pour montrer qu'une variable peut changer de contenu, mais jamais de type.</p></div>
+    </div>
+  <div class="variante"><strong>Variante / prolongement :</strong> Demander : "quelle serait l'erreur si on essayait de mettre une carte rouge dans la zone int ?" → prépare directement l'exemple <code>quantite = 10.3;</code> du cours.</div>
+</section>
+<section class="activity" id="act2">
+  <div class="activity-head">
+    <span class="badge">2</span>
+    <h2>L'ordre compte — la séquence</h2>
+  </div>
+  <div class="meta-row">
+    <span class="meta-item">⏱ 15 min</span>
+    <span class="meta-item">📎 Algo P1 — La séquence</span>
+  </div>
+  <p class="objectif"><strong>Objectif :</strong> Comprendre qu'un algorithme s'exécute ligne par ligne, dans l'ordre exact où il est écrit.</p>
+  <div class="materiel-box">
+    <div class="materiel-label">Matériel (peu coûteux)</div>
+    <p>4-5 cartes-instructions écrites à la main sur des étiquettes (une instruction par étiquette)</p>
+  </div>
+  <h3>Déroulé</h3>
+  
+    <div class="step">
+      <span class="step-num">1</span>
+      <div><strong>Préparer les cartes-instructions</strong><p>Écrire sur 4 étiquettes séparées : "nombre1 = 10;", "nombre2 = 2;", "resultat = nombre1 + nombre2;", "afficher(resultat);" — puis les mélanger.</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">2</span>
+      <div><strong>Remettre dans l'ordre</strong><p>En binôme, les élèves doivent remettre les 4 étiquettes dans le seul ordre qui fonctionne, en justifiant pourquoi (ex. "afficher" ne peut pas être en premier, resultat n'existe pas encore).</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">3</span>
+      <div><strong>Simuler l'exécution</strong><p>Un élève joue le rôle de "la machine" : il lit les étiquettes une par une dans l'ordre choisi et annonce à voix haute ce qui se passe ("je mets 10 dans nombre1"...).</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">4</span>
+      <div><strong>Casser l'ordre exprès</strong><p>Inverser deux étiquettes et demander : qu'est-ce qui casse ? Ça fait toucher du doigt pourquoi l'ordre n'est pas une option, mais une règle.</p></div>
+    </div>
+  
+</section>
+<section class="activity" id="act3">
+  <div class="activity-head">
+    <span class="badge">3</span>
+    <h2>Calcul de cartes — opérateurs arithmétiques</h2>
+  </div>
+  <div class="meta-row">
+    <span class="meta-item">⏱ 20 min</span>
+    <span class="meta-item">📎 Algo P1 — Les opérateurs arithmétiques</span>
+  </div>
+  <p class="objectif"><strong>Objectif :</strong> Manipuler concrètement +, -, *, /, % et mod avant de les voir en syntaxe Java.</p>
+  <div class="materiel-box">
+    <div class="materiel-label">Matériel (peu coûteux)</div>
+    <p>Un jeu de cartes à jouer (as = 1, figures = 10 ou retirées du jeu pour simplifier)</p>
+  </div>
+  <h3>Déroulé</h3>
+  
+    <div class="step">
+      <span class="step-num">1</span>
+      <div><strong>Piocher deux cartes</strong><p>Chaque binôme pioche deux cartes, par exemple 11 et 2 (utiliser les valeurs numériques directement).</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">2</span>
+      <div><strong>Calculer chaque opérateur</strong><p>Sur une feuille, calculer et noter le résultat de : carte1 + carte2, carte1 - carte2, carte1 * carte2, carte1 / carte2, carte1 % carte2 (division entière), carte1 mod carte2 (reste).</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">3</span>
+      <div><strong>Écrire la ligne algorithmique</strong><p>Pour chaque calcul, écrire la ligne complète, ex. <code>resultat = 11 % 2;</code>, puis vérifier que le résultat écrit correspond bien au calcul fait à la main.</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">4</span>
+      <div><strong>Comparer les résultats en classe</strong><p>Mettre en commun : est-ce que tout le monde obtient le même résultat pour % et mod sur les mêmes cartes ? C'est l'occasion de clarifier la confusion fréquente entre les deux.</p></div>
+    </div>
+  <div class="variante"><strong>Variante / prolongement :</strong> Pour aller plus loin : proposer 3 cartes et demander de trouver quel ordre d'opérations donne le plus grand résultat possible.</div>
+</section>
+<section class="activity" id="act4">
+  <div class="activity-head">
+    <span class="badge">4</span>
+    <h2>Vrai ou faux — comparaisons</h2>
+  </div>
+  <div class="meta-row">
+    <span class="meta-item">⏱ 15 min</span>
+    <span class="meta-item">📎 Algo P2 — Opérateurs de comparaison, égalité, différence</span>
+  </div>
+  <p class="objectif"><strong>Objectif :</strong> Manipuler les opérateurs de comparaison (&lt;, &gt;, ==, !=) et comprendre qu'une comparaison renvoie toujours vrai ou faux.</p>
+  <div class="materiel-box">
+    <div class="materiel-label">Matériel (peu coûteux)</div>
+    <p>Un jeu de cartes à jouer</p>
+  </div>
+  <h3>Déroulé</h3>
+  
+    <div class="step">
+      <span class="step-num">1</span>
+      <div><strong>Piocher deux cartes</strong><p>Chaque élève pioche deux cartes et les pose face visible.</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">2</span>
+      <div><strong>Tester chaque opérateur</strong><p>Pour chaque opérateur (&lt;, &gt;, &lt;=, &gt;=, ==, !=), dire à voix haute si l'expression est vraie ou fausse. Ex. "carte1 &lt; carte2 : vrai".</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">3</span>
+      <div><strong>Piège de l'égalité</strong><p>Piocher volontairement jusqu'à obtenir deux cartes de même valeur. Demander : dans un programme, comment écrit-on ce test ? (== et non =, rappel du piège classique).</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">4</span>
+      <div><strong>Vote collectif</strong><p>L'enseignant tire deux cartes au tableau ; toute la classe lève la main gauche si "vrai", droite si "faux", pour un opérateur donné annoncé à voix haute.</p></div>
+    </div>
+  
+</section>
+<section class="activity" id="act5">
+  <div class="activity-head">
+    <span class="badge">5</span>
+    <h2>Deux clés ou un digicode — ET / OU</h2>
+  </div>
+  <div class="meta-row">
+    <span class="meta-item">⏱ 15 min</span>
+    <span class="meta-item">📎 Algo P2 — Opérateurs ET, OU</span>
+  </div>
+  <p class="objectif"><strong>Objectif :</strong> Comprendre concrètement la différence entre && (les deux conditions vraies) et || (une seule suffit).</p>
+  <div class="materiel-box">
+    <div class="materiel-label">Matériel (peu coûteux)</div>
+    <p>Un jeu de cartes à jouer, séparé en deux paquets (ex. cœurs+carreaux d'un côté, piques+trèfles de l'autre)</p>
+  </div>
+  <h3>Déroulé</h3>
+  
+    <div class="step">
+      <span class="step-num">1</span>
+      <div><strong>Piocher un binôme de cartes</strong><p>Une carte de chaque paquet, ex. carte A (cœurs/carreaux) et carte B (piques/trèfles).</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">2</span>
+      <div><strong>Condition ET (&&)</strong><p>Définir une condition composée, ex. "A est pair ET B est supérieur à 5". Vérifier les deux séparément, puis annoncer le résultat final : vrai seulement si les deux le sont.</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">3</span>
+      <div><strong>Condition OU (||)</strong><p>Même exercice mais avec OU : "A est pair OU B est supérieur à 5". Vrai si au moins une des deux conditions l'est.</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">4</span>
+      <div><strong>Le mime des clés/digicode</strong><p>Mimer physiquement : pour ET, deux élèves doivent chacun montrer leur carte en même temps pour "ouvrir". Pour OU, un seul suffit à "ouvrir".</p></div>
+    </div>
+  
+</section>
+<section class="activity" id="act6">
+  <div class="activity-head">
+    <span class="badge">6</span>
+    <h2>Cartes conditionnelles — if / else</h2>
+  </div>
+  <div class="meta-row">
+    <span class="meta-item">⏱ 20 min</span>
+    <span class="meta-item">📎 Algo P2 — La structure if, if...else</span>
+  </div>
+  <p class="objectif"><strong>Objectif :</strong> Piocher une carte, appliquer une règle si/sinon à voix haute, avant de l'écrire en Java.</p>
+  <div class="materiel-box">
+    <div class="materiel-label">Matériel (peu coûteux)</div>
+    <p>Un jeu de cartes à jouer</p>
+  </div>
+  <h3>Déroulé</h3>
+  
+    <div class="step">
+      <span class="step-num">1</span>
+      <div><strong>Définir la règle ensemble</strong><p>Ex. "si la carte est rouge, lever la main gauche ; sinon, lever la main droite."</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">2</span>
+      <div><strong>Piocher et réagir</strong><p>Chaque élève pioche une carte et applique la règle immédiatement, sans réfléchir — pour automatiser le réflexe if/else.</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">3</span>
+      <div><strong>Ajouter un cas</strong><p>Complexifier : "si carte rouge ET valeur paire → main gauche ; sinon si carte noire → main droite ; sinon → les deux mains" (combine if/else et ET/OU).</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">4</span>
+      <div><strong>Traduire en Java</strong><p>Sur papier, transformer la règle en code avec if/else, en utilisant les bons opérateurs de comparaison.</p></div>
+    </div>
+  
+</section>
+<section class="activity" id="act7">
+  <div class="activity-head">
+    <span class="badge">7</span>
+    <h2>Le tri à bulles — Bubble Sort</h2>
+  </div>
+  <div class="meta-row">
+    <span class="meta-item">⏱ 25 min</span>
+    <span class="meta-item">📎 Algo P1 (exemple introductif) — voir aussi la fiche S1 dédiée</span>
+  </div>
+  <p class="objectif"><strong>Objectif :</strong> Exécuter physiquement l'algorithme de tri à bulles avant de le coder.</p>
+  <div class="materiel-box">
+    <div class="materiel-label">Matériel (peu coûteux)</div>
+    <p>Un jeu de cartes à jouer</p>
+  </div>
+  <h3>Déroulé</h3>
+  
+    <div class="step">
+      <span class="step-num">1</span>
+      <div><strong>Piocher 5 cartes</strong><p>Les poser en ligne, face visible, dans l'ordre du tirage — ne pas les trier avant de commencer.</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">2</span>
+      <div><strong>Comparer deux voisines</strong><p>Commencer tout à gauche : comparer les 2 premières cartes.</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">3</span>
+      <div><strong>Échanger si besoin</strong><p>Si la gauche est plus grande que la droite, échanger physiquement les deux cartes.</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">4</span>
+      <div><strong>Avancer et recommencer</strong><p>Glisser d'une carte vers la droite, comparer la paire suivante, jusqu'au bout de la ligne — c'est une passe.</p></div>
+    </div>
+
+    <div class="step">
+      <span class="step-num">5</span>
+      <div><strong>Refaire une passe complète</strong><p>Recommencer au début, jusqu'à ce qu'une passe entière ne produise plus aucun échange.</p></div>
+    </div>
+  <div class="variante"><strong>Variante / prolongement :</strong> Cette activité a déjà sa propre fiche complète (PowerPoint, guide enseignant, S1) — reprise ici pour que le kit soit complet en un seul document.</div>
+</section>
+  </main>
+</div>
+
+<footer>Unit 1 — Programming · École Schulz Genève · Kit cartes Algo P1-P2</footer>
+
+</body>
+</html>

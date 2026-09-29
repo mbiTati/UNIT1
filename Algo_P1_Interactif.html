@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Algo P1 — Variables, types, séquence | Unit 1 Programming</title>
+<style>
+:root {
+  --teal: #0D7377;
+  --cyan: #14A3C7;
+  --mint: #32E0C4;
+  --ink: #1B2B2B;
+  --muted: #5A6B6B;
+  --bg-card: #F7F9F8;
+  --code-bg: #1E2B2B;
+  --code-fg: #E1F5EE;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, Segoe UI, Calibri, sans-serif;
+  color: var(--ink);
+  background: #FFFFFF;
+  line-height: 1.6;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+header {
+  background: var(--teal);
+  color: white;
+  padding: 2.5rem 2rem;
+}
+header .kicker { font-size: 0.85rem; letter-spacing: 0.05em; color: var(--mint); font-weight: 600; }
+header h1 { margin: 0.5rem 0 0.3rem; font-size: 2rem; }
+header p { margin: 0; color: #BFEFE9; font-size: 1rem; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 2rem; }
+h2.section-title { font-size: 1.3rem; color: var(--teal); border-bottom: 2px solid #E1F5EE; padding-bottom: 0.5rem; margin-top: 2.5rem; }
+.code {
+  background: var(--code-bg);
+  color: var(--code-fg);
+  padding: 1rem 1.2rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: "Courier New", monospace;
+  font-size: 0.9rem;
+  white-space: pre;
+}
+table.ref { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.92rem; }
+table.ref th, table.ref td { border: 1px solid #E0E0E0; padding: 0.5rem 0.7rem; text-align: left; }
+table.ref th { background: var(--bg-card); }
+.card {
+  background: var(--bg-card);
+  border-radius: 10px;
+  padding: 1.2rem 1.4rem;
+  margin: 1rem 0;
+}
+.exo-item { margin-bottom: 1.3rem; }
+.exo-item label { display: block; font-weight: 600; margin-bottom: 0.4rem; }
+.exo-item textarea, .exo-item input[type=text] {
+  width: 100%;
+  font-family: "Courier New", monospace;
+  font-size: 0.9rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #CCCCCC;
+  border-radius: 6px;
+  resize: vertical;
+}
+.exo-item textarea { min-height: 50px; }
+.name-field { margin: 1.5rem 0; }
+.name-field label { display: block; font-weight: 700; margin-bottom: 0.4rem; }
+.name-field input {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid #CCCCCC;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+.send-box {
+  background: #FAEEDA;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  margin: 2.5rem 0;
+}
+.send-btn {
+  background: var(--teal);
+  color: white;
+  border: none;
+  padding: 0.9rem 2rem;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 0.8rem;
+}
+.send-btn:hover { background: var(--cyan); }
+.send-note { font-size: 0.85rem; color: #633806; margin-top: 0.7rem; }
+.error-msg { color: #A32D2D; font-size: 0.9rem; margin-top: 0.6rem; display: none; }
+footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">UNIT 1 — PROGRAMMING · ALGO P1</div>
+  <h1>Variables, types, séquence</h1>
+  <p>Rappel de cours + exercices — remplissez et envoyez vos réponses directement.</p>
+</header>
+
+<div class="wrap">
+
+  <h2 class="section-title">Rappel — la notion de variable</h2>
+  <p>Une variable est une boîte ayant un nom, qui permet de stocker une valeur pouvant changer au cours du programme. Elle doit être déclarée avec un type avant d'être utilisée.</p>
+  <div class="code">double total_ht, total_ttc;
+int quantite;</div>
+  <p><code>total_ht</code> et <code>total_ttc</code> sont de type <code>double</code> (nombres décimaux). <code>quantite</code> est de type <code>int</code> (nombre entier).</p>
+
+  <h2 class="section-title">Les opérateurs arithmétiques</h2>
+  <table class="ref">
+    <tr><th>Signe</th><th>Opération</th><th>Exemple</th><th>Résultat</th></tr>
+    <tr><td>+</td><td>Somme</td><td>resultat = 3 + 5;</td><td>8</td></tr>
+    <tr><td>-</td><td>Différence</td><td>resultat = 7 - 4;</td><td>3</td></tr>
+    <tr><td>*</td><td>Produit</td><td>resultat = 2 * 5;</td><td>10</td></tr>
+    <tr><td>/</td><td>Quotient</td><td>resultat = 11 / 2;</td><td>5,5</td></tr>
+  </table>
+
+  <h2 class="section-title">L'affectation</h2>
+  <div class="card">
+    <table class="ref">
+      <tr><th>Instruction</th><th>Commentaire</th></tr>
+      <tr><td><code>nombre1 = 3;</code></td><td>La variable nombre1 contient la valeur 3.</td></tr>
+      <tr><td><code>nombre1 = 3 * 2;</code></td><td>La variable nombre1 contient le résultat de la multiplication, donc 6.</td></tr>
+      <tr><td><code>nombre1 = nombre2 - 6;</code></td><td>La variable nombre1 contient le résultat de la différence entre nombre2 et 6.</td></tr>
+    </table>
+  </div>
+
+  <h2 class="section-title">Exercice 1 — Traduire en écriture algorithmique</h2>
+  <p>Pour chaque action, écrivez la ligne de pseudo-code correspondante.</p>
+
+  <div id="exo1">
+    <div class="exo-item">
+      <label>a) Déclarer une variable total de type entier.</label>
+      <textarea data-q="a"></textarea>
+    </div>
+    <div class="exo-item">
+      <label>b) Déclarer une variable pouvant recevoir la valeur 19.6.</label>
+      <textarea data-q="b"></textarea>
+    </div>
+    <div class="exo-item">
+      <label>c) Afficher le texte "Bonjour".</label>
+      <textarea data-q="c"></textarea>
+    </div>
+    <div class="exo-item">
+      <label>d) Affecter la valeur 18 à la variable total.</label>
+      <textarea data-q="d"></textarea>
+    </div>
+    <div class="exo-item">
+      <label>e) Déclarer deux variables pouvant recevoir les valeurs 5 et 12.</label>
+      <textarea data-q="e"></textarea>
+    </div>
+    <div class="exo-item">
+      <label>f) Affecter ces valeurs à ces variables.</label>
+      <textarea data-q="f"></textarea>
+    </div>
+    <div class="exo-item">
+      <label>g) Affecter le résultat du produit de ces deux variables à une autre variable.</label>
+      <textarea data-q="g"></textarea>
+    </div>
+    <div class="exo-item">
+      <label>h) Afficher le contenu de cette variable.</label>
+      <textarea data-q="h"></textarea>
+    </div>
+  </div>
+
+  <h2 class="section-title">Exercice 2 — Périmètre et aire d'un rectangle</h2>
+  <p>Réalisez l'algorithme qui calcule et affiche, à partir de la longueur et de la largeur, le périmètre et l'aire d'un rectangle.</p>
+  <div class="exo-item">
+    <textarea id="exo2" style="min-height:120px;"></textarea>
+  </div>
+
+  <div class="name-field">
+    <label>Nom, prénom</label>
+    <input type="text" id="nomEleve" placeholder="Votre nom et prénom">
+  </div>
+
+  <div class="send-box">
+    <p style="margin:0;font-weight:600;">Une fois vos réponses complétées :</p>
+    <button class="send-btn" onclick="envoyer()">Envoyer mes réponses à Mme Mbi</button>
+    <p class="error-msg" id="errMsg">Merci d'indiquer votre nom avant d'envoyer.</p>
+    <p class="send-note">Ouvre votre application mail habituelle, avec vos réponses déjà remplies dans le message.</p>
+  </div>
+
+</div>
+
+<footer>Unit 1 — Programming · École Schulz Genève · Algo P1</footer>
+
+<script>
+function envoyer() {
+  const nom = document.getElementById("nomEleve").value.trim();
+  const errMsg = document.getElementById("errMsg");
+  if (!nom) {
+    errMsg.style.display = "block";
+    return;
+  }
+  errMsg.style.display = "none";
+
+  const labels = {
+    a: "a) Variable total (entier)",
+    b: "b) Variable 19.6",
+    c: "c) Afficher Bonjour",
+    d: "d) Affecter 18 à total",
+    e: "e) Déclarer deux variables (5 et 12)",
+    f: "f) Affecter ces valeurs",
+    g: "g) Produit dans une autre variable",
+    h: "h) Afficher le contenu"
+  };
+
+  let corps = "Réponses de " + nom + " — Algo P1\\n\\n=== Exercice 1 ===\\n";
+  document.querySelectorAll("#exo1 textarea").forEach(function (el) {
+    const q = el.getAttribute("data-q");
+    const val = el.value.trim() || "(non répondu)";
+    corps += labels[q] + " :\\n" + val + "\\n\\n";
+  });
+
+  const exo2 = document.getElementById("exo2").value.trim() || "(non répondu)";
+  corps += "=== Exercice 2 — Rectangle ===\\n" + exo2 + "\\n";
+
+  const sujet = "Algo P1 - " + nom;
+  const lien = "mailto:t.mbi@ecole-schulz.ch?subject=" + encodeURIComponent(sujet) + "&body=" + encodeURIComponent(corps);
+  window.location.href = lien;
+}
+</script>
+
+</body>
+</html>
