@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Instructions élève — Activités cartes | Unit 1</title>
+<style>
+:root { --teal:#0D7377; --cyan:#14A3C7; --ink:#1B2B2B; --muted:#5A6B6B; --bg-card:#F7F9F8; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system, Segoe UI, Calibri, sans-serif; color:var(--ink); background:#FFFFFF; line-height:1.6; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+header { background:var(--teal); color:white; padding:2rem; }
+header .kicker { font-size:0.85rem; letter-spacing:0.05em; color:#9FE1CB; font-weight:600; }
+header h1 { margin:0.5rem 0 0.3rem; font-size:1.7rem; }
+.layout { display:grid; grid-template-columns:220px 1fr; gap:2rem; max-width:1000px; margin:0 auto; padding:2rem; }
+nav.toc { position:sticky; top:1rem; align-self:start; background:var(--bg-card); border-radius:10px; padding:1rem; }
+.toc-title { font-weight:700; font-size:0.8rem; text-transform:uppercase; color:var(--muted); margin-bottom:0.6rem; }
+.toc-link { display:flex; align-items:center; gap:0.6rem; padding:0.35rem 0.5rem; border-radius:6px; color:var(--ink); text-decoration:none; font-size:0.85rem; }
+.toc-link:hover { background:#E1F5EE; }
+.toc-num { width:20px; height:20px; border-radius:50%; background:var(--teal); color:white; font-size:0.7rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+main { min-width:0; }
+.activity { border-bottom:1px solid #E5E5E5; padding:1.8rem 0; }
+.activity:first-child { padding-top:0; }
+.activity-head { display:flex; align-items:center; gap:0.7rem; }
+.activity-head .badge { width:32px; height:32px; border-radius:50%; background:var(--teal); color:white; display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0; }
+.activity-head h2 { margin:0; font-size:1.25rem; }
+.materiel-box { background:#E1F5EE; border-radius:8px; padding:0.6rem 1rem; margin:0.8rem 0 1.1rem 2.9rem; font-size:0.85rem; color:#085041; display:inline-block; }
+.step { display:flex; gap:0.7rem; margin:0.7rem 0 0.7rem 2.9rem; }
+.step-num { width:24px; height:24px; border-radius:50%; background:var(--bg-card); border:1.5px solid var(--teal); color:var(--teal); font-weight:700; font-size:0.78rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.step p { margin:0; font-size:0.95rem; }
+footer { text-align:center; padding:1.5rem; color:var(--muted); font-size:0.8rem; }
+@media (max-width:800px) { .layout { grid-template-columns:1fr; } .materiel-box, .step { margin-left:0; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">UNIT 1 — PROGRAMMING</div>
+  <h1>Instructions — Activités cartes</h1>
+</header>
+
+<div class="layout">
+  <nav class="toc">
+    <div class="toc-title">Activités</div>
+    <a href="#act1" class="toc-link"><span class="toc-num">1</span>Les boîtes à cartes</a>
+<a href="#act2" class="toc-link"><span class="toc-num">2</span>L'ordre compte</a>
+<a href="#act3" class="toc-link"><span class="toc-num">3</span>Calcul de cartes</a>
+<a href="#act4" class="toc-link"><span class="toc-num">4</span>Vrai ou faux</a>
+<a href="#act5" class="toc-link"><span class="toc-num">5</span>Deux clés ou un digicode</a>
+<a href="#act6" class="toc-link"><span class="toc-num">6</span>Cartes conditionnelles</a>
+<a href="#act7" class="toc-link"><span class="toc-num">7</span>Le tri à bulles</a>
+  </nav>
+  <main>
+    
+<section class="activity" id="act1">
+  <div class="activity-head">
+    <span class="badge">1</span>
+    <h2>Les boîtes à cartes</h2>
+  </div>
+  <div class="materiel-box">📎 2 boîtes (ou enveloppes) + étiquettes + cartes</div>
+  
+    <div class="step">
+      <span class="step-num">1</span>
+      <p>Étiquetez une boîte "int" et une boîte "double".</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">2</span>
+      <p>Écrivez un nom de variable sur une étiquette, collez-la sur une des deux boîtes.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">3</span>
+      <p>Piochez une carte. Si elle correspond au type de la boîte (noire = int, rouge = double), glissez-la dedans. Sinon, refusez-la.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">4</span>
+      <p>Sortez la carte de la boîte et remplacez-la par une nouvelle carte du même type.</p>
+    </div>
+</section>
+<section class="activity" id="act2">
+  <div class="activity-head">
+    <span class="badge">2</span>
+    <h2>L'ordre compte</h2>
+  </div>
+  <div class="materiel-box">📎 4 étiquettes-instructions mélangées</div>
+  
+    <div class="step">
+      <span class="step-num">1</span>
+      <p>Récupérez les 4 étiquettes, mélangées.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">2</span>
+      <p>Remettez-les dans le seul ordre qui fonctionne.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">3</span>
+      <p>Un membre du binôme lit les étiquettes à voix haute, dans l'ordre choisi, comme si c'était la machine qui exécutait.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">4</span>
+      <p>Inversez deux étiquettes : qu'est-ce qui ne fonctionne plus ?</p>
+    </div>
+</section>
+<section class="activity" id="act3">
+  <div class="activity-head">
+    <span class="badge">3</span>
+    <h2>Calcul de cartes</h2>
+  </div>
+  <div class="materiel-box">📎 Jeu de cartes</div>
+  
+    <div class="step">
+      <span class="step-num">1</span>
+      <p>Piochez deux cartes.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">2</span>
+      <p>Calculez et notez sur votre feuille : carte1 + carte2, carte1 - carte2, carte1 × carte2, carte1 / carte2, carte1 % carte2, carte1 mod carte2.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">3</span>
+      <p>Pour chaque calcul, écrivez la ligne algorithmique complète (ex. resultat = 11 % 2;).</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">4</span>
+      <p>Comparez vos résultats % et mod avec un autre binôme.</p>
+    </div>
+</section>
+<section class="activity" id="act4">
+  <div class="activity-head">
+    <span class="badge">4</span>
+    <h2>Vrai ou faux</h2>
+  </div>
+  <div class="materiel-box">📎 Jeu de cartes</div>
+  
+    <div class="step">
+      <span class="step-num">1</span>
+      <p>Piochez deux cartes, posez-les face visible.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">2</span>
+      <p>Pour chaque opérateur (&lt;, &gt;, &lt;=, &gt;=, ==, !=), dites à voix haute si l'expression est vraie ou fausse.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">3</span>
+      <p>Piochez jusqu'à obtenir deux cartes égales : comment écrit-on ce test en Java ?</p>
+    </div>
+</section>
+<section class="activity" id="act5">
+  <div class="activity-head">
+    <span class="badge">5</span>
+    <h2>Deux clés ou un digicode</h2>
+  </div>
+  <div class="materiel-box">📎 Jeu de cartes séparé en 2 paquets (cœurs+carreaux / piques+trèfles)</div>
+  
+    <div class="step">
+      <span class="step-num">1</span>
+      <p>Piochez une carte de chaque paquet (carte A et carte B).</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">2</span>
+      <p>Condition ET : "A est pair ET B &gt; 5". Vérifiez les deux conditions séparément, puis donnez le résultat final.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">3</span>
+      <p>Condition OU : "A est pair OU B &gt; 5". Même chose.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">4</span>
+      <p>Mimez : pour ET, montrez votre carte en même temps que votre binôme. Pour OU, un seul suffit.</p>
+    </div>
+</section>
+<section class="activity" id="act6">
+  <div class="activity-head">
+    <span class="badge">6</span>
+    <h2>Cartes conditionnelles</h2>
+  </div>
+  <div class="materiel-box">📎 Jeu de cartes</div>
+  
+    <div class="step">
+      <span class="step-num">1</span>
+      <p>Écoutez la règle donnée.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">2</span>
+      <p>Piochez une carte et appliquez la règle immédiatement.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">3</span>
+      <p>Écoutez la règle complexifiée (avec ET/OU) et recommencez.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">4</span>
+      <p>Sur papier, traduisez la règle en if/else.</p>
+    </div>
+</section>
+<section class="activity" id="act7">
+  <div class="activity-head">
+    <span class="badge">7</span>
+    <h2>Le tri à bulles</h2>
+  </div>
+  <div class="materiel-box">📎 Jeu de cartes</div>
+  
+    <div class="step">
+      <span class="step-num">1</span>
+      <p>Piochez 5 cartes, posez-les en ligne dans l'ordre du tirage.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">2</span>
+      <p>Comparez les 2 premières cartes. Si la gauche est plus grande que la droite, échangez-les.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">3</span>
+      <p>Avancez d'une carte, comparez la paire suivante, jusqu'au bout de la ligne.</p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">4</span>
+      <p>Recommencez une passe complète depuis le début, jusqu'à ce qu'il n'y ait plus aucun échange.</p>
+    </div>
+</section>
+  </main>
+</div>
+
+<footer>Unit 1 — Programming · École Schulz Genève</footer>
+
+</body>
+</html>
