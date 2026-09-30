@@ -1222,11 +1222,7 @@ a.route-card:hover .route-arrow { transform: translateX(4px); }
 </section>
 
 <!-- ============================================================
-     06. COURS & RESSOURCES  ← LES LIENS VERS TES PAGES
-     ============================================================
-     Cette section est générée automatiquement à partir du tableau
-     ROUTES (voir le <script> en bas de page).
-     Pour ajouter une page : ajoute simplement un objet dans ROUTES.
+     06. COURS & RESSOURCES
      ============================================================ -->
 <section class="section section-alt" id="pages">
   <div class="section-inner">
@@ -1252,11 +1248,11 @@ a.route-card:hover .route-arrow { transform: translateX(4px); }
 
     <div class="routes-note">
       <strong>Note pour l'enseignant / le mainteneur :</strong>
-      pour publier une nouvelle page, crée le fichier HTML dans
-      <code>pages/</code> puis ajoute une entrée dans le tableau
-      <code>ROUTES</code> du script en bas de ce document. La carte et le
-      lien se génèrent automatiquement. Passe <code>status</code> à
-      <code>"ready"</code> pour rendre la carte cliquable.
+      pour publier une nouvelle page, dépose le fichier HTML à la racine
+      du dépôt puis ajoute une entrée dans le tableau <code>ROUTES</code>
+      du script en bas de ce document. La carte et le lien se génèrent
+      automatiquement. Passe <code>status</code> à <code>"ready"</code>
+      pour rendre la carte cliquable.
     </div>
   </div>
 </section>
@@ -1285,15 +1281,17 @@ a.route-card:hover .route-arrow { transform: translateX(4px); }
 /* ══════════════════════════════════════════════════════════════════════
    ⚙️  ROUTES — AJOUTE TES NOUVELLES PAGES ICI
    ──────────────────────────────────────────────────────────────────────
+   Les fichiers HTML sont à la racine du dépôt (pas de dossier pages/).
+
    POUR AJOUTER UNE PAGE :
-     1. Crée ton fichier HTML, par exemple : pages/lo2-poo.html
+     1. Dépose ton fichier HTML à la racine (ex : lo2-poo.html)
      2. Ajoute un objet dans le tableau ROUTES ci-dessous
      3. Sauvegarde — la carte apparaît automatiquement dans la grille.
 
    CHAMPS :
      title   → titre affiché sur la carte
      desc    → description courte (une phrase)
-     href    → chemin relatif vers ta page HTML
+     href    → nom du fichier HTML (ex : "lo2-poo.html")
      tag     → "LO1" | "LO2" | "LO3" | "LO4" | "PROJET" | "RESS"
      status  → "ready" (cliquable) | "soon" (grisée, non cliquable)
    ══════════════════════════════════════════════════════════════════════ */
@@ -1304,72 +1302,72 @@ const ROUTES = [
   {
     title:  "Algo P1 — Variables, types, séquence (interactif)",
     desc:   "Rappel de cours et exercices à remplir directement, envoi par mail intégré.",
-    href:   "pages/Algo_P1_Interactif.html",
+    href:   "Algo_P1_Interactif.html",
     tag:    "LO1",
     status: "ready"
   },
   {
     title:  "Algo P1 + P2 — Texte complet",
     desc:   "Support intégral : introduction, cours, if/else, ET/OU, type char, table ASCII et exercices.",
-    href:   "pages/Algo_P1_P2_Complet.html",
+    href:   "Algo_P1_P2_Complet.html",
     tag:    "LO1",
     status: "ready"
   },
   {
     title:  "Algorithmes — les fondamentaux",
     desc:   "Définition, pseudo-code, organigrammes et complexité de base.",
-    href:   "pages/lo1-algorithmes.html",
+    href:   "lo1-algorithmes.html",
     tag:    "LO1",
     status: "soon"
   },
   {
     title:  "Du code source à l'exécution",
     desc:   "Préprocesseur, compilateur, linker, interpréteur : qui fait quoi et quand.",
-    href:   "pages/lo1-code-execution.html",
+    href:   "lo1-code-execution.html",
     tag:    "LO1",
     status: "soon"
   },
   {
     title:  "TD · Tri à bulles",
     desc:   "Écrire, tracer pas à pas puis optimiser l'algorithme de tri à bulles.",
-    href:   "pages/lo1-td-tri-bulles.html",
+    href:   "lo1-td-tri-bulles.html",
     tag:    "LO1",
     status: "soon"
   },
 
   /* ── LO2 · Paradigmes de programmation ────────────────────────── */
-    {
+  {
     title:  "Instructions élève — Activités cartes",
     desc:   "Version condensée, à distribuer : les 7 activités en étapes courtes, sans le déroulé enseignant.",
-    href:   "pages/Instructions_Eleve_Cartes.html",
+    href:   "Instructions_Eleve_Cartes.html",
     tag:    "LO2",
     status: "ready"
   },
   {
     title:  "Kit cartes — 7 activités physiques (Algo P1-P2)",
     desc:   "Variables, séquence, opérateurs, if/else, ET/OU et tri à bulles, avec un simple jeu de 52 cartes.",
-    href:   "pages/Kit_Cartes_Algo_P1_P2.html",
+    href:   "Kit_Cartes_Algo_P1_P2.html",
     tag:    "LO2",
     status: "ready"
   },
   {
     title:  "Les trois paradigmes",
     desc:   "Procédural, orienté-objet, événementiel : caractéristiques et différences.",
-    href:   "pages/lo2-paradigmes.html",
+    href:   "lo2-paradigmes.html",
     tag:    "LO2",
     status: "soon"
   },
   {
     title:  "POO — classes, héritage, encapsulation",
     desc:   "Modéliser le réel : objets, attributs, méthodes, visibilité.",
-    href:   "pages/lo2-poo.html",
+    href:   "lo2-poo.html",
     tag:    "LO2",
     status: "soon"
   },
   {
     title:  "Programmation événementielle",
     desc:   "Déclencheurs, callbacks et boucle d'événements expliqués simplement.",
-    href:   "pages/lo2-evenementiel.html",
+    href:   "lo2-evenementiel.html",
     tag:    "LO2",
     status: "soon"
   },
@@ -1378,21 +1376,21 @@ const ROUTES = [
   {
     title:  "Prise en main de l'IDE",
     desc:   "Installer, configurer et naviguer dans IntelliJ IDEA ou Eclipse.",
-    href:   "pages/lo3-ide.html",
+    href:   "lo3-ide.html",
     tag:    "LO3",
     status: "soon"
   },
   {
     title:  "Java — premiers pas",
     desc:   "Variables, types, conditions, boucles, méthodes : le socle du langage.",
-    href:   "pages/lo3-java-bases.html",
+    href:   "lo3-java-bases.html",
     tag:    "LO3",
     status: "soon"
   },
   {
     title:  "TP · ClubConnect — Phase 3",
     desc:   "Implémenter les classes Membre, Activité et Inscription en Java.",
-    href:   "pages/lo3-tp-clubconnect.html",
+    href:   "lo3-tp-clubconnect.html",
     tag:    "LO3",
     status: "soon"
   },
@@ -1401,14 +1399,14 @@ const ROUTES = [
   {
     title:  "Débogage structuré",
     desc:   "Breakpoints, watch lists, pas-à-pas : traquer un bug méthodiquement.",
-    href:   "pages/lo4-debogage.html",
+    href:   "lo4-debogage.html",
     tag:    "LO4",
     status: "soon"
   },
   {
     title:  "Coding standard",
     desc:   "Nommage, indentation, commentaires : pourquoi un standard partagé.",
-    href:   "pages/lo4-coding-standard.html",
+    href:   "lo4-coding-standard.html",
     tag:    "LO4",
     status: "soon"
   },
@@ -1417,14 +1415,14 @@ const ROUTES = [
   {
     title:  "Cahier des charges ClubConnect",
     desc:   "Périmètre, fonctionnalités attendues et livrables de l'Unit 1.",
-    href:   "pages/projet-cahier-des-charges.html",
+    href:   "projet-cahier-des-charges.html",
     tag:    "PROJET",
     status: "soon"
   },
   {
     title:  "Barème & modalités de rendu",
     desc:   "Grille d'évaluation P/M/D et calendrier des remises.",
-    href:   "pages/projet-bareme.html",
+    href:   "projet-bareme.html",
     tag:    "PROJET",
     status: "soon"
   },
@@ -1433,7 +1431,7 @@ const ROUTES = [
   {
     title:  "Fiches de révision",
     desc:   "L'essentiel de l'unité en quelques pages, pour préparer l'évaluation.",
-    href:   "pages/ressources-revision.html",
+    href:   "ressources-revision.html",
     tag:    "RESS",
     status: "soon"
   }
@@ -1441,7 +1439,7 @@ const ROUTES = [
 ];
 
 /* ─────────────────────────────────────────────────────────────────────
-   COULEURS PAR CATÉGORIE — modifie si tu veux changer les accents
+   COULEURS PAR CATÉGORIE
    ───────────────────────────────────────────────────────────────────── */
 const CATEGORIES = {
   LO1:    { color: "#0F766E" },
@@ -1453,7 +1451,7 @@ const CATEGORIES = {
 };
 
 /* ─────────────────────────────────────────────────────────────────────
-   MOTEUR DE RENDU — pas besoin de toucher à ça
+   MOTEUR DE RENDU
    ───────────────────────────────────────────────────────────────────── */
 (function () {
   const grid     = document.getElementById('routesGrid');
@@ -1486,7 +1484,6 @@ const CATEGORIES = {
       : '<p class="routes-empty">Aucune page dans cette catégorie pour le moment.</p>';
   }
 
-  /* Compteurs sur les boutons de filtre */
   buttons.forEach(btn => {
     const f = btn.dataset.filter;
     const n = f === 'all' ? ROUTES.length : ROUTES.filter(r => r.tag === f).length;
@@ -1502,7 +1499,7 @@ const CATEGORIES = {
 })();
 
 /* ─────────────────────────────────────────────────────────────────────
-   SCROLL SPY — surligne le lien actif dans la navigation
+   SCROLL SPY
    ───────────────────────────────────────────────────────────────────── */
 (function () {
   const sections = document.querySelectorAll('section[id], header[id]');
@@ -1510,11 +1507,9 @@ const CATEGORIES = {
   const bar      = document.getElementById('scrollProgress');
 
   function onScroll() {
-    /* Barre de progression */
     const h = document.documentElement.scrollHeight - window.innerHeight;
     bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
 
-    /* Lien actif */
     let current = '';
     sections.forEach(section => {
       if (window.scrollY >= section.offsetTop - 150) current = section.id;
