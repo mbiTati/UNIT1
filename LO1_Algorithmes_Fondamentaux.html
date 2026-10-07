@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LO1 — Algorithmes : fondamentaux & tri à bulles | Unit 1</title>
+<style>
+:root { --teal:#0D7377; --cyan:#14A3C7; --mint:#32E0C4; --ink:#1B2B2B; --muted:#5A6B6B; --bg-card:#F7F9F8; --code-bg:#1E2B2B; --code-fg:#E1F5EE; --gold:#BA7517; --navy:#16294D; --purple:#6D28D9; --success:#085041; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system, Segoe UI, Calibri, sans-serif; color:var(--ink); background:#FFFFFF; line-height:1.65; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+header { background:linear-gradient(135deg, var(--teal) 0%, var(--cyan) 100%); color:white; padding:2.5rem 2rem; }
+header .kicker { font-size:0.85rem; letter-spacing:0.05em; color:var(--mint); font-weight:600; }
+header h1 { margin:0.5rem 0 0.3rem; font-size:1.9rem; }
+header p { margin:0; color:#BFEFE9; font-size:1rem; max-width:850px; }
+.layout { display:grid; grid-template-columns:260px 1fr; gap:2rem; max-width:1150px; margin:0 auto; padding:2rem; }
+nav.toc { position:sticky; top:1rem; align-self:start; background:var(--bg-card); border-radius:10px; padding:1.1rem; max-height:calc(100vh - 2rem); overflow-y:auto; }
+nav.toc .toc-title { font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); margin-bottom:0.6rem; }
+.toc-link { display:block; padding:0.32rem 0.5rem; border-radius:6px; color:var(--ink); text-decoration:none; font-size:0.85rem; }
+.toc-link:hover { background:#E1F5EE; }
+.toc-part { font-weight:700; color:var(--teal); font-size:0.78rem; text-transform:uppercase; margin:0.9rem 0 0.3rem; letter-spacing:0.04em; }
+main { min-width:0; }
+h2.section-title { font-size:1.3rem; color:var(--teal); border-bottom:2px solid #E1F5EE; padding-bottom:0.4rem; margin-top:2.5rem; }
+h3.sub { font-size:1.05rem; color:var(--cyan); margin:1.4rem 0 0.5rem; }
+.code { background:var(--code-bg); color:var(--code-fg); padding:1rem 1.2rem; border-radius:8px; overflow-x:auto; font-family:"Courier New", monospace; font-size:0.85rem; white-space:pre; line-height:1.5; }
+.code .kw { color:#FF9E64; }
+.code .str { color:#9ECE6A; }
+.code .cmt { color:#7A8B8B; font-style:italic; }
+.code .fn { color:#7AA2F7; }
+.code .num { color:#E0AF68; }
+table.ref { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.88rem; }
+table.ref th, table.ref td { border:1px solid #E0E0E0; padding:0.5rem 0.7rem; text-align:left; vertical-align:top; }
+table.ref th { background:var(--bg-card); }
+.card { background:var(--bg-card); border-radius:10px; padding:1.2rem 1.4rem; margin:1.2rem 0; }
+.note { background:#FAEEDA; border-left:4px solid var(--gold); padding:0.8rem 1.1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.note strong { color:#633806; }
+.info { background:#E6F1FB; border-left:4px solid #378ADD; padding:0.8rem 1.1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.diagram { background:#FFFFFF; border:1px solid #D0D0D0; border-radius:8px; padding:1.2rem; margin:1rem 0; font-family:"Courier New", monospace; font-size:0.82rem; line-height:1.7; overflow-x:auto; text-align:center; }
+.flow-box { display:inline-block; border:2px solid var(--teal); border-radius:6px; padding:0.35rem 0.8rem; background:#E1F5EE; margin:0.2rem; font-weight:600; }
+.flow-oval { display:inline-block; border:2px solid var(--navy); border-radius:999px; padding:0.35rem 1rem; background:#E6EEF9; margin:0.2rem; font-weight:600; }
+.flow-diamond { display:inline-block; border:2px solid var(--gold); background:#FAEEDA; padding:0.5rem 0.8rem; margin:0.2rem; transform:rotate(0deg); font-weight:600; }
+.flow-arrow { display:inline-block; color:var(--teal); font-weight:bold; font-size:1.4rem; padding:0 0.3rem; }
+.step-box { border:2px solid var(--teal); border-radius:12px; padding:1.2rem 1.4rem; margin:1.4rem 0; background:#FBFDFC; }
+.step-head { display:flex; align-items:center; gap:0.8rem; margin-bottom:0.8rem; }
+.step-badge { width:36px; height:36px; border-radius:50%; background:var(--teal); color:white; display:flex; align-items:center; justify-content:center; font-weight:700; flex-shrink:0; }
+.step-head h3 { margin:0; font-size:1.1rem; color:var(--teal); }
+.table-array { display:flex; gap:0.3rem; flex-wrap:wrap; margin:1rem 0; justify-content:center; }
+.cell { width:52px; height:52px; border:2px solid var(--teal); border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.1rem; background:#FFFFFF; }
+.cell.active { background:#FAEEDA; border-color:var(--gold); transform:scale(1.1); }
+.cell.swap { background:#FBE9E7; border-color:#C62828; }
+.cell.sorted { background:#E1F5EE; border-color:var(--success); }
+.pass-label { font-weight:700; color:var(--navy); font-size:0.85rem; margin:0.8rem 0 0.3rem; font-family:"Courier New", monospace; }
+.worksheet { background:#FFF; border:2px dashed var(--teal); border-radius:8px; padding:1rem 1.2rem; margin:1rem 0; }
+.worksheet h4 { margin:0 0 0.6rem; color:var(--teal); font-size:0.95rem; }
+.worksheet table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+.worksheet table th, .worksheet table td { border:1px solid #D0D0D0; padding:0.4rem 0.6rem; text-align:left; }
+.worksheet table th { background:#E1F5EE; }
+.worksheet table td input { width:100%; border:none; padding:0.2rem; font-family:"Courier New", monospace; font-size:0.83rem; }
+.worksheet table td input:focus { outline:2px solid var(--cyan); }
+.exo-item { margin-bottom:1.2rem; }
+.exo-item label { display:block; font-weight:600; margin-bottom:0.4rem; }
+.exo-item textarea, .exo-item input[type=text] { width:100%; font-family:"Courier New", monospace; font-size:0.88rem; padding:0.55rem 0.75rem; border:1px solid #CCCCCC; border-radius:6px; resize:vertical; }
+.exo-item textarea { min-height:55px; }
+.name-field { margin:1.5rem 0; }
+.name-field label { display:block; font-weight:700; margin-bottom:0.4rem; }
+.name-field input { width:100%; max-width:400px; padding:0.7rem 0.9rem; border:1px solid #CCCCCC; border-radius:6px; font-size:1rem; }
+.send-box { background:#FAEEDA; border-radius:10px; padding:1.5rem; text-align:center; margin:2.5rem 0; }
+.send-btn { background:var(--teal); color:white; border:none; padding:0.9rem 2rem; border-radius:8px; font-size:1.05rem; font-weight:700; cursor:pointer; margin-top:0.8rem; }
+.send-btn:hover { background:var(--cyan); }
+.send-note { font-size:0.85rem; color:#633806; margin-top:0.7rem; }
+.error-msg { color:#A32D2D; font-size:0.9rem; margin-top:0.6rem; display:none; }
+footer { text-align:center; padding:2rem; color:var(--muted); font-size:0.85rem; }
+@media (max-width:800px) { .layout { grid-template-columns:1fr; } nav.toc { position:static; max-height:none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">UNIT 1 · LO1 · P1 — P2 — M1 — D1</div>
+  <h1>Algorithmes : fondamentaux & tri à bulles</h1>
+  <p>Définir un algorithme, écrire du pseudo-code, dessiner des organigrammes, mesurer la complexité — puis appliquer tout ça au tri à bulles.</p>
+</header>
+
+<div class="layout">
+  <nav class="toc">
+    <div class="toc-title">Sommaire</div>
+    <div class="toc-part">Cours</div>
+    <a class="toc-link" href="#intro">1 · Qu'est-ce qu'un algorithme ?</a>
+    <a class="toc-link" href="#proprietes">2 · Les 5 propriétés</a>
+    <a class="toc-link" href="#pseudocode">3 · Le pseudo-code</a>
+    <a class="toc-link" href="#organigrammes">4 · Les organigrammes</a>
+    <a class="toc-link" href="#du-algo-au-code">5 · De l'algorithme au code</a>
+    <a class="toc-link" href="#complexite">6 · Complexité de base</a>
+    <a class="toc-link" href="#vocab">7 · Vocabulaire clé</a>
+    <div class="toc-part">TD — Tri à bulles</div>
+    <a class="toc-link" href="#bubble-principe">Principe du tri à bulles</a>
+    <a class="toc-link" href="#bubble-trace">Tracer pas à pas</a>
+    <a class="toc-link" href="#bubble-pseudo">Pseudo-code</a>
+    <a class="toc-link" href="#bubble-code">Code Java</a>
+    <a class="toc-link" href="#bubble-complexite">Complexité</a>
+    <a class="toc-link" href="#bubble-optim">Optimisations</a>
+    <a class="toc-link" href="#exos">Exercices</a>
+    <a class="toc-link" href="#envoi">Envoyer mes réponses</a>
+  </nav>
+
+  <main>
+
+    <h2 class="section-title" id="intro">1 · Qu'est-ce qu'un algorithme ?</h2>
+    <p>Un <strong>algorithme</strong> est une <em>suite finie et ordonnée d'opérations</em> permettant de résoudre un problème. C'est une <strong>recette</strong> : on décrit pas à pas ce qu'il faut faire pour transformer des données d'entrée en résultat.</p>
+
+    <div class="info">
+      <strong>Définition formelle :</strong> un algorithme est une méthode de calcul qui prend zéro ou plusieurs entrées, produit au moins une sortie, et qui garantit de se terminer en un nombre fini d'étapes.
+    </div>
+
+    <h3 class="sub">Exemple concret : faire du café</h3>
+    <p>Avant même de parler d'informatique, on manipule des algorithmes tous les jours :</p>
+    <pre class="code">Algorithme FaireUnCafé
+    Entrée : eau, café moulu, tasse
+    Sortie : tasse de café chaud
+
+    1. Remplir le réservoir d'eau
+    2. Mettre le filtre dans le porte-filtre
+    3. Ajouter 2 cuillères de café moulu
+    4. Placer la tasse sous la buse
+    5. Lancer la machine
+    6. Attendre la fin de l'écoulement
+    7. Retirer la tasse</pre>
+    <p>Ce texte <em>est</em> un algorithme : il a des entrées (eau, café), une sortie (tasse de café), une suite d'opérations ordonnées, et il se termine.</p>
+
+    <h3 class="sub">Différence entre algorithme et programme</h3>
+    <table class="ref">
+      <tr><th></th><th>Algorithme</th><th>Programme</th></tr>
+      <tr><td>Nature</td><td>Description abstraite de la solution</td><td>Implémentation concrète dans un langage</td></tr>
+      <tr><td>Langage</td><td>Pseudo-code, langage naturel, organigramme</td><td>Java, Python, C#, etc.</td></tr>
+      <tr><td>Dépendance</td><td>Indépendant de la machine</td><td>Dépend d'un compilateur / interpréteur</td></tr>
+      <tr><td>Vérification</td><td>Vérifié par la logique</td><td>Vérifié par exécution et tests</td></tr>
+    </table>
+    <div class="note">
+      <strong>Règle d'or :</strong> on conçoit toujours l'algorithme <em>avant</em> d'écrire le programme. Coder sans algorithme, c'est construire une maison sans plan.
+    </div>
+
+    <h2 class="section-title" id="proprietes">2 · Les 5 propriétés d'un algorithme</h2>
+
+    <table class="ref">
+      <tr><th>Propriété</th><th>Signification</th><th>Contre-exemple</th></tr>
+      <tr>
+        <td><strong>1. Finitude</strong></td>
+        <td>L'algorithme doit se terminer après un nombre fini d'étapes.</td>
+        <td><code>while(true) { }</code> — ne se termine jamais.</td>
+      </tr>
+      <tr>
+        <td><strong>2. Définition précise</strong></td>
+        <td>Chaque étape est définie sans ambiguïté.</td>
+        <td>« Ajouter un peu de sel » — combien ?</td>
+      </tr>
+      <tr>
+        <td><strong>3. Entrées</strong></td>
+        <td>Zéro ou plusieurs données en entrée.</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><strong>4. Sorties</strong></td>
+        <td>Au moins un résultat produit.</td>
+        <td>Un algorithme qui calcule sans jamais rien retourner.</td>
+      </tr>
+      <tr>
+        <td><strong>5. Efficacité</strong></td>
+        <td>Chaque opération est réalisable (par un humain ou une machine).</td>
+        <td>« Trouver la pensée de l'utilisateur » — impossible.</td>
+      </tr>
+    </table>
+
+    <h2 class="section-title" id="pseudocode">3 · Le pseudo-code</h2>
+    <p>Le <strong>pseudo-code</strong> est un langage intermédiaire entre le français et le code réel. Il utilise une syntaxe proche du Java (comme dans ton cours P1-P4) mais reste lisible par un humain.</p>
+
+    <h3 class="sub">Structure de base</h3>
+    <pre class="code"><span class="kw">Algorithme</span> NomDeLAlgorithme
+    <span class="cmt">// Déclaration des variables</span>
+    <span class="kw">Variables</span> variable1 : type1
+             variable2 : type2
+
+    <span class="kw">Début</span>
+        <span class="cmt">// Instructions</span>
+        instruction1
+        instruction2
+        ...
+        <span class="kw">Retourner</span> resultat
+    <span class="kw">Fin</span></pre>
+
+    <h3 class="sub">Instructions courantes en pseudo-code</h3>
+    <table class="ref">
+      <tr><th>Pseudo-code</th><th>Signification</th></tr>
+      <tr><td><code>x ← 5</code> ou <code>x = 5</code></td><td>Affecter la valeur 5 à la variable x</td></tr>
+      <tr><td><code>saisir(x)</code></td><td>Lire une valeur au clavier et la mettre dans x</td></tr>
+      <tr><td><code>afficher(x)</code></td><td>Afficher le contenu de x</td></tr>
+      <tr><td><code>si (condition) alors … sinon … finsi</code></td><td>Alternative</td></tr>
+      <tr><td><code>tant que (condition) faire … fintantque</code></td><td>Boucle tant que</td></tr>
+      <tr><td><code>pour i de 1 à n faire … finpour</code></td><td>Boucle pour</td></tr>
+    </table>
+
+    <h3 class="sub">Exemple — somme de deux nombres</h3>
+    <pre class="code"><span class="kw">Algorithme</span> Somme
+    <span class="kw">Variables</span> a, b, resultat : entier
+
+    <span class="kw">Début</span>
+        saisir(a)
+        saisir(b)
+        resultat ← a + b
+        afficher(resultat)
+    <span class="kw">Fin</span></pre>
+
+    <h2 class="section-title" id="organigrammes">4 · Les organigrammes</h2>
+    <p>Un <strong>organigramme</strong> (ou <em>flowchart</em>) est une représentation <strong>graphique</strong> d'un algorithme. Chaque type d'action a une forme de symbole précise.</p>
+
+    <h3 class="sub">Les symboles standards</h3>
+    <table class="ref">
+      <tr><th>Symbole</th><th>Nom</th><th>Utilisation</th></tr>
+      <tr><td style="text-align:center;"><span class="flow-oval">Début</span></td><td>Ovale / Terminaison</td><td>Début et fin de l'algorithme</td></tr>
+      <tr><td style="text-align:center;"><span class="flow-box">x ← 5</span></td><td>Rectangle</td><td>Traitement (affectation, calcul)</td></tr>
+      <tr><td style="text-align:center;"><span class="flow-diamond">x &gt; 0 ?</span></td><td>Losange</td><td>Décision (condition if/else)</td></tr>
+      <tr><td style="text-align:center;"><span class="flow-box" style="border-radius:0;">saisir(x)</span></td><td>Parallélogramme</td><td>Entrée / sortie (lire, afficher)</td></tr>
+      <tr><td style="text-align:center;"><span class="flow-arrow">↓</span></td><td>Flèche</td><td>Sens du flux d'exécution</td></tr>
+    </table>
+
+    <h3 class="sub">Exemple — maximum de deux nombres</h3>
+    <div class="diagram">
+      <span class="flow-oval">Début</span><br>
+      <span class="flow-arrow">↓</span><br>
+      <span class="flow-box">saisir(a, b)</span><br>
+      <span class="flow-arrow">↓</span><br>
+      <span class="flow-diamond">a &gt; b ?</span><br>
+      <span class="flow-arrow">↙</span> OUI &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NON <span class="flow-arrow">↘</span><br>
+      <span class="flow-box">max ← a</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="flow-box">max ← b</span><br>
+      <span class="flow-arrow">↘</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="flow-arrow">↙</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="flow-box">afficher(max)</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="flow-arrow">↓</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="flow-oval">Fin</span>
+    </div>
+
+    <div class="note">
+      <strong>Avantage de l'organigramme :</strong> il montre <em>visuellement</em> les branches. C'est très utile pour repérer les boucles et les conditions imbriquées. <strong>Inconvénient :</strong> devient illisible dès qu'un algorithme dépasse 20-30 étapes.
+    </div>
+
+    <h2 class="section-title" id="du-algo-au-code">5 · De l'algorithme au code</h2>
+    <p>Voici la chaîne complète : du problème initial jusqu'au programme exécutable.</p>
+
+    <div class="diagram">
+      <span class="flow-box">Problème</span> <span class="flow-arrow">→</span>
+      <span class="flow-box">Algorithme (langage naturel)</span> <span class="flow-arrow">→</span>
+      <span class="flow-box">Pseudo-code</span> <span class="flow-arrow">→</span>
+      <span class="flow-box">Code source</span> <span class="flow-arrow">→</span>
+      <span class="flow-box">Compilation</span> <span class="flow-arrow">→</span>
+      <span class="flow-box">Exécutable</span>
+    </div>
+
+    <table class="ref">
+      <tr><th>Étape</th><th>Ce qu'on fait</th><th>Livrable</th></tr>
+      <tr><td>1. Analyse</td><td>Comprendre le problème, identifier entrées/sorties</td><td>Cahier des charges</td></tr>
+      <tr><td>2. Conception</td><td>Écrire l'algorithme en langage naturel</td><td>Description textuelle</td></tr>
+      <tr><td>3. Formalisation</td><td>Traduire en pseudo-code ou organigramme</td><td>Pseudo-code / flowchart</td></tr>
+      <tr><td>4. Implémentation</td><td>Écrire le code source dans un langage</td><td>Fichier .java</td></tr>
+      <tr><td>5. Compilation</td><td>Traduire le source en bytecode</td><td>Fichier .class</td></tr>
+      <tr><td>6. Exécution</td><td>La JVM exécute le bytecode</td><td>Résultat</td></tr>
+      <tr><td>7. Tests</td><td>Vérifier que l'algorithme donne les bons résultats</td><td>Rapport de tests</td></tr>
+    </table>
+
+    <h3 class="sub">Exemple — du pseudo-code au Java</h3>
+    <table class="ref">
+      <tr><th>Pseudo-code</th><th>Java</th></tr>
+      <tr>
+        <td><pre class="code" style="margin:0; padding:0.5rem; font-size:0.8rem;">Variables a, b, s : entier
+Début
+    saisir(a)
+    saisir(b)
+    s ← a + b
+    afficher(s)
+Fin</pre></td>
+        <td><pre class="code" style="margin:0; padding:0.5rem; font-size:0.8rem;"><span class="kw">int</span> a, b, s;
+a = saisir();
+b = saisir();
+s = a + b;
+afficher(s);</pre></td>
+      </tr>
+    </table>
+
+    <h2 class="section-title" id="complexite">6 · Complexité de base</h2>
+    <p>La <strong>complexité</strong> mesure le <em>coût</em> d'un algorithme : combien de temps il prend (complexité temporelle) et combien de mémoire il utilise (complexité spatiale). On l'exprime en fonction de la <strong>taille des données</strong>, notée <em>n</em>.</p>
+
+    <h3 class="sub">Notation grand O — les 5 classes à connaître</h3>
+    <table class="ref">
+      <tr><th>Notation</th><th>Nom</th><th>Signification</th><th>Exemple</th></tr>
+      <tr><td><strong>O(1)</strong></td><td>Constant</td><td>Temps identique quelle que soit la taille</td><td>Accès à <code>tableau[5]</code></td></tr>
+      <tr><td><strong>O(log n)</strong></td><td>Logarithmique</td><td>Très rapide, divise par 2 à chaque étape</td><td>Recherche dichotomique</td></tr>
+      <tr><td><strong>O(n)</strong></td><td>Linéaire</td><td>Proportionnel à la taille</td><td>Parcours de tableau</td></tr>
+      <tr><td><strong>O(n log n)</strong></td><td>Quasi-linéaire</td><td>Bon compromis pour les tris</td><td>Tri fusion, tri rapide</td></tr>
+      <tr><td><strong>O(n²)</strong></td><td>Quadratique</td><td>Double boucle imbriquée</td><td>Tri à bulles, tri par sélection</td></tr>
+    </table>
+
+    <h3 class="sub">Comparaison visuelle pour n = 1000</h3>
+    <table class="ref">
+      <tr><th>Complexité</th><th>Opérations approximatives</th><th>Temps (à 1 million d'op/s)</th></tr>
+      <tr><td>O(1)</td><td>1</td><td>1 microseconde</td></tr>
+      <tr><td>O(log n)</td><td>10</td><td>10 microsecondes</td></tr>
+      <tr><td>O(n)</td><td>1 000</td><td>1 milliseconde</td></tr>
+      <tr><td>O(n log n)</td><td>10 000</td><td>10 millisecondes</td></tr>
+      <tr><td><strong>O(n²)</strong></td><td><strong>1 000 000</strong></td><td><strong>1 seconde</strong></td></tr>
+    </table>
+
+    <div class="note">
+      <strong>À retenir :</strong> quand <em>n</em> double, O(n²) est 4 fois plus lent, tandis que O(n) est seulement 2 fois plus lent. C'est pour ça qu'on évite les algorithmes quadratiques sur de grandes données.
+    </div>
+
+    <h3 class="sub">Comment compter la complexité ?</h3>
+    <p><strong>Méthode simple :</strong> on compte les boucles imbriquées.</p>
+    <table class="ref">
+      <tr><th>Structure du code</th><th>Complexité</th></tr>
+      <tr><td>Aucune boucle</td><td>O(1)</td></tr>
+      <tr><td>1 boucle simple <code>for (i=0; i&lt;n; i++)</code></td><td>O(n)</td></tr>
+      <tr><td>2 boucles imbriquées</td><td>O(n²)</td></tr>
+      <tr><td>3 boucles imbriquées</td><td>O(n³)</td></tr>
+      <tr><td>Boucle qui divise n par 2 à chaque tour</td><td>O(log n)</td></tr>
+    </table>
+
+    <h2 class="section-title" id="vocab">7 · Vocabulaire clé</h2>
+    <table class="ref">
+      <tr><th>Terme</th><th>Définition</th></tr>
+      <tr><td>Algorithme</td><td>Suite finie et ordonnée d'opérations pour résoudre un problème.</td></tr>
+      <tr><td>Pseudo-code</td><td>Description d'un algorithme dans un langage intermédiaire lisible.</td></tr>
+      <tr><td>Organigramme</td><td>Représentation graphique d'un algorithme (flowchart).</td></tr>
+      <tr><td>Instruction</td><td>Action élémentaire (affectation, saisie, affichage, appel).</td></tr>
+      <tr><td>Condition</td><td>Test dont le résultat est vrai ou faux.</td></tr>
+      <tr><td>Boucle</td><td>Répétition d'instructions tant qu'une condition est vraie.</td></tr>
+      <tr><td>Itération</td><td>Un passage dans le corps d'une boucle.</td></tr>
+      <tr><td>Complexité</td><td>Mesure du coût (temps ou mémoire) d'un algorithme en fonction de n.</td></tr>
+      <tr><td>Notation grand O</td><td>Notation mathématique pour décrire la croissance d'une complexité.</td></tr>
+      <tr><td>Entrée / sortie</td><td>Données reçues / résultats produits.</td></tr>
+    </table>
+
+    <!-- ============================================
+         TD — TRI À BULLES
+         ============================================ -->
+
+    <h2 class="section-title" id="bubble-principe">TD — Le tri à bulles (Bubble Sort)</h2>
+    <p>Le <strong>tri à bulles</strong> est l'algorithme de tri le plus simple à comprendre. Son idée : <em>comparer les éléments deux à deux, échanger s'ils sont mal ordonnés, et laisser les plus grands « remonter » comme des bulles vers la fin du tableau</em>.</p>
+
+    <div class="info">
+      <strong>Idée clé :</strong> à chaque passage (une « passe »), le plus grand élément restant se retrouve à sa place définitive à la fin. Après n-1 passes, tout le tableau est trié.
+    </div>
+
+    <h2 class="section-title" id="bubble-trace">Tracer le tri pas à pas</h2>
+    <p>Soit le tableau suivant à trier par ordre croissant : <strong>[5, 2, 9, 1, 4]</strong></p>
+
+    <h3 class="sub">Passe 1</h3>
+    <div class="pass-label">Comparer 5 et 2 → 5 &gt; 2 → échanger</div>
+    <div class="table-array">
+      <div class="cell swap">2</div><div class="cell swap">5</div><div class="cell">9</div><div class="cell">1</div><div class="cell">4</div>
+    </div>
+
+    <div class="pass-label">Comparer 5 et 9 → 5 &lt; 9 → ne pas échanger</div>
+    <div class="table-array">
+      <div class="cell">2</div><div class="cell">5</div><div class="cell">9</div><div class="cell">1</div><div class="cell">4</div>
+    </div>
+
+    <div class="pass-label">Comparer 9 et 1 → 9 &gt; 1 → échanger</div>
+    <div class="table-array">
+      <div class="cell">2</div><div class="cell">5</div><div class="cell swap">1</div><div class="cell swap">9</div><div class="cell">4</div>
+    </div>
+
+    <div class="pass-label">Comparer 9 et 4 → 9 &gt; 4 → échanger</div>
+    <div class="table-array">
+      <div class="cell">2</div><div class="cell">5</div><div class="cell">1</div><div class="cell swap">4</div><div class="cell swap sorted">9</div>
+    </div>
+    <p style="text-align:center; font-size:0.88rem; color:var(--success);"><strong>✔ Fin de passe 1 :</strong> le 9 est à sa place définitive.</p>
+
+    <h3 class="sub">Passe 2</h3>
+    <div class="pass-label">Comparer 2 et 5 → pas d'échange</div>
+    <div class="table-array">
+      <div class="cell">2</div><div class="cell">5</div><div class="cell">1</div><div class="cell">4</div><div class="cell sorted">9</div>
+    </div>
+
+    <div class="pass-label">Comparer 5 et 1 → échanger</div>
+    <div class="table-array">
+      <div class="cell">2</div><div class="cell swap">1</div><div class="cell swap">5</div><div class="cell">4</div><div class="cell sorted">9</div>
+    </div>
+
+    <div class="pass-label">Comparer 5 et 4 → échanger</div>
+    <div class="table-array">
+      <div class="cell">2</div><div class="cell">1</div><div class="cell swap">4</div><div class="cell swap sorted">5</div><div class="cell sorted">9</div>
+    </div>
+    <p style="text-align:center; font-size:0.88rem; color:var(--success);"><strong>✔ Fin de passe 2 :</strong> le 5 est à sa place.</p>
+
+    <h3 class="sub">Passe 3</h3>
+    <div class="pass-label">Comparer 2 et 1 → échanger</div>
+    <div class="table-array">
+      <div class="cell swap">1</div><div class="cell swap">2</div><div class="cell">4</div><div class="cell sorted">5</div><div class="cell sorted">9</div>
+    </div>
+
+    <div class="pass-label">Comparer 2 et 4 → pas d'échange</div>
+    <div class="table-array">
+      <div class="cell">1</div><div class="cell">2</div><div class="cell sorted">4</div><div class="cell sorted">5</div><div class="cell sorted">9</div>
+    </div>
+    <p style="text-align:center; font-size:0.88rem; color:var(--success);"><strong>✔ Fin de passe 3 :</strong> le 4 est à sa place.</p>
+
+    <h3 class="sub">Passe 4</h3>
+    <div class="pass-label">Comparer 1 et 2 → pas d'échange</div>
+    <div class="table-array">
+      <div class="cell sorted">1</div><div class="cell sorted">2</div><div class="cell sorted">4</div><div class="cell sorted">5</div><div class="cell sorted">9</div>
+    </div>
+    <p style="text-align:center; font-size:0.88rem; color:var(--success);"><strong>✔ Fin de passe 4 :</strong> tableau entièrement trié.</p>
+
+    <div class="note">
+      <strong>Règle :</strong> pour un tableau de <em>n</em> éléments, il faut au plus <strong>n-1 passes</strong>. À chaque passe, on peut ignorer le dernier élément (déjà trié). C'est pour ça que la boucle interne fait <code>n - 1 - i</code> comparaisons.
+    </div>
+
+    <h2 class="section-title" id="bubble-pseudo">Pseudo-code</h2>
+
+    <h3 class="sub">Version simple</h3>
+    <pre class="code"><span class="kw">Algorithme</span> TriBulles
+    <span class="kw">Variables</span> tab : tableau[1..n] d'entiers
+             i, j, temp : entier
+
+    <span class="kw">Début</span>
+        <span class="kw">Pour</span> i de 1 à n-1 <span class="kw">faire</span>
+            <span class="kw">Pour</span> j de 1 à n-1-i <span class="kw">faire</span>
+                <span class="kw">Si</span> tab[j] &gt; tab[j+1] <span class="kw">alors</span>
+                    temp ← tab[j]
+                    tab[j] ← tab[j+1]
+                    tab[j+1] ← temp
+                <span class="kw">FinSi</span>
+            <span class="kw">FinPour</span>
+        <span class="kw">FinPour</span>
+        <span class="kw">Retourner</span> tab
+    <span class="kw">Fin</span></pre>
+
+    <h2 class="section-title" id="bubble-code">Code Java</h2>
+
+    <h3 class="sub">Version simple</h3>
+    <pre class="code"><span class="kw">public static void</span> <span class="fn">triBulles</span>(<span class="kw">int</span>[] tab) {
+    <span class="kw">int</span> n = tab.length;
+    <span class="kw">int</span> temp;
+
+    <span class="kw">for</span> (<span class="kw">int</span> i = 0; i &lt; n - 1; i++) {
+        <span class="kw">for</span> (<span class="kw">int</span> j = 0; j &lt; n - 1 - i; j++) {
+            <span class="kw">if</span> (tab[j] &gt; tab[j + 1]) {
+                <span class="cmt">// échange</span>
+                temp = tab[j];
+                tab[j] = tab[j + 1];
+                tab[j + 1] = temp;
+            }
+        }
+    }
+}</pre>
+
+    <h2 class="section-title" id="bubble-complexite">Complexité du tri à bulles</h2>
+
+    <table class="ref">
+      <tr><th>Cas</th><th>Comparaisons</th><th>Échanges</th><th>Complexité</th></tr>
+      <tr><td>Meilleur cas (tableau déjà trié)</td><td>n-1</td><td>0</td><td>O(n)</td></tr>
+      <tr><td>Cas moyen</td><td>~n²/2</td><td>~n²/4</td><td>O(n²)</td></tr>
+      <tr><td>Pire cas (tableau inversé)</td><td>n(n-1)/2</td><td>n(n-1)/2</td><td>O(n²)</td></tr>
+    </table>
+
+    <div class="note">
+      <strong>Conclusion :</strong> le tri à bulles est <strong>O(n²)</strong> dans le cas moyen et le pire cas. C'est un algorithme <em>lent</em> sur de grands tableaux, mais il est très <em>simple à comprendre</em> — c'est pour ça qu'on l'enseigne en premier.
+    </div>
+
+    <h2 class="section-title" id="bubble-optim">Optimisations du tri à bulles</h2>
+
+    <h3 class="sub">Optimisation 1 — Détecter si le tableau est déjà trié</h3>
+    <p>Si une passe entière s'est faite sans aucun échange, c'est que le tableau est trié : on peut arrêter immédiatement.</p>
+
+    <pre class="code"><span class="kw">public static void</span> <span class="fn">triBullesOptim</span>(<span class="kw">int</span>[] tab) {
+    <span class="kw">int</span> n = tab.length;
+    <span class="kw">boolean</span> echange;
+
+    <span class="kw">for</span> (<span class="kw">int</span> i = 0; i &lt; n - 1; i++) {
+        echange = <span class="kw">false</span>;
+        <span class="kw">for</span> (<span class="kw">int</span> j = 0; j &lt; n - 1 - i; j++) {
+            <span class="kw">if</span> (tab[j] &gt; tab[j + 1]) {
+                <span class="kw">int</span> temp = tab[j];
+                tab[j] = tab[j + 1];
+                tab[j + 1] = temp;
+                echange = <span class="kw">true</span>;
+            }
+        }
+        <span class="kw">if</span> (!echange) {
+            <span class="kw">break</span>;   <span class="cmt">// tableau déjà trié → on sort</span>
+        }
+    }
+}</pre>
+
+    <h3 class="sub">Optimisation 2 — Réduire la zone de tri</h3>
+    <p>Après chaque passe, la fin du tableau est triée. On peut mémoriser la position du dernier échange pour réduire la zone à parcourir à la passe suivante.</p>
+
+    <table class="ref">
+      <tr><th>Version</th><th>Meilleur cas</th><th>Cas moyen</th><th>Pire cas</th></tr>
+      <tr><td>Simple</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td></tr>
+      <tr><td>Optimisée (drapeau)</td><td><strong>O(n)</strong></td><td>O(n²)</td><td>O(n²)</td></tr>
+    </table>
+
+    <h2 class="section-title" id="exos">Exercices</h2>
+
+    <div class="card">
+      <h3 class="sub">Exercice 1 — Tracer le tri à bulles</h3>
+      <p>Applique l'algorithme du tri à bulles au tableau <strong>[7, 3, 8, 1, 5]</strong>. Remplis le tableau ci-dessous après chaque comparaison/échange.</p>
+      <div class="worksheet">
+        <table>
+          <tr><th>Passe</th><th>Comparaison</th><th>État du tableau après</th></tr>
+          <tr><td>1</td><td><input type="text" data-q="ex1-1-1"></td><td><input type="text" data-q="ex1-1-2"></td></tr>
+          <tr><td>1</td><td><input type="text" data-q="ex1-2-1"></td><td><input type="text" data-q="ex1-2-2"></td></tr>
+          <tr><td>1</td><td><input type="text" data-q="ex1-3-1"></td><td><input type="text" data-q="ex1-3-2"></td></tr>
+          <tr><td>1</td><td><input type="text" data-q="ex1-4-1"></td><td><input type="text" data-q="ex1-4-2"></td></tr>
+          <tr><td>2</td><td><input type="text" data-q="ex1-5-1"></td><td><input type="text" data-q="ex1-5-2"></td></tr>
+          <tr><td>2</td><td><input type="text" data-q="ex1-6-1"></td><td><input type="text" data-q="ex1-6-2"></td></tr>
+          <tr><td>2</td><td><input type="text" data-q="ex1-7-1"></td><td><input type="text" data-q="ex1-7-2"></td></tr>
+          <tr><td>3</td><td><input type="text" data-q="ex1-8-1"></td><td><input type="text" data-q="ex1-8-2"></td></tr>
+          <tr><td>3</td><td><input type="text" data-q="ex1-9-1"></td><td><input type="text" data-q="ex1-9-2"></td></tr>
+          <tr><td>4</td><td><input type="text" data-q="ex1-10-1"></td><td><input type="text" data-q="ex1-10-2"></td></tr>
+        </table>
+      </div>
+      <div class="exo-item">
+        <label>Combien de passes ont été nécessaires ? Combien de comparaisons au total ?</label>
+        <textarea data-q="ex1-total"></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="sub">Exercice 2 — Organigramme du tri à bulles</h3>
+      <p>Dessine (sur papier) l'organigramme du tri à bulles. Puis décris ici, en quelques lignes, les symboles que tu as utilisés et pourquoi.</p>
+      <div class="exo-item">
+        <textarea data-q="ex2" style="min-height:100px;"></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="sub">Exercice 3 — Complexité</h3>
+      <p>Pour chacun de ces algorithmes, donne la complexité en notation grand O et justifie.</p>
+      <table class="ref">
+        <tr><th>Code</th><th>Complexité</th></tr>
+        <tr><td><code>int x = tab[5];</code></td><td><input type="text" data-q="ex3-1"></td></tr>
+        <tr><td><code>for (int i=0; i&lt;n; i++) afficher(tab[i]);</code></td><td><input type="text" data-q="ex3-2"></td></tr>
+        <tr><td><code>for (i…) for (j…) { … }</code></td><td><input type="text" data-q="ex3-3"></td></tr>
+        <tr><td>Tri à bulles</td><td><input type="text" data-q="ex3-4"></td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3 class="sub">Exercice 4 — Améliorer le tri</h3>
+      <p>Reprends la version optimisée du tri à bulles (avec le drapeau <code>echange</code>).</p>
+      <div class="exo-item">
+        <label>a) Que se passe-t-il dans le meilleur cas (tableau déjà trié) ? Combien de comparaisons ?</label>
+        <textarea data-q="ex4-a"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>b) Quelle est la complexité dans le meilleur cas ?</label>
+        <textarea data-q="ex4-b"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>c) Écris le pseudo-code de la version optimisée.</label>
+        <textarea data-q="ex4-c" style="min-height:130px;"></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="sub">Exercice 5 — Comparer deux algorithmes de tri</h3>
+      <p>Le tri à bulles est O(n²). Le tri par insertion est aussi O(n²) dans le pire cas, mais très rapide sur des tableaux presque triés. Le tri rapide (Quicksort) est O(n log n) en moyenne.</p>
+      <div class="exo-item">
+        <label>Pour un tableau de 100 000 éléments, pourquoi vaut-il mieux utiliser Quicksort que le tri à bulles ? Argumente avec les ordres de grandeur.</label>
+        <textarea data-q="ex5" style="min-height:100px;"></textarea>
+      </div>
+    </div>
+
+    <div class="name-field" id="envoi">
+      <label>Nom, prénom</label>
+      <input type="text" id="nomEleve" placeholder="Votre nom et prénom">
+    </div>
+
+    <div class="send-box">
+      <p style="margin:0;font-weight:600;">Une fois vos réponses complétées :</p>
+      <button class="send-btn" onclick="envoyer()">Envoyer mes réponses à Mme Mbi</button>
+      <p class="error-msg" id="errMsg">Merci d'indiquer votre nom avant d'envoyer.</p>
+      <p class="send-note">Ouvre votre application mail habituelle, avec vos réponses déjà remplies.</p>
+    </div>
+
+  </main>
+</div>
+
+<footer>Unit 1 — Programming · École Schulz Genève · LO1 — Algorithmes et tri à bulles</footer>
+
+<script>
+function envoyer() {
+  const nom = document.getElementById("nomEleve").value.trim();
+  const errMsg = document.getElementById("errMsg");
+  if (!nom) { errMsg.style.display = "block"; return; }
+  errMsg.style.display = "none";
+
+  let corps = "Réponses de " + nom + " — LO1 : Algorithmes & tri à bulles\n\n";
+
+  corps += "=== EXERCICE 1 — Tracer le tri à bulles ===\n";
+  ["ex1-1-1","ex1-1-2","ex1-2-1","ex1-2-2","ex1-3-1","ex1-3-2","ex1-4-1","ex1-4-2",
+   "ex1-5-1","ex1-5-2","ex1-6-1","ex1-6-2","ex1-7-1","ex1-7-2","ex1-8-1","ex1-8-2",
+   "ex1-9-1","ex1-9-2","ex1-10-1","ex1-10-2","ex1-total"].forEach(function(q) {
+    const el = document.querySelector('[data-q="' + q + '"]');
+    if (el) corps += q + " : " + (el.value.trim() || "(non répondu)") + "\n";
+  });
+
+  corps += "\n=== EXERCICE 2 — Organigramme ===\n";
+  corps += (document.querySelector('[data-q="ex2"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== EXERCICE 3 — Complexité ===\n";
+  ["ex3-1","ex3-2","ex3-3","ex3-4"].forEach(function(q) {
+    const el = document.querySelector('[data-q="' + q + '"]');
+    if (el) corps += q + " : " + (el.value.trim() || "(non répondu)") + "\n";
+  });
+
+  corps += "\n=== EXERCICE 4 — Améliorer le tri ===\n";
+  ["ex4-a","ex4-b","ex4-c"].forEach(function(q) {
+    const el = document.querySelector('[data-q="' + q + '"]');
+    if (el) corps += q + " :\n" + (el.value.trim() || "(non répondu)") + "\n\n";
+  });
+
+  corps += "\n=== EXERCICE 5 — Comparer deux algorithmes ===\n";
+  corps += (document.querySelector('[data-q="ex5"]').value.trim() || "(non répondu)") + "\n";
+
+  const sujet = "LO1 Algorithmes - " + nom;
+  const lien = "mailto:t.mbi@ecole-schulz.ch?subject=" + encodeURIComponent(sujet) + "&body=" + encodeURIComponent(corps);
+  window.location.href = lien;
+}
+</script>
+
+</body>
+</html>
