@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Algo P3 + P4 — Texte complet | Unit 1</title>
+<style>
+:root { --teal:#0D7377; --cyan:#14A3C7; --mint:#32E0C4; --ink:#1B2B2B; --muted:#5A6B6B; --bg-card:#F7F9F8; --code-bg:#1E2B2B; --code-fg:#E1F5EE; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system, Segoe UI, Calibri, sans-serif; color:var(--ink); background:#FFFFFF; line-height:1.65; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+header { background:var(--teal); color:white; padding:2.5rem 2rem; }
+header .kicker { font-size:0.85rem; letter-spacing:0.05em; color:var(--mint); font-weight:600; }
+header h1 { margin:0.5rem 0 0.3rem; font-size:1.9rem; }
+header p { margin:0; color:#BFEFE9; font-size:1rem; }
+.layout { display:grid; grid-template-columns:240px 1fr; gap:2rem; max-width:1100px; margin:0 auto; padding:2rem; }
+nav.toc { position:sticky; top:1rem; align-self:start; background:var(--bg-card); border-radius:10px; padding:1.1rem; max-height:calc(100vh - 2rem); overflow-y:auto; }
+nav.toc .toc-title { font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); margin-bottom:0.6rem; }
+.toc-link { display:block; padding:0.32rem 0.5rem; border-radius:6px; color:var(--ink); text-decoration:none; font-size:0.85rem; }
+.toc-link:hover { background:#E1F5EE; }
+.toc-part { font-weight:700; color:var(--teal); font-size:0.8rem; text-transform:uppercase; margin:0.8rem 0 0.3rem; }
+main { min-width:0; }
+h2.section-title { font-size:1.2rem; color:var(--teal); border-bottom:2px solid #E1F5EE; padding-bottom:0.4rem; margin-top:2.1rem; }
+h3.part-title { font-size:1.5rem; color:white; background:var(--teal); padding:1rem 1.3rem; border-radius:10px; margin-top:3rem; }
+.code { background:var(--code-bg); color:var(--code-fg); padding:1rem 1.2rem; border-radius:8px; overflow-x:auto; font-family:"Courier New", monospace; font-size:0.87rem; white-space:pre; }
+table.ref { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.88rem; }
+table.ref th, table.ref td { border:1px solid #E0E0E0; padding:0.45rem 0.6rem; text-align:left; }
+table.ref th { background:var(--bg-card); }
+table.annot td { border:1px solid #E0E0E0; padding:0.4rem 0.6rem; vertical-align:top; }
+table.annot td.instr { font-family:"Courier New", monospace; background:var(--code-bg); color:var(--code-fg); white-space:pre; font-size:0.85rem; width:45%; }
+.card { background:var(--bg-card); border-radius:10px; padding:1.1rem 1.3rem; margin:1rem 0; }
+.note { background:#FAEEDA; border-left:4px solid #BA7517; padding:0.7rem 1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.problem { background:#E6F1FB; border-left:4px solid #378ADD; padding:0.7rem 1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; font-weight:600; }
+.exo-item { margin-bottom:1.2rem; }
+.exo-item label { display:block; font-weight:600; margin-bottom:0.4rem; }
+.exo-item textarea, .exo-item input[type=text] { width:100%; font-family:"Courier New", monospace; font-size:0.88rem; padding:0.55rem 0.75rem; border:1px solid #CCCCCC; border-radius:6px; resize:vertical; }
+.exo-item textarea { min-height:45px; }
+table.trace { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.87rem; }
+table.trace th, table.trace td { border:1px solid #CCCCCC; padding:0.4rem 0.5rem; text-align:center; }
+table.trace th { background:var(--bg-card); }
+table.trace td.instr { text-align:left; font-family:"Courier New", monospace; }
+table.trace input { width:65px; text-align:center; border:1px solid #CCCCCC; border-radius:4px; padding:0.25rem; font-family:"Courier New", monospace; }
+.name-field { margin:1.5rem 0; }
+.name-field label { display:block; font-weight:700; margin-bottom:0.4rem; }
+.name-field input { width:100%; max-width:400px; padding:0.7rem 0.9rem; border:1px solid #CCCCCC; border-radius:6px; font-size:1rem; }
+.send-box { background:#FAEEDA; border-radius:10px; padding:1.5rem; text-align:center; margin:2.5rem 0; }
+.send-btn { background:var(--teal); color:white; border:none; padding:0.9rem 2rem; border-radius:8px; font-size:1.05rem; font-weight:700; cursor:pointer; margin-top:0.8rem; }
+.send-btn:hover { background:var(--cyan); }
+.send-note { font-size:0.85rem; color:#633806; margin-top:0.7rem; }
+.error-msg { color:#A32D2D; font-size:0.9rem; margin-top:0.6rem; display:none; }
+footer { text-align:center; padding:2rem; color:var(--muted); font-size:0.85rem; }
+@media (max-width:800px) { .layout { grid-template-columns:1fr; } nav.toc { position:static; max-height:none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">UNIT 1 — PROGRAMMING</div>
+  <h1>Algo P3 + P4 — Texte complet</h1>
+  <p>Type String, structure switch, comparaison de chaînes, notion de cumul et concaténation — avec exercices interactifs.</p>
+</header>
+
+<div class="layout">
+  <nav class="toc">
+    <div class="toc-title">Sommaire</div>
+    <div class="toc-part">Partie 3</div>
+    <a class="toc-link" href="#p3-objectifs">Objectifs</a>
+    <a class="toc-link" href="#p3-probleme">Problème — switch</a>
+    <a class="toc-link" href="#p3-analyse">Analyse du switch</a>
+    <a class="toc-link" href="#p3-scalaire">Variables scalaires</a>
+    <a class="toc-link" href="#p3-switchchar">switch avec char</a>
+    <a class="toc-link" href="#p3-string">Le type String</a>
+    <a class="toc-link" href="#p3-important">Points importants</a>
+    <a class="toc-link" href="#p3-compareto">compareTo()</a>
+    <a class="toc-link" href="#p3-optim">Optimiser le switch — DRY</a>
+    <a class="toc-link" href="#p3-exos">Exercices P3</a>
+    <div class="toc-part">Partie 4</div>
+    <a class="toc-link" href="#p4-objectifs">Objectifs</a>
+    <a class="toc-link" href="#p4-intro">Introduction</a>
+    <a class="toc-link" href="#p4-analyse">Analyse du cumul</a>
+    <a class="toc-link" href="#p4-autres">Écritures raccourcies</a>
+    <a class="toc-link" href="#p4-chaines">Cumul de chaînes</a>
+    <a class="toc-link" href="#p4-exos">Exercices P4</a>
+    <a class="toc-link" href="#envoi">Envoyer mes réponses</a>
+  </nav>
+
+  <main>
+
+    <h3 class="part-title">Partie 3 — Type String et structure switch</h3>
+
+    <h2 class="section-title" id="p3-objectifs">Objectifs</h2>
+    <ul>
+      <li>Type de donnée : <strong>String</strong> (chaîne de caractères).</li>
+      <li>Structure de contrôle : l'alternative <strong>switch</strong>.</li>
+      <li>Comparaison de chaînes avec <code>compareTo()</code>.</li>
+      <li>Principe DRY (Don't Repeat Yourself) — chasse à la redondance.</li>
+    </ul>
+
+    <h2 class="section-title" id="p3-probleme">Problème</h2>
+    <p>La structure <code>if … else</code> trouve sa limite quand le nombre de conditions devient trop grand. Pour pallier à cette limite, on peut utiliser la structure de contrôle alternative <strong>switch</strong>, dont voici un exemple :</p>
+    <pre class="code">program Switch {
+    int choix;
+    afficher("Choisir une des options suivantes : 1 ou 2 ou 3 ou 4");
+    saisir(choix);
+    switch (choix) {
+        case 1:
+            afficher ("Vous avez choisi l'option 1");
+            break;
+        case 2:
+            afficher ("Vous avez choisi l'option 2");
+            break;
+        case 3:
+            afficher ("Vous avez choisi l'option 3");
+            break;
+        case 4:
+            afficher ("Vous avez choisi l'option 4");
+            break;
+        default :
+            afficher ("Vous n'avez choisi aucune des options proposées.");
+            break;
+    }
+}</pre>
+
+    <h2 class="section-title" id="p3-analyse">Analyse</h2>
+    <p>Cette structure permet une gestion plus claire de choix (situations) multiples. Selon (traduction de <em>switch</em>) la valeur qui aura été saisie dans la variable <code>choix</code>, la ou les actions associées via la clause <code>case</code> seront exécutées. Ainsi dans cet exemple si l'utilisateur saisit la valeur 2, c'est l'affichage suivant qui sera envoyé :</p>
+    <div class="card"><code>Vous avez choisi l'option 2</code></div>
+    <p>Chaque cas envisagé devra se terminer par la clause <code>break</code> qui arrête le traitement et fait sortir de la structure <code>switch</code>.</p>
+    <p>La clause <code>default</code> permet de gérer tous les autres cas qui n'ont pas été prévus. Ainsi si l'utilisateur saisit la valeur 8, c'est le texte suivant qui va s'afficher :</p>
+    <div class="card"><code>Vous n'avez choisi aucune des options proposées.</code></div>
+
+    <h2 class="section-title" id="p3-scalaire">Les variables scalaires</h2>
+    <p>Une des limites de la structure <code>switch</code>, c'est qu'elle ne peut gérer que des <strong>variables de type scalaire</strong>. Les variables de type scalaire sont des variables qui peuvent s'incrémenter : en gros chaque valeur du domaine de définition a un suivant unique et un précédent unique.</p>
+    <p>C'est typiquement le cas des entiers (<code>int</code>) : le suivant de 1 c'est 2 et son précédent c'est 0, le précédent de 2 c'est 1 et son suivant 3, etc.</p>
+    <p>Mais ce n'est <strong>pas</strong> le cas avec les nombres décimaux (<code>double</code>) : quel est le seul et unique suivant de 10.25 ? 10.26 ou 10.251 ou 11 ? Ambigu.</p>
+    <p>Il y a un autre type qui est scalaire : le type <code>char</code>. En effet le suivant de 'A' c'est 'B', et le suivant de 'B' c'est 'C'. Cela est dû au fait que derrière le type <code>char</code> il y a une valeur entière qui varie de 0 à 255. Par exemple la lettre 'A' a pour valeur numérique 65, la lettre 'B' vaut 66, etc.</p>
+
+    <h2 class="section-title" id="p3-switchchar">switch avec char</h2>
+    <p>On peut donc réécrire le programme comme suit :</p>
+    <pre class="code">program Switch {
+    char choix;
+    afficher("Choisir une des options suivantes : A ou B ou C ou D");
+    saisir(choix);
+    switch (choix) {
+        case 'A':
+            afficher ("Vous avez choisi l'option A");
+            break;
+        case 'B':
+            afficher ("Vous avez choisi l'option B");
+            break;
+        case 'C':
+            afficher ("Vous avez choisi l'option C");
+            break;
+        case 'D':
+            afficher ("Vous avez choisi l'option D");
+            break;
+        default :
+            afficher ("Vous n'avez choisi aucune des options proposées.");
+            break;
+    }
+}</pre>
+
+    <h2 class="section-title" id="p3-string">Le type String (chaîne)</h2>
+    <p>Il permet d'affecter à une variable une suite continue de caractères (lettres, signes, …).</p>
+    <ul>
+      <li><code>"123456"</code> est une chaîne car délimitée par des guillemets.</li>
+      <li><code>"Dupont Jean, 10 rue des fleurs."</code> est une chaîne comprenant tous types de caractères.</li>
+    </ul>
+    <div class="note">
+      Attention : une chaîne peut contenir de zéro à n caractères, ainsi <code>""</code> est une chaîne vide, mais c'est une chaîne, et <code>"A"</code> est une chaîne réduite à un seul caractère, mais c'est quand même une chaîne. Pour expliquer cela on verra plus tard qu'une chaîne est un tableau de caractères. Retenons pour le moment qu'une chaîne est une suite contiguë de n caractères pouvant être réduite à zéro ou un caractère.
+    </div>
+    <p>L'affectation d'une chaîne à une variable se fait comme pour les autres types de données :</p>
+    <pre class="code">String machine;
+machine = "Bonjour tout le monde";</pre>
+    <p>Attention : il ne faut <strong>jamais mélanger les types de données</strong>. On a souvent tendance au début à considérer que le type caractère et le type chaîne recouvrent la même réalité. Cela est tout à fait faux : un caractère est codé sur un octet, alors qu'une chaîne (quelle que soit sa taille) est constituée d'une suite contiguë de caractères. De la même manière, on ne peut affecter un réel à un entier : l'un est codé sur 4 octets et l'autre sur 2 octets.</p>
+    <p>Les instructions suivantes sont erronées :</p>
+    <table class="ref">
+      <tr><th>Instruction erronée</th><th>Pourquoi</th></tr>
+      <tr><td><code>char uncar; uncar = "Bonjour";</code></td><td>Affectation d'un type chaîne à un type caractère.</td></tr>
+      <tr><td><code>char uncar; uncar = "B";</code></td><td>Même si la chaîne se réduit à un caractère, les guillemets indiquent un type chaîne.</td></tr>
+      <tr><td><code>char uncar; uncar = "";</code></td><td>Même si la chaîne se réduit à une chaîne vide, les guillemets indiquent un type chaîne.</td></tr>
+    </table>
+    <p>Par contre, aussi bizarre que cela puisse paraître, on peut <strong>concaténer une chaîne et un caractère</strong> pour réaliser une nouvelle chaîne. Exemple :</p>
+    <pre class="code">String machine;
+machine = "Bonjour tout le mond" + 'e';
+// La variable machine contient "Bonjour tout le monde"</pre>
+
+    <h2 class="section-title" id="p3-important">Points importants</h2>
+    <ul>
+      <li>Il <strong>FAUT</strong> écrire <code>String</code> avec un S majuscule, alors qu'on écrit <code>int</code> ou <code>double</code> totalement en minuscules. Nous verrons plus tard que le type <code>String</code> est en fait une Classe, alors que <code>int</code> et <code>double</code> sont des types primitifs.</li>
+      <li>Le délimiteur d'un <code>char</code> est l'apostrophe (<code>'</code>), alors que le délimiteur d'une chaîne est le guillemet (<code>"</code>).</li>
+    </ul>
+    <p>De la même manière que l'on pouvait comparer deux entiers ou deux caractères (mais pas un caractère et un entier !), on peut parfaitement comparer deux chaînes. On devrait donc pouvoir écrire les lignes suivantes :</p>
+    <pre class="code">String ch1, ch2;
+if (ch1 >= ch2) {
+    actions
+}</pre>
+    <div class="note">
+      Malheureusement, comme il a été fait le choix de coller au plus près du langage Java, et que le type String est une Classe, cette écriture bien pratique <strong>n'est pas possible</strong>. Il faut à la place utiliser la méthode <code>compareTo()</code>.
+    </div>
+
+    <h2 class="section-title" id="p3-compareto">compareTo()</h2>
+    <p>La méthode <code>compareTo()</code> retourne :</p>
+    <ul>
+      <li><code>0</code> si les deux chaînes sont égales</li>
+      <li><code>-1</code> si la première est inférieure à la seconde</li>
+      <li><code>1</code> si la première est supérieure à la seconde</li>
+    </ul>
+    <p>Voici un exemple de comparaison de deux chaînes :</p>
+    <pre class="code">Program CompareChaines {
+    String ch1, ch2;
+    int compare;
+    ch1 = "ABCDE";
+    ch2 = "ABCDF";
+    compare = ch1.compareTo(ch2);
+    if (compare < 0) {
+        afficher(ch1 + " est < à " + ch2);
+    } else {
+        if (compare > 0) {
+            afficher (ch1 + " est > à " + ch2);
+        } else {
+            afficher ("Ils sont égaux");
+        }
+    }
+}</pre>
+    <p>Si <code>ch1</code> contient <code>"ABCDE"</code> et <code>ch2</code> contient <code>"ABCDF"</code>, alors à l'issue de l'instruction <code>ch1.compareTo(ch2)</code> la variable <code>compare</code> aura la valeur <code>-1</code>, et donc l'affichage sera :</p>
+    <div class="card"><code>ABCDE est < à ABCDF</code></div>
+    <p>Tous les langages peuvent comparer deux chaînes : ils le font en comparant le premier caractère de chacune des chaînes (en fait ce sont les codes ASCII qui sont comparés). S'il y a égalité, la comparaison est poursuivie sur le caractère suivant, jusqu'à ce que survienne la première inégalité ou qu'il n'y ait plus rien à comparer. Ainsi on peut affirmer que les séquences suivantes sont exactes :</p>
+    <table class="ref">
+      <tr><th>Comparaison</th><th>Pourquoi</th></tr>
+      <tr><td><code>"ABCDEFG" &lt; "Z"</code></td><td>Car 'A' (65) &lt; 'Z' (90) : "Z" vient après dans l'ordre alphabétique.</td></tr>
+      <tr><td><code>"A" &lt; "a"</code></td><td>Car 'A' (65) &lt; 'a' (97) : majuscules avant minuscules dans la table ASCII.</td></tr>
+      <tr><td><code>"bbbbb" &gt; "bbbb"</code></td><td>Car la première chaîne est plus longue et commence par les mêmes caractères.</td></tr>
+    </table>
+    <div class="note">
+      <code>"ABCDEFG" &lt; "Z"</code> ne veut <strong>pas</strong> dire que la chaîne <code>"Z"</code> est plus grande que la chaîne <code>"ABCDEFG"</code> au sens de la taille, mais au sens de « vient après dans l'ordre alphabétique ».
+    </div>
+
+    <h2 class="section-title" id="p3-optim">Optimiser le programme Switch — le principe DRY</h2>
+    <p>Si on analyse avec un peu d'attention le programme <code>Switch</code>, on s'aperçoit qu'à chaque option on répète quasiment la même chose avec une petite variante. En programmation, la <strong>redondance</strong> (répétition) c'est l'ennemi ! À telle enseigne qu'il y a parmi ce qu'on appelle les bonnes pratiques, une qui s'appelle <strong>DRY</strong> (<em>Don't Repeat Yourself</em>).</p>
+    <p>Nous allons améliorer notre programme — et cela nous donnera l'occasion d'utiliser le type String :</p>
+    <pre class="code">program Switch {
+    char choix;
+    String message;
+
+    afficher("Choisir une des options suivantes : A ou B ou C ou D");
+    saisir(choix);
+    switch (choix) {
+        case 'A':
+            message = "Vous avez choisi l'option A";
+            break;
+        case 'B':
+            message = "Vous avez choisi l'option B";
+            break;
+        case 'C':
+            message = "Vous avez choisi l'option C";
+            break;
+        case 'D':
+            message = "Vous avez choisi l'option D";
+            break;
+        default :
+            message = "Vous n'avez choisi aucune des options proposées.";
+            break;
+    }
+    afficher(message);
+}</pre>
+    <p>Nous avons évité la répétition de l'appel à la primitive <code>afficher()</code> et nous avons mutualisé cet appel : en effet, quelle que soit l'option choisie, il fallait afficher un message. Évidemment ici l'avantage ne saute pas vraiment aux yeux, mais c'est essentiellement parce qu'il nous manque (entre autres) le concept de cumul. Ce qu'il faut bien garder à l'esprit, c'est qu'il faut quand c'est possible <strong>faire la chasse à la redondance</strong>.</p>
+
+    <h2 class="section-title" id="p3-exos">Exercices — Partie 3</h2>
+
+    <div class="card">
+      <p><strong>Ex1 — Lesquelles de ces affectations sont erronées, et pourquoi ?</strong></p>
+      <pre class="code">char a;
+a = "AZ"
+a = "D"
+a = ')'</pre>
+      <div class="exo-item"><textarea data-q="p3ex1" style="min-height:80px;"></textarea></div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex2 — Comparer deux chaînes saisies.</strong></p>
+      <p>Réaliser un programme qui demande à l'utilisateur de saisir deux chaînes et qui affiche la chaîne la plus grande (au sens ordre alphabétique).</p>
+      <div class="exo-item"><textarea data-q="p3ex2" style="min-height:120px;"></textarea></div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex3 — Distributeur de boissons.</strong></p>
+      <p>Réaliser un programme qui affiche une liste de boissons (Café, Thé, Orangina…), demande à l'utilisateur d'en choisir une, lui affiche le prix de cette boisson, lui demande de saisir son prénom, son nom, le montant de son paiement, puis calcule et affiche son identité, son choix, le montant versé et le montant de sa monnaie rendue.</p>
+      <p>Exemple attendu :</p>
+      <pre class="code">C . . . Café,
+T . . . Thé
+O . . . Orangina
+Saisissez votre prénom et votre nom : Paul Auchon
+Faites votre choix : O
+Saisissez votre versement : 5
+Paul Auchon
+Vous avez choisi un Orangina à 3,5 Euros
+Vous avez versé 5 Euros
+Votre monnaie est de 1,5 Euro</pre>
+      <div class="exo-item"><textarea data-q="p3ex3" style="min-height:140px;"></textarea></div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex4 — Calcul de remise par palier.</strong></p>
+      <p>Réaliser un programme qui affiche une liste d'articles et leur prix (on se limitera à 3), demande à l'utilisateur d'en choisir un et d'indiquer la quantité. Le programme devra afficher le prix total de l'article après avoir calculé la remise éventuelle en se basant sur le tableau suivant :</p>
+      <table class="ref">
+        <tr><th>Tranche</th><th>Remise</th></tr>
+        <tr><td>de 0 à 4</td><td>0 %</td></tr>
+        <tr><td>de 5 à 10</td><td>2,5 %</td></tr>
+        <tr><td>de 11 à 20</td><td>4 %</td></tr>
+        <tr><td>+ de 20</td><td>7 %</td></tr>
+      </table>
+      <div class="exo-item"><textarea data-q="p3ex4" style="min-height:140px;"></textarea></div>
+    </div>
+
+    <h3 class="part-title">Partie 4 — La notion de cumul</h3>
+
+    <h2 class="section-title" id="p4-objectifs">Objectifs</h2>
+    <ul>
+      <li>Comprendre et utiliser la notion de <strong>cumul</strong>.</li>
+      <li>Maîtriser les écritures raccourcies (<code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>).</li>
+      <li>Distinguer cumul numérique et <strong>concaténation</strong> de chaînes.</li>
+    </ul>
+
+    <h2 class="section-title" id="p4-intro">Introduction</h2>
+    <p>La notion de cumul est très souvent utilisée en programmation et notamment en gestion, mais elle est aussi assez difficile à appréhender pour les débutants.</p>
+
+    <h2 class="section-title" id="p4-analyse">Analyse</h2>
+    <p>Cumuler, c'est ajouter une valeur à une valeur existante. Exemple :</p>
+    <pre class="code">int total;
+total = 10;
+total = total + 5;</pre>
+    <p>Dans cet exemple on ajoute 5 à la valeur contenue dans la variable <code>total</code> (10) et le résultat de cette somme (15) est remis dans la variable <code>total</code>. Pour que cette opération soit possible, le système doit posséder une <strong>zone tampon</strong> (sorte de variable propre au système) dans laquelle l'addition du contenu de <code>total</code> et de la valeur est effectuée, puis affectation du contenu de cette zone à la variable <code>total</code>.</p>
+    <div class="note">
+      <strong>Attention :</strong> pour qu'un cumul puisse se réaliser, il faut que la variable sur laquelle se fera le cumul ait été <strong>initialisée au préalable</strong>, soit par une affectation soit par un calcul. Exemples :
+      <pre class="code" style="margin-top:0.6rem;">int total;
+total = 0;
+total = total + 2;</pre>
+      ou
+      <pre class="code" style="margin-top:0.4rem;">int total;
+total = 2 * 4;
+total = total + 2;</pre>
+      Le programme suivant <strong>n'est pas correct</strong> :
+      <pre class="code" style="margin-top:0.4rem;">int total;
+total = total + 2;   // ERREUR : total n'a pas été initialisé</pre>
+      En effet, il est impossible de faire la somme du contenu de <code>total</code> avec la valeur 2, puisque <code>total</code> ne contient rien. Attention : <strong>0 (zéro) est une valeur comme une autre, alors que rien n'est pas une valeur</strong>. Un tel programme « PLANTERAIT » sur n'importe quel système !
+    </div>
+    <p>Un cumul n'est pas obligatoirement basé sur une somme. Exemples :</p>
+    <pre class="code">int total;
+total = 4;
+total = total * 2;
+
+total = 4;
+total = total - 2;
+
+total = 4;
+total = total / 2;</pre>
+    <p>Évidemment, ce qui est possible avec les entiers l'est tout autant avec les nombres décimaux :</p>
+    <pre class="code">double total;
+total = 4.5;
+total = total * 2;</pre>
+
+    <h2 class="section-title" id="p4-autres">Les autres écritures</h2>
+    <p>Un cumul peut s'écrire aussi comme suit :</p>
+    <table class="ref">
+      <tr><th>Écriture in extenso</th><th>Écriture raccourcie</th></tr>
+      <tr><td><code>total = total + 2;</code></td><td><code>total += 2;</code></td></tr>
+      <tr><td><code>total = total - 2;</code></td><td><code>total -= 2;</code></td></tr>
+      <tr><td><code>total = total * 2;</code></td><td><code>total *= 2;</code></td></tr>
+      <tr><td><code>total = total / 2;</code></td><td><code>total /= 2;</code></td></tr>
+    </table>
+    <p>Dans les programmes Java, on rencontrera plus souvent l'écriture raccourcie que l'écriture in extenso.</p>
+
+    <h2 class="section-title" id="p4-chaines">Le « cumul » de chaînes — concaténation</h2>
+    <p>On ne peut pas vraiment appliquer la notion de cumul aux chaînes (<code>String</code>) ; on parle alors de <strong>concaténation</strong>, qui veut dire « mettre bout à bout ». Exemple :</p>
+    <pre class="code">String ch1, ch2;
+ch1 = "ABCD";
+ch2 = "EFG";
+ch1 = ch1 + ch2;
+// Maintenant le contenu de ch1 est : "ABCDEFG"</pre>
+    <p>Évidemment on peut aussi écrire :</p>
+    <pre class="code">ch1 += ch2;</pre>
+
+    <h2 class="section-title" id="p4-exos">Exercices — Partie 4</h2>
+
+    <div class="card">
+      <p><strong>Ex1 — Dans les expressions suivantes, lesquelles sont erronées et pourquoi ?</strong></p>
+      <p><strong>a)</strong></p>
+      <pre class="code">int nb1;
+nb1 = nb1 + 5;</pre>
+      <p><strong>b)</strong></p>
+      <pre class="code">int nb1, nb2;
+nb2 = 8;
+nb1 = nb1 + nb2;</pre>
+      <p><strong>c)</strong></p>
+      <pre class="code">String ch1, ch2, ch3;
+ch1 = "ABCD";
+ch2 = "EFG";
+ch3 = ch1 + ch2;
+ch1 = ch1 + ch1;</pre>
+      <div class="exo-item"><textarea data-q="p4ex1" style="min-height:140px;"></textarea></div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex2 — Suite d'opérations sur un entier.</strong></p>
+      <p>Réaliser un algorithme qui demande à un utilisateur de saisir un nombre entier, ajoute 5 à ce nombre, puis multiplie le résultat obtenu par 2, enlève la moitié de la valeur trouvée, et enfin l'élève au carré. À la fin du programme, afficher la valeur initiale et la valeur finale.</p>
+      <div class="exo-item"><textarea data-q="p4ex2" style="min-height:140px;"></textarea></div>
+    </div>
+
+    <div class="note">Faire corriger les exercices par le formateur.</div>
+
+    <div class="name-field" id="envoi">
+      <label>Nom, prénom</label>
+      <input type="text" id="nomEleve" placeholder="Votre nom et prénom">
+    </div>
+
+    <div class="send-box">
+      <p style="margin:0;font-weight:600;">Une fois vos réponses complétées :</p>
+      <button class="send-btn" onclick="envoyer()">Envoyer mes réponses à Mme Mbi</button>
+      <p class="error-msg" id="errMsg">Merci d'indiquer votre nom avant d'envoyer.</p>
+      <p class="send-note">Ouvre votre application mail habituelle, avec vos réponses déjà remplies dans le message.</p>
+    </div>
+
+  </main>
+</div>
+
+<footer>Unit 1 — Programming · École Schulz Genève · Algo P3 + P4, texte complet</footer>
+
+<script>
+function envoyer() {
+  const nom = document.getElementById("nomEleve").value.trim();
+  const errMsg = document.getElementById("errMsg");
+  if (!nom) { errMsg.style.display = "block"; return; }
+  errMsg.style.display = "none";
+
+  let corps = "Réponses de " + nom + " — Algo P3 + P4\n\n=== PARTIE 3 — Exercice 1 ===\n";
+  corps += (document.querySelector('[data-q="p3ex1"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 3 — Exercice 2 ===\n";
+  corps += (document.querySelector('[data-q="p3ex2"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 3 — Exercice 3 (boissons) ===\n";
+  corps += (document.querySelector('[data-q="p3ex3"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 3 — Exercice 4 (remises) ===\n";
+  corps += (document.querySelector('[data-q="p3ex4"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 4 — Exercice 1 (erreurs) ===\n";
+  corps += (document.querySelector('[data-q="p4ex1"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 4 — Exercice 2 (suite d'opérations) ===\n";
+  corps += (document.querySelector('[data-q="p4ex2"]').value.trim() || "(non répondu)") + "\n";
+
+  const sujet = "Algo P3+P4 - " + nom;
+  const lien = "mailto:t.mbi@ecole-schulz.ch?subject=" + encodeURIComponent(sujet) + "&body=" + encodeURIComponent(corps);
+  window.location.href = lien;
+}
+</script>
+
+</body>
+</html>
