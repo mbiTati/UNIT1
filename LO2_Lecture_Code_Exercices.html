@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LO2 — Lecture de code & Exercices | Unit 1</title>
+<style>
+:root { --teal:#0D7377; --cyan:#14A3C7; --mint:#32E0C4; --ink:#1B2B2B; --muted:#5A6B6B; --bg-card:#F7F9F8; --code-bg:#1E2B2B; --code-fg:#E1F5EE; --gold:#BA7517; --navy:#16294D; --purple:#6D28D9; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system, Segoe UI, Calibri, sans-serif; color:var(--ink); background:#FFFFFF; line-height:1.65; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+header { background:var(--teal); color:white; padding:2.5rem 2rem; }
+header .kicker { font-size:0.85rem; letter-spacing:0.05em; color:var(--mint); font-weight:600; }
+header h1 { margin:0.5rem 0 0.3rem; font-size:1.9rem; }
+header p { margin:0; color:#BFEFE9; font-size:1rem; max-width:800px; }
+.layout { display:grid; grid-template-columns:250px 1fr; gap:2rem; max-width:1150px; margin:0 auto; padding:2rem; }
+nav.toc { position:sticky; top:1rem; align-self:start; background:var(--bg-card); border-radius:10px; padding:1.1rem; max-height:calc(100vh - 2rem); overflow-y:auto; }
+nav.toc .toc-title { font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); margin-bottom:0.6rem; }
+.toc-link { display:block; padding:0.32rem 0.5rem; border-radius:6px; color:var(--ink); text-decoration:none; font-size:0.85rem; }
+.toc-link:hover { background:#E1F5EE; }
+.toc-part { font-weight:700; color:var(--teal); font-size:0.78rem; text-transform:uppercase; margin:0.9rem 0 0.3rem; letter-spacing:0.04em; }
+main { min-width:0; }
+h2.section-title { font-size:1.3rem; color:var(--teal); border-bottom:2px solid #E1F5EE; padding-bottom:0.4rem; margin-top:2.5rem; }
+h3.sub { font-size:1.05rem; color:var(--cyan); margin:1.4rem 0 0.5rem; }
+.code { background:var(--code-bg); color:var(--code-fg); padding:1rem 1.2rem; border-radius:8px; overflow-x:auto; font-family:"Courier New", monospace; font-size:0.85rem; white-space:pre; line-height:1.5; }
+table.ref { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.88rem; }
+table.ref th, table.ref td { border:1px solid #E0E0E0; padding:0.5rem 0.7rem; text-align:left; vertical-align:top; }
+table.ref th { background:var(--bg-card); }
+.card { background:var(--bg-card); border-radius:10px; padding:1.2rem 1.4rem; margin:1.2rem 0; }
+.note { background:#FAEEDA; border-left:4px solid var(--gold); padding:0.8rem 1.1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.note strong { color:#633806; }
+.info { background:#E6F1FB; border-left:4px solid #378ADD; padding:0.8rem 1.1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.crit-badge { display:inline-block; padding:0.2rem 0.6rem; border-radius:4px; font-size:0.72rem; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:white; }
+.badge-p3 { background:var(--teal); }
+.badge-m2 { background:var(--gold); }
+.badge-d2 { background:var(--navy); }
+.exo-item { margin-bottom:1.2rem; }
+.exo-item label { display:block; font-weight:600; margin-bottom:0.4rem; }
+.exo-item textarea, .exo-item input[type=text] { width:100%; font-family:"Courier New", monospace; font-size:0.88rem; padding:0.55rem 0.75rem; border:1px solid #CCCCCC; border-radius:6px; resize:vertical; }
+.exo-item textarea { min-height:50px; }
+.q-list { counter-reset:q; list-style:none; padding:0; margin:0.6rem 0; }
+.q-list li { counter-increment:q; position:relative; padding:0.4rem 0 0.4rem 2rem; font-size:0.92rem; }
+.q-list li::before { content:counter(q); position:absolute; left:0; top:0.4rem; width:1.4rem; height:1.4rem; background:var(--teal); color:white; border-radius:50%; font-size:0.75rem; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.name-field { margin:1.5rem 0; }
+.name-field label { display:block; font-weight:700; margin-bottom:0.4rem; }
+.name-field input { width:100%; max-width:400px; padding:0.7rem 0.9rem; border:1px solid #CCCCCC; border-radius:6px; font-size:1rem; }
+.send-box { background:#FAEEDA; border-radius:10px; padding:1.5rem; text-align:center; margin:2.5rem 0; }
+.send-btn { background:var(--teal); color:white; border:none; padding:0.9rem 2rem; border-radius:8px; font-size:1.05rem; font-weight:700; cursor:pointer; margin-top:0.8rem; }
+.send-btn:hover { background:var(--cyan); }
+.send-note { font-size:0.85rem; color:#633806; margin-top:0.7rem; }
+.error-msg { color:#A32D2D; font-size:0.9rem; margin-top:0.6rem; display:none; }
+footer { text-align:center; padding:2rem; color:var(--muted); font-size:0.85rem; }
+@media (max-width:800px) { .layout { grid-template-columns:1fr; } nav.toc { position:static; max-height:none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">UNIT 1 · LO2 · ACTIVITÉS</div>
+  <h1>Lecture de code & Exercices</h1>
+  <p>Analyser, comparer et évaluer des codes sources qui implémentent les paradigmes procédural, orienté-objet et événementiel.</p>
+</header>
+
+<div class="layout">
+  <nav class="toc">
+    <div class="toc-title">Sommaire</div>
+    <div class="toc-part">Lecture de code</div>
+    <a class="toc-link" href="#lecture1">Lecture 1 — Reconnaître les paradigmes</a>
+    <a class="toc-link" href="#lecture2">Lecture 2 — Comparer (M2)</a>
+    <a class="toc-link" href="#lecture3">Lecture 3 — Évaluer (D2)</a>
+    <div class="toc-part">Exercices</div>
+    <a class="toc-link" href="#exo1">Ex1 — Identifier</a>
+    <a class="toc-link" href="#exo2">Ex2 — Comparer</a>
+    <a class="toc-link" href="#exo3">Ex3 — Réécrire</a>
+    <a class="toc-link" href="#exo4">Ex4 — Évaluer</a>
+    <a class="toc-link" href="#envoi">Envoyer mes réponses</a>
+  </nav>
+
+  <main>
+
+    <div class="info">
+      <strong>Rappel des critères couverts :</strong><br>
+      <span class="crit-badge badge-p3">P3</span> Discuter des paradigmes et de leurs relations.<br>
+      <span class="crit-badge badge-m2">M2</span> Comparer les paradigmes dans un code source donné.<br>
+      <span class="crit-badge badge-d2">D2</span> Évaluer de façon critique un code qui implémente les trois paradigmes.
+    </div>
+
+    <h2 class="section-title" id="lecture1">Lecture 1 — Reconnaître les paradigmes <span class="crit-badge badge-p3">P3</span></h2>
+    <p>Voici trois extraits de code. Pour chacun, identifie le ou les paradigmes utilisés et justifie ta réponse en citant des éléments précis du code.</p>
+
+    <h3 class="sub">Extrait A</h3>
+    <pre class="code">double calculerTVA(double prixHT) {
+    return prixHT * 0.2;
+}
+
+double calculerPrixTTC(double prixHT) {
+    return prixHT + calculerTVA(prixHT);
+}
+
+afficher(calculerPrixTTC(100));</pre>
+
+    <h3 class="sub">Extrait B</h3>
+    <pre class="code">public class Facture {
+    private double prixHT;
+    private double tva = 0.2;
+
+    public Facture(double prixHT) {
+        this.prixHT = prixHT;
+    }
+
+    public double calculerTVA() {
+        return prixHT * tva;
+    }
+
+    public double calculerPrixTTC() {
+        return prixHT + calculerTVA();
+    }
+}</pre>
+
+    <h3 class="sub">Extrait C</h3>
+    <pre class="code">boutonValider.addActionListener(e -> {
+    Facture f = new Facture(saisirPrix());
+    afficher(f.calculerPrixTTC());
+});</pre>
+
+    <div class="card">
+      <div class="exo-item">
+        <label>Extrait A — quel(s) paradigme(s) ? Justifie.</label>
+        <textarea data-q="lecA" style="min-height:70px;"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>Extrait B — quel(s) paradigme(s) ? Justifie.</label>
+        <textarea data-q="lecB" style="min-height:70px;"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>Extrait C — quel(s) paradigme(s) ? Justifie.</label>
+        <textarea data-q="lecC" style="min-height:70px;"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>Quelle relation observes-tu entre les trois extraits ? Peut-on dire qu'ils forment ensemble une seule application ?</label>
+        <textarea data-q="lecRelation" style="min-height:70px;"></textarea>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="lecture2">Lecture 2 — Comparer les paradigmes dans un code <span class="crit-badge badge-m2">M2</span></h2>
+    <p>Voici deux versions du même programme : un distributeur qui calcule un prix avec remise. Compare-les.</p>
+
+    <h3 class="sub">Version procédurale</h3>
+    <pre class="code">double calculerTotal(double prix, int quantite) {
+    double total = prix * quantite;
+    if (quantite >= 20) {
+        total = total * 0.93;
+    } else if (quantite >= 11) {
+        total = total * 0.96;
+    } else if (quantite >= 5) {
+        total = total * 0.975;
+    }
+    return total;
+}
+
+afficher(calculerTotal(10, 15));</pre>
+
+    <h3 class="sub">Version orientée-objet</h3>
+    <pre class="code">public class Commande {
+    private double prixUnitaire;
+    private int quantite;
+
+    public Commande(double prixUnitaire, int quantite) {
+        this.prixUnitaire = prixUnitaire;
+        this.quantite = quantite;
+    }
+
+    public double getTotalBrut() {
+        return prixUnitaire * quantite;
+    }
+
+    public double getTauxRemise() {
+        if (quantite >= 20) return 0.07;
+        if (quantite >= 11) return 0.04;
+        if (quantite >= 5)  return 0.025;
+        return 0;
+    }
+
+    public double getTotalNet() {
+        return getTotalBrut() * (1 - getTauxRemise());
+    }
+}</pre>
+
+    <div class="card">
+      <div class="exo-item">
+        <label>Compare les deux versions sur ces 4 critères : organisation, réutilisation, testabilité, évolutivité.</label>
+        <textarea data-q="lec2Compar" style="min-height:120px;"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>Dans quel cas la version procédurale est-elle <em>plus</em> adaptée que la version orientée-objet ?</label>
+        <textarea data-q="lec2Cas" style="min-height:70px;"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>La version orientée-objet utilise-t-elle du code procédural ? Où exactement ?</label>
+        <textarea data-q="lec2Proc" style="min-height:70px;"></textarea>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="lecture3">Lecture 3 — Évaluer de façon critique <span class="crit-badge badge-d2">D2</span></h2>
+    <p>Voici un code complet qui utilise les trois paradigmes. Ton rôle : l'évaluer de façon critique et proposer des améliorations.</p>
+
+    <pre class="code">public class GestionClub {
+
+    private ArrayList&lt;String&gt; membres = new ArrayList&lt;&gt;();
+
+    public void afficherMenu() {
+        System.out.println("1. Ajouter un membre");
+        System.out.println("2. Afficher les membres");
+    }
+
+    public void ajouterMembre(String nom) {
+        if (nom != null && !nom.isEmpty()) {
+            if (nom.length() &lt; 50) {
+                if (!membres.contains(nom)) {
+                    membres.add(nom);
+                    System.out.println("Ajouté : " + nom);
+                } else {
+                    System.out.println("Déjà présent");
+                }
+            } else {
+                System.out.println("Nom trop long");
+            }
+        } else {
+            System.out.println("Nom invalide");
+        }
+    }
+
+    public void afficherMembres() {
+        for (int i = 0; i &lt; membres.size(); i++) {
+            System.out.println(i + ". " + membres.get(i));
+        }
+    }
+}
+
+// Dans la fenêtre principale :
+boutonAjouter.addActionListener(e -&gt; {
+    GestionClub g = new GestionClub();
+    g.ajouterMembre(fieldNom.getText());
+    g.afficherMembres();
+});</pre>
+
+    <div class="card">
+      <div class="exo-item">
+        <label>a) Identifie dans ce code chaque paradigme (procédural / OO / événementiel) et cite les lignes concernées.</label>
+        <textarea data-q="lec3Ident" style="min-height:100px;"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>b) Critique de structure : que penses-tu de la méthode <code>ajouterMembre</code> ? Y a-t-il un problème de lisibilité ?</label>
+        <textarea data-q="lec3Crit1" style="min-height:90px;"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>c) Critique d'architecture : le bouton crée un <code>new GestionClub()</code> à chaque clic. Quel est le problème ?</label>
+        <textarea data-q="lec3Crit2" style="min-height:90px;"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>d) Critique de modèle : les membres sont stockés en <code>String</code>. Quelle serait une meilleure approche en POO ?</label>
+        <textarea data-q="lec3Crit3" style="min-height:90px;"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>e) Propose 3 améliorations concrètes et hiérarchise-les par ordre d'importance.</label>
+        <textarea data-q="lec3Recommand" style="min-height:110px;"></textarea>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="exo1">Exercice 1 — Identifier le paradigme dominant</h2>
+    <p>Pour chaque situation décrite, indique le paradigme principalement concerné (procédural, OO, événementiel) et explique en une phrase.</p>
+
+    <table class="ref">
+      <tr><th>#</th><th>Situation</th><th>Paradigme dominant</th></tr>
+      <tr><td>1</td><td>Un script qui lit un fichier CSV et en calcule la moyenne</td><td><input type="text" data-q="ex1-1" style="width:100%; border:1px solid #CCC; border-radius:4px; padding:0.3rem;"></td></tr>
+      <tr><td>2</td><td>Un jeu où chaque personnage a ses propres attributs et méthodes</td><td><input type="text" data-q="ex1-2" style="width:100%; border:1px solid #CCC; border-radius:4px; padding:0.3rem;"></td></tr>
+      <tr><td>3</td><td>Un formulaire web qui réagit au clic d'un bouton</td><td><input type="text" data-q="ex1-3" style="width:100%; border:1px solid #CCC; border-radius:4px; padding:0.3rem;"></td></tr>
+      <tr><td>4</td><td>Une application bancaire avec des clients, des comptes, des transactions</td><td><input type="text" data-q="ex1-4" style="width:100%; border:1px solid #CCC; border-radius:4px; padding:0.3rem;"></td></tr>
+      <tr><td>5</td><td>Un serveur web qui attend des requêtes HTTP</td><td><input type="text" data-q="ex1-5" style="width:100%; border:1px solid #CCC; border-radius:4px; padding:0.3rem;"></td></tr>
+    </table>
+
+    <div class="exo-item">
+      <label>Justifie tes deux réponses les plus difficiles à trancher :</label>
+      <textarea data-q="ex1Justif" style="min-height:80px;"></textarea>
+    </div>
+
+    <h2 class="section-title" id="exo2">Exercice 2 — Comparer deux codes</h2>
+    <p>Voici deux façons de calculer la cotisation d'un membre en fonction de son âge (moins de 18 : 30 €, moins de 60 : 60 €, sinon 40 €).</p>
+
+    <pre class="code">// Version A — procédurale
+double cotisation(int age) {
+    if (age &lt; 18) return 30;
+    if (age &lt; 60) return 60;
+    return 40;
+}
+
+// Version B — orientée-objet
+public class Membre {
+    private int age;
+    public Membre(int age) { this.age = age; }
+    public double cotisation() {
+        if (age &lt; 18) return 30;
+        if (age &lt; 60) return 60;
+        return 40;
+    }
+}</pre>
+
+    <div class="card">
+      <div class="exo-item">
+        <label>Dresse un tableau comparatif en 5 lignes : structure, données, testabilité, évolutivité, lisibilité.</label>
+        <textarea data-q="ex2Tableau" style="min-height:120px;"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>Ajoute maintenant une règle : « les membres de plus de 80 ans paient 0 € ». Combien de lignes faut-il modifier dans chaque version ?</label>
+        <textarea data-q="ex2Modif" style="min-height:70px;"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>Conclus : à partir de quel niveau de complexité la version orientée-objet devient-elle plus avantageuse ?</label>
+        <textarea data-q="ex2Concl" style="min-height:70px;"></textarea>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="exo3">Exercice 3 — Réécrire dans un autre paradigme</h2>
+    <p>Prends ce code procédural et réécris-le en orienté-objet, puis ajoute un gestionnaire événementiel qui déclenche l'affichage.</p>
+
+    <pre class="code">int[] notes = new int[5];
+int somme = 0;
+for (int i = 0; i &lt; 5; i++) {
+    notes[i] = saisir();
+    somme += notes[i];
+}
+double moyenne = (double) somme / 5;
+if (moyenne &gt;= 10) {
+    afficher("Admis");
+} else {
+    afficher("Recalé");
+}</pre>
+
+    <div class="exo-item">
+      <label>Ta version orientée-objet :</label>
+      <textarea data-q="ex3OO" style="min-height:160px;"></textarea>
+    </div>
+    <div class="exo-item">
+      <label>Ajoute maintenant une couche événementielle : un bouton "Calculer" qui déclenche le calcul et l'affichage.</label>
+      <textarea data-q="ex3Evnt" style="min-height:100px;"></textarea>
+    </div>
+    <div class="exo-item">
+      <label>Quel paradigme a le plus bénéficié de la réécriture ? Pourquoi ?</label>
+      <textarea data-q="ex3Justif" style="min-height:70px;"></textarea>
+    </div>
+
+    <h2 class="section-title" id="exo4">Exercice 4 — Évaluer de façon critique (D2)</h2>
+    <p>Voici un code volontairement <em>imparfait</em>. Ton rôle est de l'évaluer sur les 4 critères vus en cours, puis de proposer une version corrigée.</p>
+
+    <pre class="code">public class App {
+    public static String[] data = new String[100];    // variable publique
+    public static int count = 0;
+
+    public static void ajouter() {
+        String nom = javax.swing.JOptionPane.showInputDialog("Nom ?");
+        if (nom != null &amp;&amp; nom.length() &gt; 0) {
+            if (count &lt; 100) {
+                data[count] = nom;
+                count = count + 1;
+                System.out.println("Ajouté: " + nom);
+            } else {
+                System.out.println("Plein");
+            }
+        } else {
+            System.out.println("Vide");
+        }
+    }
+
+    public static void main(String[] args) {
+        while (true) {
+            String choix = javax.swing.JOptionPane.showInputDialog("1=ajouter, 2=quitter");
+            if ("1".equals(choix)) ajouter();
+            if ("2".equals(choix)) break;
+        }
+    }
+}</pre>
+
+    <div class="card">
+      <div class="exo-item">
+        <label><strong>a) Structure :</strong> l'application utilise-t-elle correctement chaque paradigme ? Y a-t-il un paradigme manquant ou mal utilisé ?</label>
+        <textarea data-q="ex4a" style="min-height:110px;"></textarea>
+      </div>
+      <div class="exo-item">
+        <label><strong>b) Encapsulation :</strong> que penses-tu de <code>public static String[] data</code> ?</label>
+        <textarea data-q="ex4b" style="min-height:90px;"></textarea>
+      </div>
+      <div class="exo-item">
+        <label><strong>c) Responsabilité unique :</strong> la méthode <code>ajouter()</code> fait-elle une seule chose ? Que faudrait-il séparer ?</label>
+        <textarea data-q="ex4c" style="min-height:90px;"></textarea>
+      </div>
+      <div class="exo-item">
+        <label><strong>d) Robustesse :</strong> cite 3 situations où ce code pourrait mal se comporter.</label>
+        <textarea data-q="ex4d" style="min-height:90px;"></textarea>
+      </div>
+      <div class="exo-item">
+        <label><strong>e) Recommandations :</strong> propose au moins 4 améliorations concrètes, classées par ordre d'impact.</label>
+        <textarea data-q="ex4e" style="min-height:130px;"></textarea>
+      </div>
+      <div class="exo-item">
+        <label><strong>f) Verdict critique :</strong> en une phrase, évalue la qualité globale du code et ce qui fait sa plus grande faiblesse.</label>
+        <textarea data-q="ex4f" style="min-height:70px;"></textarea>
+      </div>
+    </div>
+
+    <div class="name-field" id="envoi">
+      <label>Nom, prénom</label>
+      <input type="text" id="nomEleve" placeholder="Votre nom et prénom">
+    </div>
+
+    <div class="send-box">
+      <p style="margin:0;font-weight:600;">Une fois vos réponses complétées :</p>
+      <button class="send-btn" onclick="envoyer()">Envoyer mes réponses à Mme Mbi</button>
+      <p class="error-msg" id="errMsg">Merci d'indiquer votre nom avant d'envoyer.</p>
+      <p class="send-note">Ouvre votre application mail habituelle, avec vos réponses déjà remplies.</p>
+    </div>
+
+  </main>
+</div>
+
+<footer>Unit 1 — Programming · École Schulz Genève · LO2 — Lecture de code et exercices</footer>
+
+<script>
+function envoyer() {
+  const nom = document.getElementById("nomEleve").value.trim();
+  const errMsg = document.getElementById("errMsg");
+  if (!nom) { errMsg.style.display = "block"; return; }
+  errMsg.style.display = "none";
+
+  let corps = "Réponses de " + nom + " — LO2 (Paradigmes)\n";
+
+  corps += "\n=== LECTURE 1 — Reconnaître (P3) ===\n";
+  ["lecA", "lecB", "lecC", "lecRelation"].forEach(function(q) {
+    const el = document.querySelector('[data-q="' + q + '"]');
+    if (el) corps += q + " :\n" + (el.value.trim() || "(non répondu)") + "\n\n";
+  });
+
+  corps += "\n=== LECTURE 2 — Comparer (M2) ===\n";
+  ["lec2Compar", "lec2Cas", "lec2Proc"].forEach(function(q) {
+    const el = document.querySelector('[data-q="' + q + '"]');
+    if (el) corps += q + " :\n" + (el.value.trim() || "(non répondu)") + "\n\n";
+  });
+
+  corps += "\n=== LECTURE 3 — Évaluer (D2) ===\n";
+  ["lec3Ident", "lec3Crit1", "lec3Crit2", "lec3Crit3", "lec3Recommand"].forEach(function(q) {
+    const el = document.querySelector('[data-q="' + q + '"]');
+    if (el) corps += q + " :\n" + (el.value.trim() || "(non répondu)") + "\n\n";
+  });
+
+  corps += "\n=== EX1 — Identifier ===\n";
+  ["ex1-1","ex1-2","ex1-3","ex1-4","ex1-5","ex1Justif"].forEach(function(q) {
+    const el = document.querySelector('[data-q="' + q + '"]');
+    if (el) corps += q + " : " + (el.value.trim() || "(non répondu)") + "\n";
+  });
+
+  corps += "\n=== EX2 — Comparer ===\n";
+  ["ex2Tableau","ex2Modif","ex2Concl"].forEach(function(q) {
+    const el = document.querySelector('[data-q="' + q + '"]');
+    if (el) corps += q + " :\n" + (el.value.trim() || "(non répondu)") + "\n\n";
+  });
+
+  corps += "\n=== EX3 — Réécrire ===\n";
+  ["ex3OO","ex3Evnt","ex3Justif"].forEach(function(q) {
+    const el = document.querySelector('[data-q="' + q + '"]');
+    if (el) corps += q + " :\n" + (el.value.trim() || "(non répondu)") + "\n\n";
+  });
+
+  corps += "\n=== EX4 — Évaluer (D2) ===\n";
+  ["ex4a","ex4b","ex4c","ex4d","ex4e","ex4f"].forEach(function(q) {
+    const el = document.querySelector('[data-q="' + q + '"]');
+    if (el) corps += q + " :\n" + (el.value.trim() || "(non répondu)") + "\n\n";
+  });
+
+  const sujet = "LO2 Paradigmes - " + nom;
+  const lien = "mailto:t.mbi@ecole-schulz.ch?subject=" + encodeURIComponent(sujet) + "&body=" + encodeURIComponent(corps);
+  window.location.href = lien;
+}
+</script>
+
+</body>
+</html>
