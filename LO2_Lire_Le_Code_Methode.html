@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LO2 — Apprendre à lire le code étape par étape | Unit 1</title>
+<style>
+:root { --teal:#0D7377; --cyan:#14A3C7; --mint:#32E0C4; --ink:#1B2B2B; --muted:#5A6B6B; --bg-card:#F7F9F8; --code-bg:#1E2B2B; --code-fg:#E1F5EE; --gold:#BA7517; --navy:#16294D; --purple:#6D28D9; --success:#085041; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system, Segoe UI, Calibri, sans-serif; color:var(--ink); background:#FFFFFF; line-height:1.65; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+header { background:linear-gradient(135deg, var(--teal) 0%, var(--cyan) 100%); color:white; padding:2.5rem 2rem; }
+header .kicker { font-size:0.85rem; letter-spacing:0.05em; color:var(--mint); font-weight:600; }
+header h1 { margin:0.5rem 0 0.3rem; font-size:1.9rem; }
+header p { margin:0; color:#BFEFE9; font-size:1rem; max-width:850px; }
+.layout { display:grid; grid-template-columns:260px 1fr; gap:2rem; max-width:1150px; margin:0 auto; padding:2rem; }
+nav.toc { position:sticky; top:1rem; align-self:start; background:var(--bg-card); border-radius:10px; padding:1.1rem; max-height:calc(100vh - 2rem); overflow-y:auto; }
+nav.toc .toc-title { font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); margin-bottom:0.6rem; }
+.toc-link { display:block; padding:0.32rem 0.5rem; border-radius:6px; color:var(--ink); text-decoration:none; font-size:0.85rem; }
+.toc-link:hover { background:#E1F5EE; }
+.toc-part { font-weight:700; color:var(--teal); font-size:0.78rem; text-transform:uppercase; margin:0.9rem 0 0.3rem; letter-spacing:0.04em; }
+main { min-width:0; }
+h2.section-title { font-size:1.3rem; color:var(--teal); border-bottom:2px solid #E1F5EE; padding-bottom:0.4rem; margin-top:2.5rem; }
+h3.sub { font-size:1.05rem; color:var(--cyan); margin:1.4rem 0 0.5rem; }
+.code { background:var(--code-bg); color:var(--code-fg); padding:1rem 1.2rem; border-radius:8px; overflow-x:auto; font-family:"Courier New", monospace; font-size:0.85rem; white-space:pre; line-height:1.5; }
+.code .kw { color:#FF9E64; }
+.code .str { color:#9ECE6A; }
+.code .cmt { color:#7A8B8B; font-style:italic; }
+.code .fn { color:#7AA2F7; }
+.code .num { color:#E0AF68; }
+.code .line { display:inline-block; width:1.8rem; color:#565A6E; user-select:none; }
+table.ref { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.88rem; }
+table.ref th, table.ref td { border:1px solid #E0E0E0; padding:0.5rem 0.7rem; text-align:left; vertical-align:top; }
+table.ref th { background:var(--bg-card); }
+.card { background:var(--bg-card); border-radius:10px; padding:1.2rem 1.4rem; margin:1.2rem 0; }
+.step-box { border:2px solid var(--teal); border-radius:12px; padding:1.4rem 1.6rem; margin:1.6rem 0; background:#FBFDFC; }
+.step-head { display:flex; align-items:center; gap:0.8rem; margin-bottom:0.8rem; }
+.step-badge { width:40px; height:40px; border-radius:50%; background:var(--teal); color:white; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.1rem; flex-shrink:0; }
+.step-head h3 { margin:0; font-size:1.15rem; color:var(--teal); }
+.step-goal { background:#E1F5EE; border-radius:6px; padding:0.6rem 1rem; font-size:0.9rem; margin-bottom:1rem; color:var(--success); }
+.step-goal strong { color:var(--success); }
+.note { background:#FAEEDA; border-left:4px solid var(--gold); padding:0.8rem 1.1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.note strong { color:#633806; }
+.info { background:#E6F1FB; border-left:4px solid #378ADD; padding:0.8rem 1.1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.answer-zone { margin:1rem 0; }
+.answer-zone label { display:block; font-weight:600; margin-bottom:0.4rem; font-size:0.92rem; }
+.answer-zone textarea { width:100%; font-family:"Courier New", monospace; font-size:0.87rem; padding:0.55rem 0.75rem; border:1px solid #CCCCCC; border-radius:6px; resize:vertical; min-height:55px; }
+.answer-zone input[type=text] { width:100%; font-family:"Courier New", monospace; font-size:0.87rem; padding:0.5rem 0.7rem; border:1px solid #CCCCCC; border-radius:6px; }
+.worksheet { background:#FFF; border:2px dashed var(--teal); border-radius:8px; padding:1rem 1.2rem; margin:1rem 0; }
+.worksheet h4 { margin:0 0 0.6rem; color:var(--teal); font-size:0.95rem; }
+.worksheet table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+.worksheet table th, .worksheet table td { border:1px solid #D0D0D0; padding:0.4rem 0.6rem; text-align:left; }
+.worksheet table th { background:#E1F5EE; }
+.worksheet table td input { width:100%; border:none; padding:0.2rem; font-family:"Courier New", monospace; font-size:0.83rem; }
+.worksheet table td input:focus { outline:2px solid var(--cyan); }
+.diagram { background:#FFFFFF; border:1px solid #D0D0D0; border-radius:8px; padding:1.2rem; margin:1rem 0; font-family:"Courier New", monospace; font-size:0.82rem; line-height:1.7; overflow-x:auto; }
+.diagram .box { display:inline-block; border:1.5px solid var(--teal); border-radius:4px; padding:0.15rem 0.5rem; background:#E1F5EE; }
+.diagram .arrow { color:var(--teal); font-weight:bold; }
+.diagram .evt { border-color:var(--purple); background:#EDE9FE; }
+.diagram .proc { border-color:var(--teal); background:#E1F5EE; }
+.diagram .obj { border-color:var(--navy); background:#E6EEF9; }
+.paradigm-chip { display:inline-block; padding:0.15rem 0.55rem; border-radius:999px; font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#fff; }
+.chip-proc { background:var(--teal); }
+.chip-obj { background:var(--navy); }
+.chip-evt { background:var(--purple); }
+.exo-item { margin-bottom:1.2rem; }
+.exo-item label { display:block; font-weight:600; margin-bottom:0.4rem; }
+.exo-item textarea, .exo-item input[type=text] { width:100%; font-family:"Courier New", monospace; font-size:0.88rem; padding:0.55rem 0.75rem; border:1px solid #CCCCCC; border-radius:6px; resize:vertical; }
+.exo-item textarea { min-height:50px; }
+.name-field { margin:1.5rem 0; }
+.name-field label { display:block; font-weight:700; margin-bottom:0.4rem; }
+.name-field input { width:100%; max-width:400px; padding:0.7rem 0.9rem; border:1px solid #CCCCCC; border-radius:6px; font-size:1rem; }
+.send-box { background:#FAEEDA; border-radius:10px; padding:1.5rem; text-align:center; margin:2.5rem 0; }
+.send-btn { background:var(--teal); color:white; border:none; padding:0.9rem 2rem; border-radius:8px; font-size:1.05rem; font-weight:700; cursor:pointer; margin-top:0.8rem; }
+.send-btn:hover { background:var(--cyan); }
+.send-note { font-size:0.85rem; color:#633806; margin-top:0.7rem; }
+.error-msg { color:#A32D2D; font-size:0.9rem; margin-top:0.6rem; display:none; }
+footer { text-align:center; padding:2rem; color:var(--muted); font-size:0.85rem; }
+@media (max-width:800px) { .layout { grid-template-columns:1fr; } nav.toc { position:static; max-height:none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">UNIT 1 · LO2 · MÉTHODE GUIDÉE</div>
+  <h1>Apprendre à lire le code étape par étape</h1>
+  <p>Une méthode en 7 étapes, avec grilles de lecture, cartographies de relations et exercices progressifs. Avant de coder, il faut savoir lire.</p>
+</header>
+
+<div class="layout">
+  <nav class="toc">
+    <div class="toc-title">Sommaire</div>
+    <a class="toc-link" href="#intro">Pourquoi apprendre à lire ?</a>
+    <a class="toc-link" href="#methode">La méthode en 7 étapes</a>
+    <div class="toc-part">Les 7 étapes</div>
+    <a class="toc-link" href="#etape1">1 · Vue d'ensemble</a>
+    <a class="toc-link" href="#etape2">2 · Identifier les entités</a>
+    <a class="toc-link" href="#etape3">3 · Suivre le flux</a>
+    <a class="toc-link" href="#etape4">4 · Cartographier les relations</a>
+    <a class="toc-link" href="#etape5">5 · Repérer les données</a>
+    <a class="toc-link" href="#etape6">6 · Nommer les paradigmes</a>
+    <a class="toc-link" href="#etape7">7 · Évaluer</a>
+    <div class="toc-part">Application</div>
+    <a class="toc-link" href="#exo-final">Exercice final — lire un code complet</a>
+    <a class="toc-link" href="#grille-vierge">Grille de lecture vierge</a>
+    <a class="toc-link" href="#envoi">Envoyer mes réponses</a>
+  </nav>
+
+  <main>
+
+    <h2 class="section-title" id="intro">Pourquoi apprendre à lire le code ?</h2>
+    <p>Quand on débute, on pense que programmer c'est <em>écrire</em>. En réalité, un développeur passe <strong>70 % de son temps à lire du code</strong> — le sien ou celui des autres. Savoir lire un code efficacement est une compétence technique au même titre que savoir en écrire.</p>
+    <p>Lire un code, ce n'est pas le lire ligne par ligne comme un roman. C'est :</p>
+    <ul>
+      <li>Repérer la <strong>structure</strong> (combien de classes ? de fonctions ?).</li>
+      <li>Identifier les <strong>entités</strong> en jeu (objets, variables, événements).</li>
+      <li>Suivre le <strong>flux</strong> : qui appelle qui, dans quel ordre.</li>
+      <li>Dresser la <strong>carte des relations</strong> entre les éléments.</li>
+      <li>Nommer les <strong>paradigmes</strong> présents et leur répartition.</li>
+    </ul>
+    <div class="info">
+      <strong>Objectif de cette activité :</strong> à la fin, tu seras capable de prendre n'importe quel code source et d'en produire une <em>fiche de lecture</em> complète en moins de 15 minutes — ce qui est exactement ce que demandent les critères M2 et D2 du BTEC.
+    </div>
+
+    <h2 class="section-title" id="methode">La méthode en 7 étapes</h2>
+    <table class="ref">
+      <tr><th>Étape</th><th>Question centrale</th><th>Livrable</th></tr>
+      <tr><td><strong>1</strong></td><td>Quelle est la structure générale ?</td><td>Comptage : classes, fonctions, événements</td></tr>
+      <tr><td><strong>2</strong></td><td>Quelles sont les entités ?</td><td>Liste des objets / variables / fonctions</td></tr>
+      <tr><td><strong>3</strong></td><td>Par où passe l'exécution ?</td><td>Flux numéroté du point d'entrée à la sortie</td></tr>
+      <tr><td><strong>4</strong></td><td>Qui appelle qui ? Qui contient qui ?</td><td>Cartographie visuelle des relations</td></tr>
+      <tr><td><strong>5</strong></td><td>Où vont les données ? D'où viennent-elles ?</td><td>Tableau entrées / état / sorties</td></tr>
+      <tr><td><strong>6</strong></td><td>Quels paradigmes sont utilisés ? Où ?</td><td>Code colorié par paradigme</td></tr>
+      <tr><td><strong>7</strong></td><td>Le code est-il cohérent ? Que faudrait-il améliorer ?</td><td>Jugement critique argumenté</td></tr>
+    </table>
+    <p>Chaque étape est détaillée ci-dessous avec un exemple guidé, une grille à remplir et un mini-exercice.</p>
+
+    <!-- ============ ÉTAPE 1 ============ -->
+    <div class="step-box" id="etape1">
+      <div class="step-head">
+        <span class="step-badge">1</span>
+        <h3>Vue d'ensemble — quelle est la structure ?</h3>
+      </div>
+      <div class="step-goal"><strong>🎯 Objectif :</strong> avant de lire quoi que ce soit, compter. Combien de classes, de fonctions, de gestionnaires d'événements ? Cela donne une première idée du paradigme dominant.</div>
+
+      <p><strong>Comment faire :</strong></p>
+      <ol>
+        <li>Compter les <code>class</code> / <code>struct</code> → indice POO.</li>
+        <li>Compter les fonctions libres (non rattachées à une classe) → indice procédural.</li>
+        <li>Repérer les <code>addEventListener</code>, <code>onClick</code>, <code>addActionListener</code>… → indice événementiel.</li>
+        <li>Repérer le <strong>point d'entrée</strong> (<code>main</code>, gestionnaire racine, etc.).</li>
+      </ol>
+
+      <h3 class="sub">Exemple guidé</h3>
+      <pre class="code"><span class="line">1 </span><span class="kw">public class</span> Calculatrice {
+<span class="line">2 </span>    <span class="kw">private int</span> total;
+<span class="line">3 </span>
+<span class="line">4 </span>    <span class="kw">public void</span> <span class="fn">ajouter</span>(<span class="kw">int</span> n) {
+<span class="line">5 </span>        total += n;
+<span class="line">6 </span>    }
+<span class="line">7 </span>
+<span class="line">8 </span>    <span class="kw">public int</span> <span class="fn">getTotal</span>() {
+<span class="line">9 </span>        <span class="kw">return</span> total;
+<span class="line">10 </span>    }
+<span class="line">11 </span>}
+<span class="line">12 </span>
+<span class="line">13 </span><span class="cmt">// Utilisation dans l'interface :</span>
+<span class="line">14 </span>boutonPlus.addActionListener(e -&gt; {
+<span class="line">15 </span>    Calculatrice c = <span class="kw">new</span> Calculatrice();
+<span class="line">16 </span>    c.ajouter(<span class="num">5</span>);
+<span class="line">17 </span>    afficher(c.getTotal());
+<span class="line">18 </span>});</pre>
+
+      <div class="worksheet">
+        <h4>📋 Grille étape 1 — à remplir</h4>
+        <table>
+          <tr><th>Élément compté</th><th>Combien ?</th><th>Où (lignes) ?</th></tr>
+          <tr><td>Classes</td><td><input type="text" data-q="e1-classes"></td><td><input type="text" data-q="e1-classes-l"></td></tr>
+          <tr><td>Fonctions libres (hors classe)</td><td><input type="text" data-q="e1-fn"></td><td><input type="text" data-q="e1-fn-l"></td></tr>
+          <tr><td>Méthodes d'instance</td><td><input type="text" data-q="e1-meth"></td><td><input type="text" data-q="e1-meth-l"></td></tr>
+          <tr><td>Gestionnaires d'événements</td><td><input type="text" data-q="e1-evt"></td><td><input type="text" data-q="e1-evt-l"></td></tr>
+          <tr><td>Point d'entrée</td><td><input type="text" data-q="e1-entry"></td><td><input type="text" data-q="e1-entry-l"></td></tr>
+        </table>
+      </div>
+
+      <div class="answer-zone">
+        <label>D'après ce comptage, quel paradigme te semble dominant ? Justifie en une phrase.</label>
+        <textarea data-q="e1-dominant"></textarea>
+      </div>
+
+      <div class="note"><strong>Réponse attendue :</strong> 1 classe (Calculatrice), 0 fonction libre, 2 méthodes d'instance (<code>ajouter</code>, <code>getTotal</code>), 1 gestionnaire d'événements, point d'entrée = le gestionnaire du bouton. Paradigme dominant = <strong>POO</strong> avec une couche <strong>événementielle</strong>. Le corps des méthodes est procédural.</div>
+    </div>
+
+    <!-- ============ ÉTAPE 2 ============ -->
+    <div class="step-box" id="etape2">
+      <div class="step-head">
+        <span class="step-badge">2</span>
+        <h3>Identifier les entités en jeu</h3>
+      </div>
+      <div class="step-goal"><strong>🎯 Objectif :</strong> lister tout ce qui « existe » dans le code — objets, variables, fonctions, événements. Chaque entité a un nom, un rôle et un type.</div>
+
+      <p><strong>Comment faire :</strong> surligner mentalement (ou physiquement) chaque entité et remplir un tableau à 4 colonnes : <em>nom</em>, <em>type/catégorie</em>, <em>rôle</em>, <em>où elle vit</em>.</p>
+
+      <div class="worksheet">
+        <h4>📋 Grille étape 2 — sur l'exemple Calculatrice</h4>
+        <table>
+          <tr><th>Nom</th><th>Type / catégorie</th><th>Rôle</th><th>Où ?</th></tr>
+          <tr><td><code>Calculatrice</code></td><td>Classe</td><td>Modélise la calculatrice</td><td>Ligne 1</td></tr>
+          <tr><td><code>total</code></td><td><input type="text" data-q="e2-total-t"></td><td><input type="text" data-q="e2-total-r"></td><td><input type="text" data-q="e2-total-o"></td></tr>
+          <tr><td><code>ajouter()</code></td><td><input type="text" data-q="e2-ajouter-t"></td><td><input type="text" data-q="e2-ajouter-r"></td><td><input type="text" data-q="e2-ajouter-o"></td></tr>
+          <tr><td><code>getTotal()</code></td><td><input type="text" data-q="e2-get-t"></td><td><input type="text" data-q="e2-get-r"></td><td><input type="text" data-q="e2-get-o"></td></tr>
+          <tr><td><code>c</code></td><td><input type="text" data-q="e2-c-t"></td><td><input type="text" data-q="e2-c-r"></td><td><input type="text" data-q="e2-c-o"></td></tr>
+          <tr><td><code>boutonPlus</code></td><td><input type="text" data-q="e2-btn-t"></td><td><input type="text" data-q="e2-btn-r"></td><td><input type="text" data-q="e2-btn-o"></td></tr>
+        </table>
+      </div>
+
+      <div class="answer-zone">
+        <label>Y a-t-il une entité « problème » dans ce code ? Explique.</label>
+        <textarea data-q="e2-probleme"></textarea>
+      </div>
+
+      <div class="note"><strong>Réponse attendue :</strong> <code>c</code> est une <em>variable locale</em> au gestionnaire d'événements. Problème : elle est créée à chaque clic → le total repart à 0 à chaque clic ! L'objet <code>Calculatrice</code> n'est pas persistant.</div>
+    </div>
+
+    <!-- ============ ÉTAPE 3 ============ -->
+    <div class="step-box" id="etape3">
+      <div class="step-head">
+        <span class="step-badge">3</span>
+        <h3>Suivre le flux d'exécution</h3>
+      </div>
+      <div class="step-goal"><strong>🎯 Objectif :</strong> reconstituer <em>l'ordre</em> dans lequel les choses se passent, depuis le point d'entrée. Ce n'est pas toujours l'ordre des lignes !</div>
+
+      <p><strong>Comment faire :</strong> partir du point d'entrée et numéroter les étapes. Pour un code événementiel, commencer au moment du déclenchement (le clic).</p>
+
+      <div class="worksheet">
+        <h4>📋 Grille étape 3 — flux du code Calculatrice</h4>
+        <table>
+          <tr><th>#</th><th>Ce qui se passe</th><th>Ligne</th></tr>
+          <tr><td>1</td><td>L'utilisateur clique sur <code>boutonPlus</code></td><td>—</td></tr>
+          <tr><td>2</td><td>Le gestionnaire se déclenche</td><td>L14</td></tr>
+          <tr><td>3</td><td><input type="text" data-q="e3-3"></td><td><input type="text" data-q="e3-3l"></td></tr>
+          <tr><td>4</td><td><input type="text" data-q="e3-4"></td><td><input type="text" data-q="e3-4l"></td></tr>
+          <tr><td>5</td><td><input type="text" data-q="e3-5"></td><td><input type="text" data-q="e3-5l"></td></tr>
+          <tr><td>6</td><td><input type="text" data-q="e3-6"></td><td><input type="text" data-q="e3-6l"></td></tr>
+          <tr><td>7</td><td><input type="text" data-q="e3-7"></td><td><input type="text" data-q="e3-7l"></td></tr>
+        </table>
+      </div>
+
+      <div class="note"><strong>Réponse attendue :</strong> 3. Création de l'objet <code>c</code> (L15) → 4. Appel <code>c.ajouter(5)</code> (L16) → 5. Exécution de <code>total += n</code> (L5) → 6. Appel <code>c.getTotal()</code> (L17) → 7. Retour de <code>total</code> (L9), puis affichage.</div>
+    </div>
+
+    <!-- ============ ÉTAPE 4 ============ -->
+    <div class="step-box" id="etape4">
+      <div class="step-head">
+        <span class="step-badge">4</span>
+        <h3>Cartographier les relations</h3>
+      </div>
+      <div class="step-goal"><strong>🎯 Objectif :</strong> dessiner <em>qui appelle qui</em> et <em>qui contient qui</em>. C'est l'étape la plus importante : elle transforme un mur de lignes en un schéma lisible.</div>
+
+      <p>Il y a 4 types de relations à repérer :</p>
+      <table class="ref">
+        <tr><th>Relation</th><th>Symbole</th><th>Signification</th></tr>
+        <tr><td><strong>Appel</strong></td><td>→</td><td>A appelle la fonction B</td></tr>
+        <tr><td><strong>Contenance</strong></td><td>◆—</td><td>A contient un objet de type B</td></tr>
+        <tr><td><strong>Événement</strong></td><td>⚡→</td><td>L'utilisateur déclenche une action</td></tr>
+        <tr><td><strong>Déclaration</strong></td><td>:</td><td>A déclare la variable de type B</td></tr>
+      </table>
+
+      <h3 class="sub">Cartographie du code Calculatrice</h3>
+      <div class="diagram">
+<span class="box evt">Utilisateur</span> <span class="arrow">⚡→</span> <span class="box evt">boutonPlus</span> <span class="arrow">──</span> <span class="box proc">gestionnaire(e →)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">│</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">├─ crée ◆—</span> <span class="box obj">c : Calculatrice</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">├─ appelle →</span> <span class="box proc">c.ajouter(5)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">└─ appelle →</span> <span class="box proc">c.getTotal()</span><br><br>
+<span class="box obj">c : Calculatrice</span> ◆— <span class="box proc">total : int</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">├─ expose →</span> <span class="box proc">ajouter(int) : void</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">└─ expose →</span> <span class="box proc">getTotal() : int</span>
+      </div>
+
+      <div class="answer-zone">
+        <label>D'après cette carte, quelle relation manque-t-il entre <code>gestionnaire</code> et <code>total</code> ? Pourquoi est-ce un problème ?</label>
+        <textarea data-q="e4-manque"></textarea>
+      </div>
+
+      <div class="note"><strong>Réponse attendue :</strong> il manque une relation de <em>persistance</em> entre le gestionnaire et l'objet <code>c</code>. Comme <code>c</code> est recréé à chaque clic, le <code>total</code> repart à 0 — les données ne survivent pas entre deux clics. Il faudrait déclarer <code>c</code> au niveau de la classe qui contient le bouton, pas dans le gestionnaire.</div>
+    </div>
+
+    <!-- ============ ÉTAPE 5 ============ -->
+    <div class="step-box" id="etape5">
+      <div class="step-head">
+        <span class="step-badge">5</span>
+        <h3>Repérer les données (entrées / état / sorties)</h3>
+      </div>
+      <div class="step-goal"><strong>🎯 Objectif :</strong> comprendre où entrent les données, où elles sont stockées, où elles sortent. Cela permet de voir si le code est <em>pur</em> (sans état) ou <em>stateful</em>.</div>
+
+      <table class="ref">
+        <tr><th>Catégorie</th><th>Question</th><th>Dans l'exemple</th></tr>
+        <tr><td><strong>Entrées</strong></td><td>D'où viennent les données ?</td><td>Paramètre <code>n</code> de <code>ajouter()</code> ; valeur <code>5</code> codée en dur (L16)</td></tr>
+        <tr><td><strong>État</strong></td><td>Que stocke-t-on entre les appels ?</td><td><code>total</code> (attribut d'instance)</td></tr>
+        <tr><td><strong>Sorties</strong></td><td>Que renvoie-t-on / affiche-t-on ?</td><td>Retour de <code>getTotal()</code>, puis <code>afficher(...)</code></td></tr>
+        <tr><td><strong>Durée de vie</strong></td><td>Combien de temps l'état vit-il ?</td><td>Jusqu'à ce que <code>c</code> soit détruit → à chaque clic</td></tr>
+      </table>
+
+      <div class="worksheet">
+        <h4>📋 Grille étape 5 — à compléter</h4>
+        <table>
+          <tr><th>Donnée</th><th>Rôle (entrée / état / sortie)</th><th>Portée (locale / objet / globale)</th></tr>
+          <tr><td><code>n</code> (paramètre)</td><td><input type="text" data-q="e5-n-r"></td><td><input type="text" data-q="e5-n-p"></td></tr>
+          <tr><td><code>total</code></td><td><input type="text" data-q="e5-t-r"></td><td><input type="text" data-q="e5-t-p"></td></tr>
+          <tr><td><code>c</code></td><td><input type="text" data-q="e5-c-r"></td><td><input type="text" data-q="e5-c-p"></td></tr>
+          <tr><td>Retour de <code>getTotal()</code></td><td><input type="text" data-q="e5-r-r"></td><td><input type="text" data-q="e5-r-p"></td></tr>
+        </table>
+      </div>
+
+      <div class="answer-zone">
+        <label>Ce code est-il « pur » (sans état) ou « à état » ? Justifie.</label>
+        <textarea data-q="e5-pur"></textarea>
+      </div>
+
+      <div class="note"><strong>Réponse attendue :</strong> le code est <em>à état</em> (<em>stateful</em>) car il stocke <code>total</code> entre les appels. Mais comme l'objet <code>c</code> est recréé à chaque clic, la durée de vie de l'état est réduite au clic → le code se comporte <em>comme s'il était pur</em>. C'est un bug de conception.</div>
+    </div>
+
+    <!-- ============ ÉTAPE 6 ============ -->
+    <div class="step-box" id="etape6">
+      <div class="step-head">
+        <span class="step-badge">6</span>
+        <h3>Nommer les paradigmes dans le code</h3>
+      </div>
+      <div class="step-goal"><strong>🎯 Objectif :</strong> colorier le code en 3 couleurs selon le paradigme. À la fin, on doit pouvoir dire la proportion de chaque paradigme.</div>
+
+      <div class="diagram">
+<strong>Légende :</strong> <span class="paradigm-chip chip-proc">Procédural</span> <span class="paradigm-chip chip-obj">Orienté-objet</span> <span class="paradigm-chip chip-evt">Événementiel</span>
+      </div>
+
+      <h3 class="sub">Code Calculatrice — coloriage</h3>
+      <pre class="code"><span class="line">1 </span><span class="cmt">/* POO : la classe encapsule l'état */</span>
+<span class="line">2 </span><span class="kw">public class</span> Calculatrice {
+<span class="line">3 </span>    <span class="kw">private int</span> total;                       <span class="cmt">// POO : attribut privé (encapsulation)</span>
+<span class="line">4 </span>
+<span class="line">5 </span>    <span class="kw">public void</span> <span class="fn">ajouter</span>(<span class="kw">int</span> n) {
+<span class="line">6 </span>        total += n;                          <span class="cmt">// PROCÉDURAL : instruction séquentielle</span>
+<span class="line">7 </span>    }
+<span class="line">8 </span>
+<span class="line">9 </span>    <span class="kw">public int</span> <span class="fn">getTotal</span>() {
+<span class="line">10 </span>        <span class="kw">return</span> total;                        <span class="cmt">// PROCÉDURAL : retour simple</span>
+<span class="line">11 </span>    }
+<span class="line">12 </span>}
+<span class="line">13 </span>
+<span class="line">14 </span><span class="cmt">// ÉVÉNEMENTIEL : réaction au clic</span>
+<span class="line">15 </span>boutonPlus.addActionListener(e -&gt; {
+<span class="line">16 </span>    Calculatrice c = <span class="kw">new</span> Calculatrice();     <span class="cmt">// POO : instanciation</span>
+<span class="line">17 </span>    c.ajouter(<span class="num">5</span>);
+<span class="line">18 </span>    afficher(c.getTotal());
+<span class="line">19 </span>});</pre>
+
+      <div class="worksheet">
+        <h4>📋 Grille étape 6 — répartition des paradigmes</h4>
+        <table>
+          <tr><th>Paradigme</th><th>Lignes concernées</th><th>% estimé</th></tr>
+          <tr><td>Procédural</td><td><input type="text" data-q="e6-proc-l"></td><td><input type="text" data-q="e6-proc-p"></td></tr>
+          <tr><td>Orienté-objet</td><td><input type="text" data-q="e6-oo-l"></td><td><input type="text" data-q="e6-oo-p"></td></tr>
+          <tr><td>Événementiel</td><td><input type="text" data-q="e6-evt-l"></td><td><input type="text" data-q="e6-evt-p"></td></tr>
+        </table>
+      </div>
+
+      <div class="answer-zone">
+        <label>Ce code est-il « hybride » ? Justifie en une phrase.</label>
+        <textarea data-q="e6-hybride"></textarea>
+      </div>
+    </div>
+
+    <!-- ============ ÉTAPE 7 ============ -->
+    <div class="step-box" id="etape7">
+      <div class="step-head">
+        <span class="step-badge">7</span>
+        <h3>Évaluer la cohérence globale</h3>
+      </div>
+      <div class="step-goal"><strong>🎯 Objectif :</strong> porter un jugement argumenté. Pas « c'est bien » ou « c'est nul », mais « telle partie est cohérente parce que…, telle autre pose problème parce que… ».</div>
+
+      <p>Utilise les 7 questions de la grille D2 :</p>
+      <ol>
+        <li><strong>Cohérence de la structure :</strong> chaque entité a-t-elle un rôle unique ?</li>
+        <li><strong>Encapsulation :</strong> les attributs sont-ils privés ?</li>
+        <li><strong>Découplage :</strong> le gestionnaire délègue-t-il ou fait-il tout ?</li>
+        <li><strong>Duplication :</strong> y a-t-il du code recopié ?</li>
+        <li><strong>Testabilité :</strong> peut-on tester chaque méthode séparément ?</li>
+        <li><strong>Lisibilité :</strong> les noms sont-ils clairs ?</li>
+        <li><strong>Évolutivité :</strong> ajouter une fonctionnalité nécessite-t-il beaucoup de modifs ?</li>
+      </ol>
+
+      <div class="worksheet">
+        <h4>📋 Grille étape 7 — évaluation</h4>
+        <table>
+          <tr><th>Critère</th><th>Verdict (✔ / ⚠ / ✘)</th><th>Justification</th></tr>
+          <tr><td>Structure</td><td><input type="text" data-q="e7-struct-v"></td><td><input type="text" data-q="e7-struct-j"></td></tr>
+          <tr><td>Encapsulation</td><td><input type="text" data-q="e7-encap-v"></td><td><input type="text" data-q="e7-encap-j"></td></tr>
+          <tr><td>Découplage</td><td><input type="text" data-q="e7-dec-v"></td><td><input type="text" data-q="e7-dec-j"></td></tr>
+          <tr><td>Duplication</td><td><input type="text" data-q="e7-dup-v"></td><td><input type="text" data-q="e7-dup-j"></td></tr>
+          <tr><td>Testabilité</td><td><input type="text" data-q="e7-test-v"></td><td><input type="text" data-q="e7-test-j"></td></tr>
+          <tr><td>Lisibilité</td><td><input type="text" data-q="e7-lis-v"></td><td><input type="text" data-q="e7-lis-j"></td></tr>
+          <tr><td>Évolutivité</td><td><input type="text" data-q="e7-evo-v"></td><td><input type="text" data-q="e7-evo-j"></td></tr>
+        </table>
+      </div>
+
+      <div class="answer-zone">
+        <label>En une phrase : quelle est la plus grande force de ce code, et sa plus grande faiblesse ?</label>
+        <textarea data-q="e7-verdict"></textarea>
+      </div>
+    </div>
+
+    <!-- ============ EXERCICE FINAL ============ -->
+    <h2 class="section-title" id="exo-final">Exercice final — lire un code complet</h2>
+    <p>Applique maintenant les 7 étapes à ce code. Prends ton temps, remplis chaque grille dans l'ordre.</p>
+
+    <h3 class="sub">Code à analyser — GestionClub v2</h3>
+    <pre class="code"><span class="line">1  </span><span class="kw">public class</span> Membre {
+<span class="line">2  </span>    <span class="kw">private</span> String nom;
+<span class="line">3  </span>    <span class="kw">private int</span> age;
+<span class="line">4  </span>    <span class="kw">private boolean</span> actif;
+<span class="line">5  </span>
+<span class="line">6  </span>    <span class="kw">public</span> Membre(String nom, <span class="kw">int</span> age) {
+<span class="line">7  </span>        <span class="kw">this</span>.nom = nom;
+<span class="line">8  </span>        <span class="kw">this</span>.age = age;
+<span class="line">9  </span>        <span class="kw">this</span>.actif = <span class="kw">true</span>;
+<span class="line">10 </span>    }
+<span class="line">11 </span>
+<span class="line">12 </span>    <span class="kw">public int</span> <span class="fn">calculerCotisation</span>() {
+<span class="line">13 </span>        <span class="kw">if</span> (age &lt; <span class="num">18</span>) <span class="kw">return</span> <span class="num">30</span>;
+<span class="line">14 </span>        <span class="kw">if</span> (age &lt; <span class="num">60</span>) <span class="kw">return</span> <span class="num">60</span>;
+<span class="line">15 </span>        <span class="kw">return</span> <span class="num">40</span>;
+<span class="line">16 </span>    }
+<span class="line">17 </span>
+<span class="line">18 </span>    <span class="kw">public void</span> <span class="fn">desactiver</span>() {
+<span class="line">19 </span>        <span class="kw">this</span>.actif = <span class="kw">false</span>;
+<span class="line">20 </span>    }
+<span class="line">21 </span>
+<span class="line">22 </span>    <span class="kw">public boolean</span> <span class="fn">estActif</span>() {
+<span class="line">23 </span>        <span class="kw">return</span> actif;
+<span class="line">24 </span>    }
+<span class="line">25 </span>}
+<span class="line">26 </span>
+<span class="line">27 </span><span class="kw">public class</span> GestionClub {
+<span class="line">28 </span>    <span class="kw">private</span> ArrayList&lt;Membre&gt; membres = <span class="kw">new</span> ArrayList&lt;&gt;();
+<span class="line">29 </span>
+<span class="line">30 </span>    <span class="kw">public void</span> <span class="fn">ajouter</span>(String nom, <span class="kw">int</span> age) {
+<span class="line">31 </span>        Membre m = <span class="kw">new</span> Membre(nom, age);
+<span class="line">32 </span>        membres.add(m);
+<span class="line">33 </span>    }
+<span class="line">34 </span>
+<span class="line">35 </span>    <span class="kw">public double</span> <span class="fn">totalCotisations</span>() {
+<span class="line">36 </span>        <span class="kw">int</span> total = <span class="num">0</span>;
+<span class="line">37 </span>        <span class="kw">for</span> (Membre m : membres) {
+<span class="line">38 </span>            total += m.calculerCotisation();
+<span class="line">39 </span>        }
+<span class="line">40 </span>        <span class="kw">return</span> total;
+<span class="line">41 </span>    }
+<span class="line">42 </span>}
+<span class="line">43 </span>
+<span class="line">44 </span><span class="cmt">// Dans la fenêtre principale :</span>
+<span class="line">45 </span>GestionClub club = <span class="kw">new</span> GestionClub();
+<span class="line">46 </span>
+<span class="line">47 </span>boutonAjouter.addActionListener(e -&gt; {
+<span class="line">48 </span>    String nom = champNom.getText();
+<span class="line">49 </span>    <span class="kw">int</span> age = Integer.parseInt(champAge.getText());
+<span class="line">50 </span>    club.ajouter(nom, age);
+<span class="line">51 </span>    afficher(<span class="str">"Total : "</span> + club.totalCotisations());
+<span class="line">52 </span>});</pre>
+
+    <div class="card">
+      <h4 style="margin-top:0;">📋 Fiche de lecture complète — à remplir</h4>
+
+      <h3 class="sub">1. Vue d'ensemble</h3>
+      <div class="worksheet">
+        <table>
+          <tr><th>Élément</th><th>Combien ?</th></tr>
+          <tr><td>Classes</td><td><input type="text" data-q="fin-cls"></td></tr>
+          <tr><td>Fonctions libres</td><td><input type="text" data-q="fin-fn"></td></tr>
+          <tr><td>Méthodes d'instance</td><td><input type="text" data-q="fin-meth"></td></tr>
+          <tr><td>Gestionnaires d'événements</td><td><input type="text" data-q="fin-evt"></td></tr>
+          <tr><td>Point d'entrée</td><td><input type="text" data-q="fin-entry"></td></tr>
+        </table>
+      </div>
+
+      <h3 class="sub">2. Entités (liste)</h3>
+      <div class="answer-zone">
+        <textarea data-q="fin-entites" style="min-height:100px;" placeholder="Ex : Membre (classe), GestionClub (classe), membres (attribut), club (variable)…"></textarea>
+      </div>
+
+      <h3 class="sub">3. Flux d'exécution (au moment d'un clic)</h3>
+      <div class="answer-zone">
+        <textarea data-q="fin-flux" style="min-height:100px;" placeholder="1. L'utilisateur clique… 2. Le gestionnaire…"></textarea>
+      </div>
+
+      <h3 class="sub">4. Cartographie — décris les relations principales</h3>
+      <div class="answer-zone">
+        <textarea data-q="fin-carto" style="min-height:100px;" placeholder="Ex : GestionClub ◆— membres : ArrayList<Membre> ; Membre expose → calculerCotisation()…"></textarea>
+      </div>
+
+      <h3 class="sub">5. Données (entrées / état / sorties)</h3>
+      <div class="answer-zone">
+        <textarea data-q="fin-donnees" style="min-height:100px;" placeholder="Entrées : … État : … Sorties : …"></textarea>
+      </div>
+
+      <h3 class="sub">6. Paradigmes — lignes et répartition</h3>
+      <div class="answer-zone">
+        <textarea data-q="fin-paradigmes" style="min-height:100px;" placeholder="Procédural : lignes … (…%) ; POO : lignes … (…%) ; Événementiel : lignes … (…%)"></textarea>
+      </div>
+
+      <h3 class="sub">7. Évaluation critique (D2)</h3>
+      <div class="answer-zone">
+        <label>Points forts (au moins 2) :</label>
+        <textarea data-q="fin-forts" style="min-height:70px;"></textarea>
+      </div>
+      <div class="answer-zone">
+        <label>Points faibles (au moins 2) :</label>
+        <textarea data-q="fin-faibles" style="min-height:70px;"></textarea>
+      </div>
+      <div class="answer-zone">
+        <label>3 recommandations concrètes :</label>
+        <textarea data-q="fin-reco" style="min-height:90px;"></textarea>
+      </div>
+      <div class="answer-zone">
+        <label>Verdict final en une phrase :</label>
+        <textarea data-q="fin-verdict" style="min-height:60px;"></textarea>
+      </div>
+    </div>
+
+    <!-- ============ GRILLE VIERGE ============ -->
+    <h2 class="section-title" id="grille-vierge">Grille de lecture vierge — à réutiliser</h2>
+    <p>Imprime ou recopie cette grille. Elle te servira pour n'importe quel code source que tu auras à analyser pendant l'année.</p>
+
+    <div class="card">
+      <h4 style="margin-top:0;">📄 FICHE DE LECTURE — Modèle</h4>
+      <table class="ref">
+        <tr><th>Étape</th><th>À remplir</th></tr>
+        <tr><td><strong>1. Structure</strong></td><td>Classes : ___ | Fonctions : ___ | Événements : ___ | Entrée : ___</td></tr>
+        <tr><td><strong>2. Entités</strong></td><td>Liste : ___</td></tr>
+        <tr><td><strong>3. Flux</strong></td><td>1.___ → 2.___ → 3.___ → …</td></tr>
+        <tr><td><strong>4. Relations</strong></td><td>Carte : A → B, C ◆— D, ⚡ E → F</td></tr>
+        <tr><td><strong>5. Données</strong></td><td>Entrées : ___ | État : ___ | Sorties : ___</td></tr>
+        <tr><td><strong>6. Paradigmes</strong></td><td>Procédural ___% | OO ___% | Événementiel ___%</td></tr>
+        <tr><td><strong>7. Évaluation</strong></td><td>✔ forces : ___ | ⚠ faiblesses : ___ | Reco : ___</td></tr>
+      </table>
+    </div>
+
+    <div class="name-field" id="envoi">
+      <label>Nom, prénom</label>
+      <input type="text" id="nomEleve" placeholder="Votre nom et prénom">
+    </div>
+
+    <div class="send-box">
+      <p style="margin:0;font-weight:600;">Une fois vos réponses complétées :</p>
+      <button class="send-btn" onclick="envoyer()">Envoyer mes réponses à Mme Mbi</button>
+      <p class="error-msg" id="errMsg">Merci d'indiquer votre nom avant d'envoyer.</p>
+      <p class="send-note">Ouvre votre application mail habituelle, avec vos réponses déjà remplies.</p>
+    </div>
+
+  </main>
+</div>
+
+<footer>Unit 1 — Programming · École Schulz Genève · LO2 — Méthode de lecture du code</footer>
+
+<script>
+function envoyer() {
+  const nom = document.getElementById("nomEleve").value.trim();
+  const errMsg = document.getElementById("errMsg");
+  if (!nom) { errMsg.style.display = "block"; return; }
+  errMsg.style.display = "none";
+
+  let corps = "Réponses de " + nom + " — LO2 : Apprendre à lire le code\n\n";
+
+  // Collecte automatique de toutes les réponses
+  const allInputs = document.querySelectorAll('[data-q]');
+  const grouped = {};
+  allInputs.forEach(el => {
+    const q = el.getAttribute('data-q');
+    const prefix = q.split('-')[0];
+    if (!grouped[prefix]) grouped[prefix] = [];
+    const val = (el.value || '').trim() || "(non répondu)";
+    grouped[prefix].push(q + " : " + val);
+  });
+
+  corps += "=== ÉTAPE 1 — Vue d'ensemble ===\n" + (grouped['e1'] || []).join("\n") + "\n\n";
+  corps += "=== ÉTAPE 2 — Entités ===\n" + (grouped['e2'] || []).join("\n") + "\n\n";
+  corps += "=== ÉTAPE 3 — Flux ===\n" + (grouped['e3'] || []).join("\n") + "\n\n";
+  corps += "=== ÉTAPE 4 — Relations ===\n" + (grouped['e4'] || []).join("\n") + "\n\n";
+  corps += "=== ÉTAPE 5 — Données ===\n" + (grouped['e5'] || []).join("\n") + "\n\n";
+  corps += "=== ÉTAPE 6 — Paradigmes ===\n" + (grouped['e6'] || []).join("\n") + "\n\n";
+  corps += "=== ÉTAPE 7 — Évaluation ===\n" + (grouped['e7'] || []).join("\n") + "\n\n";
+
+  corps += "=== EXERCICE FINAL — Fiche de lecture complète ===\n" + (grouped['fin'] || []).join("\n") + "\n";
+
+  const sujet = "LO2 Lire le code - " + nom;
+  const lien = "mailto:t.mbi@ecole-schulz.ch?subject=" + encodeURIComponent(sujet) + "&body=" + encodeURIComponent(corps);
+  window.location.href = lien;
+}
+</script>
+
+</body>
+</html>
