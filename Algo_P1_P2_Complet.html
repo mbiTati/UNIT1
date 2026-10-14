@@ -427,20 +427,151 @@ if (car1 &gt;= car2) {
 
     <h2 class="section-title" id="p2-ascii">Table ASCII</h2>
     <p>Remarque : afin de ne pas trop tenir de place, la table a été "raccourcie" dans les séquences longues.</p>
-    <table class="ascii">
+        <table class="ascii">
       <tr><th>10</th><th>8</th><th>16</th><th>2</th><th>Car.</th><th class="sig">Signification</th></tr>
+
+      <!-- ─── 0 à 31 : caractères de contrôle ─── -->
       <tr><td>0</td><td>0</td><td>00</td><td>0000000</td><td>NUL</td><td class="sig">Null (nul)</td></tr>
+      <tr><td>1</td><td>01</td><td>01</td><td>0000001</td><td>SOH</td><td class="sig">Start of Header (début d'en-tête)</td></tr>
+      <tr><td>2</td><td>02</td><td>02</td><td>0000010</td><td>STX</td><td class="sig">Start of Text (début du texte)</td></tr>
+      <tr><td>3</td><td>03</td><td>03</td><td>0000011</td><td>ETX</td><td class="sig">End of Text (fin du texte)</td></tr>
+      <tr><td>4</td><td>04</td><td>04</td><td>0000100</td><td>EOT</td><td class="sig">End of Transmission (fin de transmission)</td></tr>
+      <tr><td>5</td><td>05</td><td>05</td><td>0000101</td><td>ENQ</td><td class="sig">Enquiry (demande)</td></tr>
+      <tr><td>6</td><td>06</td><td>06</td><td>0000110</td><td>ACK</td><td class="sig">Acknowledge (accusé de réception)</td></tr>
+      <tr><td>7</td><td>07</td><td>07</td><td>0000111</td><td>BEL</td><td class="sig">Bell (sonnerie)</td></tr>
+      <tr><td>8</td><td>010</td><td>08</td><td>0001000</td><td>BS</td><td class="sig">Backspace (retour arrière)</td></tr>
+      <tr><td>9</td><td>011</td><td>09</td><td>0001001</td><td>TAB</td><td class="sig">Horizontal Tab (tabulation horizontale)</td></tr>
+      <tr><td>10</td><td>012</td><td>0A</td><td>0001010</td><td>LF</td><td class="sig">Line Feed (saut de ligne)</td></tr>
+      <tr><td>11</td><td>013</td><td>0B</td><td>0001011</td><td>VT</td><td class="sig">Vertical Tab (tabulation verticale)</td></tr>
+      <tr><td>12</td><td>014</td><td>0C</td><td>0001100</td><td>FF</td><td class="sig">Form Feed (saut de page)</td></tr>
+      <tr><td>13</td><td>015</td><td>0D</td><td>0001101</td><td>CR</td><td class="sig">Carriage Return (retour chariot)</td></tr>
+      <tr><td>14</td><td>016</td><td>0E</td><td>0001110</td><td>SO</td><td class="sig">Shift Out (hors commutation)</td></tr>
+      <tr><td>15</td><td>017</td><td>0F</td><td>0001111</td><td>SI</td><td class="sig">Shift In (en commutation)</td></tr>
+      <tr><td>16</td><td>020</td><td>10</td><td>0010000</td><td>DLE</td><td class="sig">Data Link Escape (échappement de liaison)</td></tr>
+      <tr><td>17</td><td>021</td><td>11</td><td>0010001</td><td>DC1</td><td class="sig">Device Control 1 (contrôle de périphérique 1)</td></tr>
+      <tr><td>18</td><td>022</td><td>12</td><td>0010010</td><td>DC2</td><td class="sig">Device Control 2 (contrôle de périphérique 2)</td></tr>
+      <tr><td>19</td><td>023</td><td>13</td><td>0010011</td><td>DC3</td><td class="sig">Device Control 3 (contrôle de périphérique 3)</td></tr>
+      <tr><td>20</td><td>024</td><td>14</td><td>0010100</td><td>DC4</td><td class="sig">Device Control 4 (contrôle de périphérique 4)</td></tr>
+      <tr><td>21</td><td>025</td><td>15</td><td>0010101</td><td>NAK</td><td class="sig">Negative Acknowledge (accusé négatif)</td></tr>
+      <tr><td>22</td><td>026</td><td>16</td><td>0010110</td><td>SYN</td><td class="sig">Synchronous Idle (attente synchrone)</td></tr>
+      <tr><td>23</td><td>027</td><td>17</td><td>0010111</td><td>ETB</td><td class="sig">End of Transmission Block (fin de bloc)</td></tr>
+      <tr><td>24</td><td>030</td><td>18</td><td>0011000</td><td>CAN</td><td class="sig">Cancel (annulation)</td></tr>
+      <tr><td>25</td><td>031</td><td>19</td><td>0011001</td><td>EM</td><td class="sig">End of Medium (fin de support)</td></tr>
+      <tr><td>26</td><td>032</td><td>1A</td><td>0011010</td><td>SUB</td><td class="sig">Substitute (substitution)</td></tr>
+      <tr><td>27</td><td>033</td><td>1B</td><td>0011011</td><td>ESC</td><td class="sig">Escape (échappement)</td></tr>
+      <tr><td>28</td><td>034</td><td>1C</td><td>0011100</td><td>FS</td><td class="sig">File Separator (séparateur de fichier)</td></tr>
+      <tr><td>29</td><td>035</td><td>1D</td><td>0011101</td><td>GS</td><td class="sig">Group Separator (séparateur de groupe)</td></tr>
+      <tr><td>30</td><td>036</td><td>1E</td><td>0011110</td><td>RS</td><td class="sig">Record Separator (séparateur d'enregistrement)</td></tr>
+      <tr><td>31</td><td>037</td><td>1F</td><td>0011111</td><td>US</td><td class="sig">Unit Separator (séparateur d'unité)</td></tr>
+
+      <!-- ─── 32 à 47 : ponctuation ─── -->
       <tr><td>32</td><td>040</td><td>20</td><td>0100000</td><td>SP</td><td class="sig">Espace (Space)</td></tr>
       <tr><td>33</td><td>041</td><td>21</td><td>0100001</td><td>!</td><td class="sig">Point d'exclamation</td></tr>
+      <tr><td>34</td><td>042</td><td>22</td><td>0100010</td><td>"</td><td class="sig">Guillemet droit</td></tr>
+      <tr><td>35</td><td>043</td><td>23</td><td>0100011</td><td>#</td><td class="sig">Croisillon (aussi Dièse, signe numéro)</td></tr>
+      <tr><td>36</td><td>044</td><td>24</td><td>0100100</td><td>$</td><td class="sig">Dollar</td></tr>
+      <tr><td>37</td><td>045</td><td>25</td><td>0100101</td><td>%</td><td class="sig">Pour cent</td></tr>
+      <tr><td>38</td><td>046</td><td>26</td><td>0100110</td><td>&amp;</td><td class="sig">Esperluette (Et commercial)</td></tr>
+      <tr><td>39</td><td>047</td><td>27</td><td>0100111</td><td>'</td><td class="sig">Apostrophe</td></tr>
+      <tr><td>40</td><td>050</td><td>28</td><td>0101000</td><td>(</td><td class="sig">Parenthèse ouvrante</td></tr>
+      <tr><td>41</td><td>051</td><td>29</td><td>0101001</td><td>)</td><td class="sig">Parenthèse fermante</td></tr>
+      <tr><td>42</td><td>052</td><td>2A</td><td>0101010</td><td>*</td><td class="sig">Astérisque</td></tr>
+      <tr><td>43</td><td>053</td><td>2B</td><td>0101011</td><td>+</td><td class="sig">Plus</td></tr>
+      <tr><td>44</td><td>054</td><td>2C</td><td>0101100</td><td>,</td><td class="sig">Virgule</td></tr>
+      <tr><td>45</td><td>055</td><td>2D</td><td>0101101</td><td>-</td><td class="sig">Trait d'union / Moins</td></tr>
+      <tr><td>46</td><td>056</td><td>2E</td><td>0101110</td><td>.</td><td class="sig">Point</td></tr>
+      <tr><td>47</td><td>057</td><td>2F</td><td>0101111</td><td>/</td><td class="sig">Barre oblique (Slash)</td></tr>
+
+      <!-- ─── 48 à 57 : chiffres ─── -->
       <tr><td>48</td><td>060</td><td>30</td><td>0110000</td><td>0</td><td class="sig">Le chiffre zéro</td></tr>
+      <tr><td>49</td><td>061</td><td>31</td><td>0110001</td><td>1</td><td class="sig">Le chiffre un</td></tr>
+      <tr><td>50</td><td>062</td><td>32</td><td>0110010</td><td>2</td><td class="sig">Le chiffre deux</td></tr>
+      <tr><td>51</td><td>063</td><td>33</td><td>0110011</td><td>3</td><td class="sig">Le chiffre trois</td></tr>
+      <tr><td>52</td><td>064</td><td>34</td><td>0110100</td><td>4</td><td class="sig">Le chiffre quatre</td></tr>
+      <tr><td>53</td><td>065</td><td>35</td><td>0110101</td><td>5</td><td class="sig">Le chiffre cinq</td></tr>
+      <tr><td>54</td><td>066</td><td>36</td><td>0110110</td><td>6</td><td class="sig">Le chiffre six</td></tr>
+      <tr><td>55</td><td>067</td><td>37</td><td>0110111</td><td>7</td><td class="sig">Le chiffre sept</td></tr>
+      <tr><td>56</td><td>070</td><td>38</td><td>0111000</td><td>8</td><td class="sig">Le chiffre huit</td></tr>
       <tr><td>57</td><td>071</td><td>39</td><td>0111001</td><td>9</td><td class="sig">Le chiffre neuf</td></tr>
+
+      <!-- ─── 58 à 64 : ponctuation ─── -->
+      <tr><td>58</td><td>072</td><td>3A</td><td>0111010</td><td>:</td><td class="sig">Deux-points</td></tr>
+      <tr><td>59</td><td>073</td><td>3B</td><td>0111011</td><td>;</td><td class="sig">Point-virgule</td></tr>
       <tr><td>60</td><td>074</td><td>3C</td><td>0111100</td><td>&lt;</td><td class="sig">Inférieur</td></tr>
       <tr><td>61</td><td>075</td><td>3D</td><td>0111101</td><td>=</td><td class="sig">Égal</td></tr>
       <tr><td>62</td><td>076</td><td>3E</td><td>0111110</td><td>&gt;</td><td class="sig">Supérieur</td></tr>
+      <tr><td>63</td><td>077</td><td>3F</td><td>0111111</td><td>?</td><td class="sig">Point d'interrogation</td></tr>
+      <tr><td>64</td><td>0100</td><td>40</td><td>1000000</td><td>@</td><td class="sig">Arrobe (A commercial)</td></tr>
+
+      <!-- ─── 65 à 90 : lettres majuscules ─── -->
       <tr><td>65</td><td>0101</td><td>41</td><td>1000001</td><td>A</td><td class="sig">—</td></tr>
+      <tr><td>66</td><td>0102</td><td>42</td><td>1000010</td><td>B</td><td class="sig">—</td></tr>
+      <tr><td>67</td><td>0103</td><td>43</td><td>1000011</td><td>C</td><td class="sig">—</td></tr>
+      <tr><td>68</td><td>0104</td><td>44</td><td>1000100</td><td>D</td><td class="sig">—</td></tr>
+      <tr><td>69</td><td>0105</td><td>45</td><td>1000101</td><td>E</td><td class="sig">—</td></tr>
+      <tr><td>70</td><td>0106</td><td>46</td><td>1000110</td><td>F</td><td class="sig">—</td></tr>
+      <tr><td>71</td><td>0107</td><td>47</td><td>1000111</td><td>G</td><td class="sig">—</td></tr>
+      <tr><td>72</td><td>0110</td><td>48</td><td>1001000</td><td>H</td><td class="sig">—</td></tr>
+      <tr><td>73</td><td>0111</td><td>49</td><td>1001001</td><td>I</td><td class="sig">—</td></tr>
+      <tr><td>74</td><td>0112</td><td>4A</td><td>1001010</td><td>J</td><td class="sig">—</td></tr>
+      <tr><td>75</td><td>0113</td><td>4B</td><td>1001011</td><td>K</td><td class="sig">—</td></tr>
+      <tr><td>76</td><td>0114</td><td>4C</td><td>1001100</td><td>L</td><td class="sig">—</td></tr>
+      <tr><td>77</td><td>0115</td><td>4D</td><td>1001101</td><td>M</td><td class="sig">—</td></tr>
+      <tr><td>78</td><td>0116</td><td>4E</td><td>1001110</td><td>N</td><td class="sig">—</td></tr>
+      <tr><td>79</td><td>0117</td><td>4F</td><td>1001111</td><td>O</td><td class="sig">—</td></tr>
+      <tr><td>80</td><td>0120</td><td>50</td><td>1010000</td><td>P</td><td class="sig">—</td></tr>
+      <tr><td>81</td><td>0121</td><td>51</td><td>1010001</td><td>Q</td><td class="sig">—</td></tr>
+      <tr><td>82</td><td>0122</td><td>52</td><td>1010010</td><td>R</td><td class="sig">—</td></tr>
+      <tr><td>83</td><td>0123</td><td>53</td><td>1010011</td><td>S</td><td class="sig">—</td></tr>
+      <tr><td>84</td><td>0124</td><td>54</td><td>1010100</td><td>T</td><td class="sig">—</td></tr>
+      <tr><td>85</td><td>0125</td><td>55</td><td>1010101</td><td>U</td><td class="sig">—</td></tr>
+      <tr><td>86</td><td>0126</td><td>56</td><td>1010110</td><td>V</td><td class="sig">—</td></tr>
+      <tr><td>87</td><td>0127</td><td>57</td><td>1010111</td><td>W</td><td class="sig">—</td></tr>
+      <tr><td>88</td><td>0130</td><td>58</td><td>1011000</td><td>X</td><td class="sig">—</td></tr>
+      <tr><td>89</td><td>0131</td><td>59</td><td>1011001</td><td>Y</td><td class="sig">—</td></tr>
       <tr><td>90</td><td>0132</td><td>5A</td><td>1011010</td><td>Z</td><td class="sig">—</td></tr>
+
+      <!-- ─── 91 à 96 : ponctuation ─── -->
+      <tr><td>91</td><td>0133</td><td>5B</td><td>1011011</td><td>[</td><td class="sig">Crochet ouvrant</td></tr>
+      <tr><td>92</td><td>0134</td><td>5C</td><td>1011100</td><td>\</td><td class="sig">Barre oblique inversée (backslash / antislash)</td></tr>
+      <tr><td>93</td><td>0135</td><td>5D</td><td>1011101</td><td>]</td><td class="sig">Crochet fermant</td></tr>
+      <tr><td>94</td><td>0136</td><td>5E</td><td>1011110</td><td>^</td><td class="sig">Accent circonflexe</td></tr>
+      <tr><td>95</td><td>0137</td><td>5F</td><td>1011111</td><td>_</td><td class="sig">Trait bas (underscore / souligné)</td></tr>
+      <tr><td>96</td><td>0140</td><td>60</td><td>1100000</td><td>`</td><td class="sig">Accent grave</td></tr>
+
+      <!-- ─── 97 à 122 : lettres minuscules ─── -->
       <tr><td>97</td><td>0141</td><td>61</td><td>1100001</td><td>a</td><td class="sig">—</td></tr>
+      <tr><td>98</td><td>0142</td><td>62</td><td>1100010</td><td>b</td><td class="sig">—</td></tr>
+      <tr><td>99</td><td>0143</td><td>63</td><td>1100011</td><td>c</td><td class="sig">—</td></tr>
+      <tr><td>100</td><td>0144</td><td>64</td><td>1100100</td><td>d</td><td class="sig">—</td></tr>
+      <tr><td>101</td><td>0145</td><td>65</td><td>1100101</td><td>e</td><td class="sig">—</td></tr>
+      <tr><td>102</td><td>0146</td><td>66</td><td>1100110</td><td>f</td><td class="sig">—</td></tr>
+      <tr><td>103</td><td>0147</td><td>67</td><td>1100111</td><td>g</td><td class="sig">—</td></tr>
+      <tr><td>104</td><td>0150</td><td>68</td><td>1101000</td><td>h</td><td class="sig">—</td></tr>
+      <tr><td>105</td><td>0151</td><td>69</td><td>1101001</td><td>i</td><td class="sig">—</td></tr>
+      <tr><td>106</td><td>0152</td><td>6A</td><td>1101010</td><td>j</td><td class="sig">—</td></tr>
+      <tr><td>107</td><td>0153</td><td>6B</td><td>1101011</td><td>k</td><td class="sig">—</td></tr>
+      <tr><td>108</td><td>0154</td><td>6C</td><td>1101100</td><td>l</td><td class="sig">—</td></tr>
+      <tr><td>109</td><td>0155</td><td>6D</td><td>1101101</td><td>m</td><td class="sig">—</td></tr>
+      <tr><td>110</td><td>0156</td><td>6E</td><td>1101110</td><td>n</td><td class="sig">—</td></tr>
+      <tr><td>111</td><td>0157</td><td>6F</td><td>1101111</td><td>o</td><td class="sig">—</td></tr>
+      <tr><td>112</td><td>0160</td><td>70</td><td>1110000</td><td>p</td><td class="sig">—</td></tr>
+      <tr><td>113</td><td>0161</td><td>71</td><td>1110001</td><td>q</td><td class="sig">—</td></tr>
+      <tr><td>114</td><td>0162</td><td>72</td><td>1110010</td><td>r</td><td class="sig">—</td></tr>
+      <tr><td>115</td><td>0163</td><td>73</td><td>1110011</td><td>s</td><td class="sig">—</td></tr>
+      <tr><td>116</td><td>0164</td><td>74</td><td>1110100</td><td>t</td><td class="sig">—</td></tr>
+      <tr><td>117</td><td>0165</td><td>75</td><td>1110101</td><td>u</td><td class="sig">—</td></tr>
+      <tr><td>118</td><td>0166</td><td>76</td><td>1110110</td><td>v</td><td class="sig">—</td></tr>
+      <tr><td>119</td><td>0167</td><td>77</td><td>1110111</td><td>w</td><td class="sig">—</td></tr>
+      <tr><td>120</td><td>0170</td><td>78</td><td>1111000</td><td>x</td><td class="sig">—</td></tr>
+      <tr><td>121</td><td>0171</td><td>79</td><td>1111001</td><td>y</td><td class="sig">—</td></tr>
       <tr><td>122</td><td>0172</td><td>7A</td><td>1111010</td><td>z</td><td class="sig">—</td></tr>
+
+      <!-- ─── 123 à 127 : ponctuation et contrôle ─── -->
+      <tr><td>123</td><td>0173</td><td>7B</td><td>1111011</td><td>{</td><td class="sig">Accolade ouvrante</td></tr>
+      <tr><td>124</td><td>0174</td><td>7C</td><td>1111100</td><td>|</td><td class="sig">Barre verticale</td></tr>
+      <tr><td>125</td><td>0175</td><td>7D</td><td>1111101</td><td>}</td><td class="sig">Accolade fermante</td></tr>
+      <tr><td>126</td><td>0176</td><td>7E</td><td>1111110</td><td>~</td><td class="sig">Tilde</td></tr>
       <tr><td>127</td><td>0177</td><td>7F</td><td>1111111</td><td>DEL</td><td class="sig">Delete (effacement)</td></tr>
     </table>
     <div class="note">Table raccourcie ici (plages A-Z, a-z, 0-9 abrégées) — table complète disponible auprès du formateur si besoin pour l'Ex5 ci-dessous.</div>
