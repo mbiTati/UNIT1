@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Algo P5 + P6 — Itérations for et while | Unit 1</title>
+<style>
+:root { --teal:#0D7377; --cyan:#14A3C7; --mint:#32E0C4; --ink:#1B2B2B; --muted:#5A6B6B; --bg-card:#F7F9F8; --code-bg:#1E2B2B; --code-fg:#E1F5EE; --gold:#BA7517; --navy:#16294D; --purple:#6D28D9; --success:#085041; --error:#A32D2D; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system, Segoe UI, Calibri, sans-serif; color:var(--ink); background:#FFFFFF; line-height:1.65; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+header { background:var(--teal); color:white; padding:2.5rem 2rem; }
+header .kicker { font-size:0.85rem; letter-spacing:0.05em; color:var(--mint); font-weight:600; }
+header h1 { margin:0.5rem 0 0.3rem; font-size:1.9rem; }
+header p { margin:0; color:#BFEFE9; font-size:1rem; }
+.layout { display:grid; grid-template-columns:250px 1fr; gap:2rem; max-width:1100px; margin:0 auto; padding:2rem; }
+nav.toc { position:sticky; top:1rem; align-self:start; background:var(--bg-card); border-radius:10px; padding:1.1rem; max-height:calc(100vh - 2rem); overflow-y:auto; }
+nav.toc .toc-title { font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); margin-bottom:0.6rem; }
+.toc-link { display:block; padding:0.32rem 0.5rem; border-radius:6px; color:var(--ink); text-decoration:none; font-size:0.85rem; }
+.toc-link:hover { background:#E1F5EE; }
+.toc-part { font-weight:700; color:var(--teal); font-size:0.78rem; text-transform:uppercase; margin:0.9rem 0 0.3rem; letter-spacing:0.04em; }
+main { min-width:0; }
+h2.section-title { font-size:1.2rem; color:var(--teal); border-bottom:2px solid #E1F5EE; padding-bottom:0.4rem; margin-top:2.1rem; }
+h3.part-title { font-size:1.5rem; color:white; background:var(--teal); padding:1rem 1.3rem; border-radius:10px; margin-top:3rem; }
+.code { background:var(--code-bg); color:var(--code-fg); padding:1rem 1.2rem; border-radius:8px; overflow-x:auto; font-family:"Courier New", monospace; font-size:0.87rem; white-space:pre; }
+table.ref { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.88rem; }
+table.ref th, table.ref td { border:1px solid #E0E0E0; padding:0.45rem 0.6rem; text-align:left; }
+table.ref th { background:var(--bg-card); }
+table.trace { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.85rem; }
+table.trace th, table.trace td { border:1px solid #CCCCCC; padding:0.4rem 0.5rem; text-align:left; vertical-align:top; }
+table.trace th { background:var(--bg-card); }
+table.trace td.instr { font-family:"Courier New", monospace; background:#F0F4F8; text-align:center; }
+.card { background:var(--bg-card); border-radius:10px; padding:1.1rem 1.3rem; margin:1rem 0; }
+.note { background:#FAEEDA; border-left:4px solid var(--gold); padding:0.7rem 1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.note strong { color:#633806; }
+.info { background:#E6F1FB; border-left:4px solid #378ADD; padding:0.7rem 1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.exo-item { margin-bottom:1.2rem; }
+.exo-item label { display:block; font-weight:600; margin-bottom:0.4rem; }
+.exo-item textarea, .exo-item input[type=text] { width:100%; font-family:"Courier New", monospace; font-size:0.88rem; padding:0.55rem 0.75rem; border:1px solid #CCCCCC; border-radius:6px; resize:vertical; }
+.exo-item textarea { min-height:45px; }
+.name-field { margin:1.5rem 0; }
+.name-field label { display:block; font-weight:700; margin-bottom:0.4rem; }
+.name-field input { width:100%; max-width:400px; padding:0.7rem 0.9rem; border:1px solid #CCCCCC; border-radius:6px; font-size:1rem; }
+.send-box { background:#FAEEDA; border-radius:10px; padding:1.5rem; text-align:center; margin:2.5rem 0; }
+.send-btn { background:var(--teal); color:white; border:none; padding:0.9rem 2rem; border-radius:8px; font-size:1.05rem; font-weight:700; cursor:pointer; margin-top:0.8rem; }
+.send-btn:hover { background:var(--cyan); }
+.send-note { font-size:0.85rem; color:#633806; margin-top:0.7rem; }
+.error-msg { color:#A32D2D; font-size:0.9rem; margin-top:0.6rem; display:none; }
+footer { text-align:center; padding:2rem; color:var(--muted); font-size:0.85rem; }
+@media (max-width:800px) { .layout { grid-template-columns:1fr; } nav.toc { position:static; max-height:none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">UNIT 1 — PROGRAMMING</div>
+  <h1>Algo P5 + P6 — Texte complet</h1>
+  <p>Structures de contrôle répétitives : l'itérative <code>for</code>, le <code>while</code>, le type <code>boolean</code> et le parcours de chaînes de caractères.</p>
+</header>
+
+<div class="layout">
+  <nav class="toc">
+    <div class="toc-title">Sommaire</div>
+    <div class="toc-part">Partie 5 : La boucle for</div>
+    <a class="toc-link" href="#p5-intro">Introduction</a>
+    <a class="toc-link" href="#p5-syntaxe">Syntaxe et fonctionnement</a>
+    <a class="toc-link" href="#p5-trace">Déroulement pas à pas</a>
+    <a class="toc-link" href="#p5-variantes">Variantes (bornes, pas, décrément)</a>
+    <a class="toc-link" href="#p5-cumuls">Les cumuls dans le for</a>
+    <a class="toc-link" href="#p5-exos">Exercices P5</a>
+    <div class="toc-part">Partie 6 : La boucle while</div>
+    <a class="toc-link" href="#p6-intro">Introduction</a>
+    <a class="toc-link" href="#p6-syntaxe">Syntaxe et règles</a>
+    <a class="toc-link" href="#p6-erreurs">Erreurs classiques</a>
+    <a class="toc-link" href="#p6-boolean">Le type boolean</a>
+    <a class="toc-link" href="#p6-chaines">Parcours de chaînes</a>
+    <a class="toc-link" href="#p6-exos">Exercices P6</a>
+    <a class="toc-link" href="#envoi">Envoyer mes réponses</a>
+  </nav>
+
+  <main>
+
+    <h3 class="part-title">Partie 5 — L'itérative for</h3>
+
+    <h2 class="section-title" id="p5-intro">Introduction</h2>
+    <p>On sait que l'informatique permet (entre autres) de recommencer plusieurs fois une suite d'actions. Jusqu'à maintenant les actions étaient exécutées une fois et le programme s'arrêtait. La boucle <code>for</code> permet de répéter un bloc d'instructions un nombre de fois connu à l'avance.</p>
+
+    <h2 class="section-title" id="p5-syntaxe">Syntaxe et fonctionnement</h2>
+    <pre class="code">for (déclaration et initialisation variable; test variable; incrémentation variable) {
+    actions;
+}</pre>
+    <p><strong>Exemple :</strong></p>
+    <pre class="code">program For {
+    int nb;
+    for (int cpt = 0; cpt < 4; cpt++) {
+        afficher("Saisir un nombre : ");
+        saisir(nb);
+        afficher("Le carré de " + nb + " est : " + nb * nb);
+    }
+}</pre>
+    <div class="info">
+      <strong>Note :</strong> <code>cpt++</code> est un raccourci, il est l'équivalent de <code>cpt = cpt + 1;</code>.
+    </div>
+
+    <p>Cette structure de contrôle a cette caractéristique que l'on doit savoir par avance combien de fois au plus la boucle doit s'exécuter. Elle se déroule de la manière suivante :</p>
+    <ol style="padding-left:1.3rem;">
+      <li>Affectation de valeur basse à variable.</li>
+      <li>Si variable &lt;= valeur haute, exécution de action 1 à actions n.</li>
+      <li>Incrément (ou décrément) de variable de la valeur n.</li>
+      <li>Retour à l'étape 2. Sinon sortie du bloc et exécution des instructions suivant le marqueur de fin de bloc <code>}</code>.</li>
+    </ol>
+    <div class="note">
+      <strong>Remarque :</strong> on parle aussi bien d'<em>itérative</em> que de <em>répétitive</em>.
+    </div>
+
+    <h2 class="section-title" id="p5-trace">Déroulement pas à pas</h2>
+    <p>Dans l'exemple ci-dessus, l'utilisateur devra saisir quatre fois un nombre et verra s'afficher quatre fois son carré. Pour bien comprendre le fonctionnement, nous allons décomposer les différentes étapes.</p>
+
+    <table class="trace">
+      <tr><th style="width:50px;">cpt</th><th style="width:50px;">nb</th><th style="width:200px;">affichage</th><th>commentaire</th></tr>
+      <tr>
+        <td class="instr">0</td><td></td><td></td>
+        <td>Lors de la première entrée dans le for, la variable <code>cpt</code> est déclarée et prend la valeur de la borne inférieure (0). Elle est comparée à 4. Comme 0 &lt; 4, on exécute les instructions du bloc.</td>
+      </tr>
+      <tr>
+        <td class="instr">0</td><td class="instr">5</td><td>Le carré de nb est : 25</td>
+        <td>L'utilisateur a saisi 5. Le programme affiche le texte et le carré de 5.</td>
+      </tr>
+      <tr>
+        <td class="instr">1</td><td></td><td></td>
+        <td>Le pointeur remonte au <code>for</code> et exécute <code>cpt++</code>. cpt vaut 1. Comparé à 4 : 1 &lt; 4, on continue.</td>
+      </tr>
+      <tr>
+        <td class="instr">1</td><td class="instr">9</td><td>Le carré de nb est : 81</td>
+        <td>L'utilisateur a saisi 9. Le programme affiche le carré de 9.</td>
+      </tr>
+      <tr>
+        <td class="instr">2</td><td></td><td></td>
+        <td>Nouvelle incrémentation. cpt vaut 2. 2 &lt; 4, on continue.</td>
+      </tr>
+      <tr>
+        <td class="instr">2</td><td class="instr">2</td><td>Le carré de nb est : 4</td>
+        <td>L'utilisateur a saisi 2. Le programme affiche le carré de 2.</td>
+      </tr>
+      <tr>
+        <td class="instr">3</td><td></td><td></td>
+        <td>Nouvelle incrémentation. cpt vaut 3. 3 &lt; 4, on continue.</td>
+      </tr>
+      <tr>
+        <td class="instr">3</td><td class="instr">8</td><td>Le carré de nb est : 64</td>
+        <td>L'utilisateur a saisi 8. Le programme affiche le carré de 8.</td>
+      </tr>
+      <tr>
+        <td class="instr">4</td><td></td><td></td>
+        <td>Nouvelle incrémentation. cpt vaut 4. 4 n'est plus &lt; à 4, on sort de la boucle.</td>
+      </tr>
+    </table>
+    <div class="note">
+      <strong>Remarque :</strong> on a utilisé <code>cpt</code> pour servir de compteur parce que c'était assez parlant, mais on aurait pu tout aussi bien utiliser <code>nb</code>, <code>i</code> ou <code>x</code>. Les valeurs basses et hautes du for ne sont pas forcément des constantes, mais sont souvent des variables.
+    </div>
+
+    <h2 class="section-title" id="p5-variantes">Variantes (bornes, pas, décrément)</h2>
+
+    <h3 style="font-size:1rem; color:var(--cyan); margin-top:1rem;">Bornes variables</h3>
+    <pre class="code">program ForV2 {
+    int nb;
+    bornInf = 3;
+    borneSup = 7;
+    for(int cpt = bornInf; cpt &lt; borneSup; cpt++) { ... }
+}
+// Ici, l'utilisateur saisit 4 fois (cpt vaudra 3, 4, 5, 6)</pre>
+
+    <h3 style="font-size:1rem; color:var(--cyan); margin-top:1rem;">Borne saisie par l'utilisateur</h3>
+    <pre class="code">program ForV3 {
+    int nb;
+    bornInf = 0;
+    saisir(borneSup);
+    for(int cpt = bornInf; cpt &lt; borneSup; cpt++) { ... }
+}
+// Le nombre d'itérations dépend de l'utilisateur</pre>
+
+    <h3 style="font-size:1rem; color:var(--cyan); margin-top:1rem;">Comparateur &lt;= (inférieur ou égal)</h3>
+    <pre class="code">program ForV4 {
+    int nb;
+    for (int cpt = 0; cpt &lt;= 4; cpt++) { ... }
+}
+// Combien y aura-t-il d'itérations ? (Réponse : 5, de 0 à 4 inclus)</pre>
+
+    <h3 style="font-size:1rem; color:var(--cyan); margin-top:1rem;">Pas d'incrémentation supérieur à 1</h3>
+    <pre class="code">program ForV5 {
+    int nb;
+    for (int cpt = 0; cpt &lt; 4; cpt = cpt + 2) { ... }
+}
+// Itérations : cpt = 0, 2 (donc 2 itérations)</pre>
+
+    <h3 style="font-size:1rem; color:var(--cyan); margin-top:1rem;">Incrémentation négative (décrément)</h3>
+    <pre class="code">program ForV6 {
+    int nb;
+    for (int cpt = 4; cpt &gt; 0; cpt--) { ... }
+}
+// cpt vaut 4, 3, 2, 1 (quand cpt vaut 0, on sort)</pre>
+    <div class="info">
+      <strong>Note :</strong> <code>cpt--</code> est le pendant de <code>cpt++</code> mais au lieu d'incrémenter, il décrémente (équivalent de <code>cpt = cpt - 1</code>).
+    </div>
+
+    <h3 style="font-size:1rem; color:var(--cyan); margin-top:1rem;">Le compteur comme variable de travail</h3>
+    <pre class="code">program ForV7 {
+    int nb;
+    for (int cpt = 4; cpt &gt; 0; cpt--) {
+        afficher("Le carré de " + cpt + " est : " + cpt * cpt);
+    }
+}</pre>
+    <div class="note">
+      <strong>⚠️ Attention :</strong> sauf cas exceptionnel, il ne faut JAMAIS changer la valeur du compteur à l'intérieur de la boucle.
+    </div>
+
+    <h2 class="section-title" id="p5-cumuls">Les cumuls dans le for</h2>
+    <p>Les cumuls sont souvent utilisés dans des situations répétitives. Exemple :</p>
+    <pre class="code">program Notes {
+    int nbNotes;
+    double total, note, moyenne;
+    total = 0;
+    moyenne = 0;
+    afficher("Saisir le nombre de notes : ");
+    saisir(nbNotes);
+    for (int cpt = 1; cpt &lt;= nbNotes; cpt++) {
+        afficher("Saisir la note : ");
+        saisir(note);
+        total = total + note;
+        moyenne = total / cpt;
+    }
+    afficher("La moyenne est de : " + moyenne);
+}</pre>
+
+    <div class="card">
+      <h3 style="margin-top:0;">Pourquoi initialiser <code>moyenne</code> à 0 ?</h3>
+      <p>En effet, <code>moyenne</code> n'est pas une variable utilisée dans un cumul et l'instruction <code>moyenne = total / cpt;</code> ne nécessite aucunement que <code>moyenne</code> ait une valeur. Alors pourquoi cette initialisation ?</p>
+      <p>La réponse se trouve à la sortie du bloc <code>for</code>, dans la ligne <code>afficher("La moyenne est de : " + moyenne);</code>.</p>
+      <p>Le langage considère que les instructions du bloc <code>for</code> pourraient très bien ne jamais être exécutées. En effet, si l'utilisateur saisit <code>0</code> quand on lui demande le nombre de notes, le pointeur de programme ne rentre pas dans la boucle. Au moment où le pointeur tentera d'afficher la valeur de <code>moyenne</code>, il <strong>plantera</strong> car <code>moyenne</code> n'aura jamais été calculée !</p>
+    </div>
+
+    <h2 class="section-title" id="p5-exos">Exercices — Partie 5</h2>
+
+    <div class="card">
+      <p><strong>Ex1 : Déterminer combien de fois chacune de ces itérations seront exécutées et pourquoi :</strong></p>
+      <div class="exo-item">
+        <label>a) <code>for (int i = 0; i &lt;= 5; i++) { afficher(i); }</code></label>
+        <textarea data-q="p5ex1a"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>b) <code>int inf = 1, sup = 6; for (int j = inf; j &lt; sup; j++) { afficher(j); }</code></label>
+        <textarea data-q="p5ex1b"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>c) <code>for (int i = 0; i &lt; 6; i=i+2) { afficher(i); }</code></label>
+        <textarea data-q="p5ex1c"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>d) <code>int inf = 6, sup = 1; for (int j = inf; j &lt;= sup; j--) { afficher(j); }</code></label>
+        <textarea data-q="p5ex1d"></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex2 :</strong> Réaliser un algorithme qui calcule le périmètre d'un carré, d'un cercle, ou d'un triangle équilatéral et ce en donnant la possibilité à l'utilisateur de recommencer autant de fois qu'il le désire.</p>
+      <div class="exo-item"><textarea data-q="p5ex2" style="min-height:120px;"></textarea></div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex3 :</strong> Afficher le carré et le cube de tous les entiers situés entre une borne supérieure et une borne inférieure (bornes saisies au clavier), en commençant par la borne supérieure. Exemple : carré : 16 cube : 64, carré : 9 cube : 27...</p>
+      <div class="exo-item"><textarea data-q="p5ex3" style="min-height:120px;"></textarea></div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex4 :</strong> Afficher la somme et le produit des n entiers d'un nombre n supérieur à zéro. Exemple : pour n = 4 cela donne 1+2+3+4 = 10 et 1*2*3*4 = 24.</p>
+      <div class="exo-item"><textarea data-q="p5ex4" style="min-height:120px;"></textarea></div>
+    </div>
+
+    <h3 class="part-title">Partie 6 — L'itérative while</h3>
+
+    <h2 class="section-title" id="p6-intro">Introduction</h2>
+    <p>La structure répétitive <code>for</code> obligeait à connaître par avance le nombre d'itérations. Il est cependant des cas où il faut pouvoir répéter un traitement de 0 à n fois. C'est très fréquent dans les applications interactives, c'est-à-dire les applications où l'utilisateur dialogue avec l'application.</p>
+
+    <h2 class="section-title" id="p6-syntaxe">Syntaxe et règles</h2>
+    <pre class="code">program Clavier {
+    char caract;
+    Saisir(caract);
+    
+    while (caract != '£') {
+        afficher(caract);
+        saisir(caract);
+    }
+}</pre>
+    <p>Ce programme affiche les caractères saisis tant que l'utilisateur n'a pas tapé le caractère <code>'£'</code>. Si l'utilisateur tape <code>'£'</code> dès la première saisie, la boucle ne s'exécute aucune fois.</p>
+
+    <div class="info">
+      <strong>Structure correcte :</strong> pour fonctionner, cette structure répétitive doit toujours être écrite comme suit :
+      <pre class="code" style="margin-top:0.5rem;">action sur condition;
+
+while (condition vérifiée) {
+    action 1;
+    action n;
+    action sur condition;
+}</pre>
+    </div>
+
+    <p><strong>Les deux règles impératives du while :</strong></p>
+    <ol style="padding-left:1.3rem;">
+      <li>Le <code>while</code> doit être <strong>précédé</strong> de l'action (ou des actions) portant sur la condition.</li>
+      <li>La ou les dernières actions réalisées à l'intérieur du bloc dépendant du <code>while</code> doivent être celle(s) portant sur la condition.</li>
+    </ol>
+    <div class="note">
+      <strong>Important :</strong> toute écriture qui ne respecte pas ces deux impératifs est ERRONÉE, même si apparemment "ça marche". Une erreur de conception provoquera un jour ou l'autre une erreur d'exécution !
+    </div>
+
+    <h2 class="section-title" id="p6-erreurs">Erreurs classiques</h2>
+    
+    <h3 style="font-size:1rem; color:var(--cyan); margin-top:1rem;">Erreur 1 : Oublier la première saisie</h3>
+    <p>Si on supprimait le premier <code>saisir(caract);</code>, tous les cas de figures sont possibles en fonction de ce qu'il y a en mémoire à l'adresse correspondant à la variable. Si la mémoire contient le code de <code>'£'</code>, la boucle ne s'exécutera pas. Si elle contient autre chose, l'utilisateur verra s'afficher un caractère ASCII aléatoire qu'il n'a pas saisi.</p>
+
+    <h3 style="font-size:1rem; color:var(--cyan); margin-top:1rem;">Erreur 2 : Inverser les actions dans le while</h3>
+    <p>Si dans le <code>while</code>, on inverse <code>saisir</code> et <code>afficher</code>, le premier caractère tapé ne s'affichera pas et lorsque le caractère <code>'£'</code> sera saisi, il sera affiché (ce qui n'était pas prévu).</p>
+    <div class="note">
+      <strong>Conclusion :</strong> le programme n'est pas fiable, le pire étant que les erreurs peuvent passer inaperçues. Cette structure est essentielle du traitement de l'information, il faut donc lui accorder une attention toute particulière.
+    </div>
+
+    <h2 class="section-title" id="p6-boolean">Le type boolean (booléen)</h2>
+    <p>Le type <code>boolean</code> est un type de données particulier : il ne comporte que deux valeurs <code>true</code> (VRAI) ou <code>false</code> (FAUX). C'est un type que nous avons déjà vu implicitement : lorsqu'on écrit <code>if (nb &gt; 10)</code>, le système évalue l'expression entre parenthèses. Si oui, il retourne VRAI, sinon FAUX.</p>
+
+    <p><strong>Exemple d'utilisation :</strong></p>
+    <pre class="code">boolean sortie;
+sortie = false;
+
+while (sortie == false) {
+    afficher("Vous êtes dans la boucle while");
+    saisir(sortie);
+}
+afficher("Vous êtes sorti de la boucle");</pre>
+
+    <div class="info">
+      <strong>Note :</strong> on aurait aussi pu écrire <code>while (!sortie)</code>. Cela se lit "tant que non sortie" ou "tant que sortie n'est pas égal à true". C'est une écriture très courante.
+    </div>
+
+    <h2 class="section-title" id="p6-chaines">Parcours de chaînes de caractères</h2>
+    <p>L'exemple ci-dessous affiche successivement toutes les lettres d'une chaîne de caractères :</p>
+    <pre class="code">program Lettres {
+    String chaine, lettre;
+    int longueur, cpt;
+    
+    chaine = "ABCDEFGHIJHLM";
+    longueur = chaine.length();
+    cpt = 0;
+    
+    while (cpt &lt; longueur) {
+        lettre = chaine.substring(cpt, cpt + 1);
+        afficher(lettre);
+        cpt++;
+    }
+}</pre>
+
+    <div class="card">
+      <h3 style="margin-top:0;">Comprendre <code>length()</code> et <code>substring()</code></h3>
+      <p>La méthode <code>length()</code> fournit la longueur d'une chaîne. Dans le cas présent, <code>longueur</code> contiendra 13.</p>
+      <p><strong>Attention à l'indice 0 :</strong> dans la plupart des langages (Java, C#), l'indice qui permet de parcourir une chaîne commence à 0. Donc si une chaîne fait 13 caractères, on ne pourra aller que jusqu'au 12ᵉ (on commence au 0ᵉ).</p>
+      <p><strong>Comprendre <code>substring(cpt, cpt + 1)</code> :</strong> la méthode <code>substring(debut, fin)</code> récupère un sous-ensemble à partir de la position <code>debut</code> jusqu'à la position <code>fin - 1</code>.</p>
+      <p>Donc si on avait écrit <code>chaine.substring(cpt, cpt)</code> avec cpt = 0, on aurait tenté de récupérer de 0 à -1, ce qui aurait provoqué une erreur !</p>
+      <p>Il faut donc bien écrire <code>substring(cpt, cpt + 1)</code> pour récupérer un seul caractère.</p>
+    </div>
+
+    <h3 style="font-size:1rem; color:var(--cyan); margin-top:1rem;">Arrêt anticipé dans une chaîne</h3>
+    <p>Dans l'exemple ci-dessous, on veut s'arrêter de parcourir la chaîne dès que l'on a atteint la lettre F :</p>
+    <pre class="code">program LettresV2 {
+    String chaine, lettre;
+    int longueur, cpt;
+    boolean sortie;
+    
+    chaine = "ABCDEFGHIJHLM";
+    longueur = chaine.length();
+    cpt = 0;
+    sortie = false;
+    
+    while ((cpt &lt; longueur) &amp;&amp; (!sortie)) {
+        lettre = chaine.substring(cpt, cpt + 1);
+        if (lettre.compareTo("F") == 0) {
+            sortie = true;
+        } else {
+            afficher(lettre);
+            cpt++;
+        }
+    }
+}</pre>
+    <div class="info">
+      <strong>Rappel :</strong> <code>ch1.compareTo(ch2)</code> donne -1 si ch1 est inférieure à ch2, 0 si elles sont égales, et 1 si ch1 est supérieure.
+    </div>
+    <p><strong>Que fait ce programme ?</strong> Tant que le compteur est inférieur à la longueur ET que le booléen <code>sortie</code> est à <code>false</code> : récupérer une lettre, la comparer à "F". Si c'est F, basculer <code>sortie</code> à <code>true</code>. Sinon, afficher la lettre et incrémenter le compteur.</p>
+
+    <h2 class="section-title" id="p6-exos">Exercices — Partie 6</h2>
+
+    <div class="card">
+      <p><strong>Ex1 : Analyse de boucle while</strong></p>
+      <p>Voici un extrait de code :</p>
+      <pre class="code">int compteur = 10;
+while (compteur > 0) {
+    afficher(compteur);
+    compteur = compteur - 3;
+}</pre>
+      <div class="exo-item">
+        <label>Quelles valeurs seront affichées à l'écran ? Combien de fois la boucle s'exécute-t-elle ?</label>
+        <textarea data-q="p6ex1"></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex2 : Saisie contrôlée</strong></p>
+      <p>Écrire un programme qui demande à l'utilisateur de saisir un mot de passe. Tant que le mot de passe saisi n'est pas "secret", le programme redemande la saisie. Une fois le bon mot de passe entré, il affiche "Accès autorisé".</p>
+      <div class="exo-item"><textarea data-q="p6ex2" style="min-height:100px;"></textarea></div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex3 : Parcours de chaîne</strong></p>
+      <p>Écrire un algorithme qui compte le nombre de voyelles dans une chaîne de caractères saisie par l'utilisateur. (Indice : utilisez une boucle <code>while</code>, <code>length()</code>, <code>substring()</code> et une condition sur a, e, i, o, u, y).</p>
+      <div class="exo-item"><textarea data-q="p6ex3" style="min-height:150px;"></textarea></div>
+    </div>
+
+    <div class="name-field" id="envoi">
+      <label>Nom, prénom</label>
+      <input type="text" id="nomEleve" placeholder="Votre nom et prénom">
+    </div>
+
+    <div class="send-box">
+      <p style="margin:0;font-weight:600;">Une fois vos réponses complétées :</p>
+      <button class="send-btn" onclick="envoyer()">Envoyer mes réponses à Mme Mbi</button>
+      <p class="error-msg" id="errMsg">Merci d'indiquer votre nom avant d'envoyer.</p>
+      <p class="send-note">Ouvre votre application mail habituelle, avec vos réponses déjà remplies dans le message.</p>
+    </div>
+
+  </main>
+</div>
+
+<footer>Unit 1 — Programming · École Schulz Genève · Algo P5 + P6, texte complet</footer>
+
+<script>
+function envoyer() {
+  const nom = document.getElementById("nomEleve").value.trim();
+  const errMsg = document.getElementById("errMsg");
+  if (!nom) { errMsg.style.display = "block"; return; }
+  errMsg.style.display = "none";
+
+  let corps = "Réponses de " + nom + " — Algo P5 + P6\n\n";
+
+  corps += "=== PARTIE 5 — Exercice 1 ===\n";
+  ["p5ex1a","p5ex1b","p5ex1c","p5ex1d"].forEach(function(q) {
+    const el = document.querySelector('[data-q="' + q + '"]');
+    if (el) corps += q + " : " + (el.value.trim() || "(non répondu)") + "\n";
+  });
+
+  corps += "\n=== PARTIE 5 — Exercice 2 ===\n";
+  corps += (document.querySelector('[data-q="p5ex2"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 5 — Exercice 3 ===\n";
+  corps += (document.querySelector('[data-q="p5ex3"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 5 — Exercice 4 ===\n";
+  corps += (document.querySelector('[data-q="p5ex4"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 6 — Exercice 1 ===\n";
+  corps += (document.querySelector('[data-q="p6ex1"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 6 — Exercice 2 ===\n";
+  corps += (document.querySelector('[data-q="p6ex2"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 6 — Exercice 3 ===\n";
+  corps += (document.querySelector('[data-q="p6ex3"]').value.trim() || "(non répondu)") + "\n";
+
+  const sujet = "Algo P5+P6 - " + nom;
+  const lien = "mailto:t.mbi@ecole-schulz.ch?subject=" + encodeURIComponent(sujet) + "&body=" + encodeURIComponent(corps);
+  window.location.href = lien;
+}
+</script>
+
+</body>
+</html>
