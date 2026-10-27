@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Algo P9 — Procédures et fonctions (2) | Unit 1</title>
+<style>
+:root { --teal:#0D7377; --cyan:#14A3C7; --mint:#32E0C4; --ink:#1B2B2B; --muted:#5A6B6B; --bg-card:#F7F9F8; --code-bg:#1E2B2B; --code-fg:#E1F5EE; --gold:#BA7517; --navy:#16294D; --purple:#6D28D9; --success:#085041; --error:#A32D2D; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system, Segoe UI, Calibri, sans-serif; color:var(--ink); background:#FFFFFF; line-height:1.65; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+header { background:var(--teal); color:white; padding:2.5rem 2rem; }
+header .kicker { font-size:0.85rem; letter-spacing:0.05em; color:var(--mint); font-weight:600; }
+header h1 { margin:0.5rem 0 0.3rem; font-size:1.9rem; }
+header p { margin:0; color:#BFEFE9; font-size:1rem; }
+.layout { display:grid; grid-template-columns:250px 1fr; gap:2rem; max-width:1100px; margin:0 auto; padding:2rem; }
+nav.toc { position:sticky; top:1rem; align-self:start; background:var(--bg-card); border-radius:10px; padding:1.1rem; max-height:calc(100vh - 2rem); overflow-y:auto; }
+nav.toc .toc-title { font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); margin-bottom:0.6rem; }
+.toc-link { display:block; padding:0.32rem 0.5rem; border-radius:6px; color:var(--ink); text-decoration:none; font-size:0.85rem; }
+.toc-link:hover { background:#E1F5EE; }
+.toc-part { font-weight:700; color:var(--teal); font-size:0.78rem; text-transform:uppercase; margin:0.9rem 0 0.3rem; letter-spacing:0.04em; }
+main { min-width:0; }
+h2.section-title { font-size:1.2rem; color:var(--teal); border-bottom:2px solid #E1F5EE; padding-bottom:0.4rem; margin-top:2.1rem; }
+h3.part-title { font-size:1.5rem; color:white; background:var(--teal); padding:1rem 1.3rem; border-radius:10px; margin-top:3rem; }
+.code { background:var(--code-bg); color:var(--code-fg); padding:1rem 1.2rem; border-radius:8px; overflow-x:auto; font-family:"Courier New", monospace; font-size:0.87rem; white-space:pre; }
+table.ref { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.88rem; }
+table.ref th, table.ref td { border:1px solid #E0E0E0; padding:0.45rem 0.6rem; text-align:left; }
+table.ref th { background:var(--bg-card); }
+.card { background:var(--bg-card); border-radius:10px; padding:1.1rem 1.3rem; margin:1rem 0; }
+.note { background:#FAEEDA; border-left:4px solid var(--gold); padding:0.7rem 1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.note strong { color:#633806; }
+.info { background:#E6F1FB; border-left:4px solid #378ADD; padding:0.7rem 1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.exo-item { margin-bottom:1.2rem; }
+.exo-item label { display:block; font-weight:600; margin-bottom:0.4rem; }
+.exo-item textarea, .exo-item input[type=text] { width:100%; font-family:"Courier New", monospace; font-size:0.88rem; padding:0.55rem 0.75rem; border:1px solid #CCCCCC; border-radius:6px; resize:vertical; }
+.exo-item textarea { min-height:45px; }
+.name-field { margin:1.5rem 0; }
+.name-field label { display:block; font-weight:700; margin-bottom:0.4rem; }
+.name-field input { width:100%; max-width:400px; padding:0.7rem 0.9rem; border:1px solid #CCCCCC; border-radius:6px; font-size:1rem; }
+.send-box { background:#FAEEDA; border-radius:10px; padding:1.5rem; text-align:center; margin:2.5rem 0; }
+.send-btn { background:var(--teal); color:white; border:none; padding:0.9rem 2rem; border-radius:8px; font-size:1.05rem; font-weight:700; cursor:pointer; margin-top:0.8rem; }
+.send-btn:hover { background:var(--cyan); }
+.send-note { font-size:0.85rem; color:#633806; margin-top:0.7rem; }
+.error-msg { color:#A32D2D; font-size:0.9rem; margin-top:0.6rem; display:none; }
+footer { text-align:center; padding:2rem; color:var(--muted); font-size:0.85rem; }
+@media (max-width:800px) { .layout { grid-template-columns:1fr; } nav.toc { position:static; max-height:none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">UNIT 1 — PROGRAMMING</div>
+  <h1>Algo P9 — Procédures et fonctions (2)</h1>
+  <p>Le passage de paramètres, la signature des sous-programmes, la portée des variables et le passage par valeur.</p>
+</header>
+
+<div class="layout">
+  <nav class="toc">
+    <div class="toc-title">Sommaire</div>
+    <a class="toc-link" href="#p9-probleme">Le problème initial</a>
+    <a class="toc-link" href="#p9-parametres">Le passage de paramètres</a>
+    <a class="toc-link" href="#p9-formels-reels">Paramètres formels vs réels</a>
+    <a class="toc-link" href="#p9-exemples">Exemples de passage</a>
+    <a class="toc-link" href="#p9-procedures">Procédures avec paramètres</a>
+    <a class="toc-link" href="#p9-signature">La signature</a>
+    <a class="toc-link" href="#p9-portee">Visibilité et portée</a>
+    <a class="toc-link" href="#p9-valeur">Passage par valeur</a>
+    <a class="toc-link" href="#p9-exos">Exercices</a>
+    <a class="toc-link" href="#envoi">Envoyer mes réponses</a>
+  </nav>
+
+  <main>
+
+    <h2 class="section-title" id="p9-probleme">Le problème initial</h2>
+    <p>Reprenons notre petit problème de coordonnées de points vu dans la première partie. À l'issue de ce programme on savait que les coordonnées des points 1, 2, 3 et 4 étaient correctes ou non, mais on avait perdu ces coordonnées, or on souhaite les conserver.</p>
+    <p>Si l'on reprend notre application, on pourrait définir autant de couples de variables (ordonnee, abscisse) qu'il y a de points et écrire ceci :</p>
+    <pre class="code">program PointsV2 {
+    saisir(ordonnee1);
+    saisir(abscisse1);
+    point1 = verifie();
+    saisir(ordonnee2);
+    saisir(abscisse2);
+    point2 = verifie();
+    // ...
+}
+
+static boolean verifie() {
+    boolean point;
+    if ((ordonnee >= 0) && (abscisse <= 480) && (abscisse >= 0) && (abscisse <= 640)) {
+        point = true;
+    } else {
+        point = false;
+    }
+    return point;
+}</pre>
+    <div class="note">
+      <strong>Problème :</strong> cela ne fonctionnerait pas car la fonction <code>verifie()</code> ne sait travailler que sur les variables <code>ordonnee</code> et <code>abscisse</code>. Il faudrait que la fonction puisse travailler sur <strong>ses propres variables</strong> tout en récupérant les valeurs de celles qui sont gérées par le programme appelant. Cela existe (oui !), c'est le <strong>passage de paramètres</strong>.
+    </div>
+
+    <h2 class="section-title" id="p9-parametres">Le passage de paramètres</h2>
+    <pre class="code">program Parametres {
+    int ordonnee1, ordonnee2, ordonnee3;
+    int abscisse1, abscisse2, abscisse3;
+    boolean point1, point2, point3;
+
+    saisir(ordonnee1);
+    saisir(abscisse1);
+    point1 = verifie(ordonnee1, abscisse1);
+
+    saisir(ordonnee2);
+    saisir(abscisse2);
+    point2 = verifie(ordonnee2, abscisse2);
+
+    saisir(ordonnee3);
+    saisir(abscisse3);
+    point3 = verifie(ordonnee3, abscisse3);
+}
+
+static boolean verifie(int ordonnee, int abscisse) {
+    boolean point;
+    if ((ordonnee >= 0) && (abscisse <= 480) && (abscisse >= 0) && (abscisse <= 640)) {
+        point = true;
+    } else {
+        point = false;
+    }
+    return point;
+}</pre>
+    <p>La déclaration de la fonction incorpore des paramètres :</p>
+    <pre class="code">static boolean verifie(int ordonnee, int abscisse)</pre>
+    <p>La zone des paramètres est délimitée par les parenthèses et les paramètres ne sont ni plus ni moins que <strong>des variables qui sont déclarées dans cette zone</strong>. On dit que ce sont les <strong>paramètres formels</strong>.</p>
+    <p>Lorsque le programme appelant appelle cette fonction, il le fait en lui passant le contenu des variables indiquées entre les parenthèses :</p>
+    <pre class="code">point1 = verifie(ordonnee1, abscisse1);</pre>
+
+    <h2 class="section-title" id="p9-formels-reels">Paramètres formels vs paramètres réels</h2>
+    <p>Au moment où la fonction est appelée, le programme place à la place des variables, les <strong>valeurs</strong> qui sont contenues dans ces variables. On dit que ce sont les <strong>paramètres réels</strong>.</p>
+    <p>Ainsi si <code>ordonnee1</code> et <code>abscisse1</code> contiennent respectivement 48 et 243, lors de l'appel c'est cette ligne qui est exécutée :</p>
+    <pre class="code">point1 = verifie(48, 243);</pre>
+    <p>Quand la fonction est activée, les variables contenues dans sa zone de paramètres sont initialisées avec les valeurs reçues. Ainsi ce sont les <strong>valeurs</strong> qui circulent entre le programme appelant et la fonction, cela explique que l'on puisse appeler une fonction (ou une procédure) avec des variables différentes :</p>
+    <pre class="code">point1 = verifie(ordonnee2, abscisse2);
+point1 = verifie(ordonnee3, abscisse3);</pre>
+    <div class="info">
+      Une fonction ou une procédure peut être appelée aussi bien par le programme principal que par n'importe quel sous-programme et ce autant de fois que nécessaire. Un sous-programme peut même s'appeler lui-même, cela s'appelle la <strong>récursivité</strong>, cette fonctionnalité sera étudiée plus tard.
+    </div>
+
+    <h2 class="section-title" id="p9-exemples">Exemples de passage de paramètres</h2>
+    <p>Le passage de paramètres ne concerne pas seulement des entiers, il concerne tous les types de données. On peut passer des valeurs par l'intermédiaire de variables ou de constantes.</p>
+    <pre class="code">program Convertir() {
+    double apport, somme;
+    String monnaieSrc, monnaieDest;
+
+    apport = 100;
+    monnaieSrc = "Euros";
+    monnaieDest = "Dollars";
+
+    somme = conversion(apport, monnaieSrc);
+    afficher(apport + " " + monnaieSrc + " font : " + somme + " " + monnaieDest);
+
+    somme = conversion(100, "Dollars");
+    afficher(100 + " Dollars font : " + somme + " Euros");
+}
+
+static double conversion(double montant, String devise) {
+    double resultat;
+    resultat = 0;
+
+    if (devise.compareTo("Euros") == 0) {
+        resultat = montant * 0.86;
+    } else {
+        resultat = montant * 1.17;
+    }
+    return resultat;
+}</pre>
+    
+    <table class="ref">
+      <tr><th>Ligne</th><th>Commentaire</th></tr>
+      <tr><td><code>double conversion(double montant, String devise)</code></td><td>La fonction <code>conversion</code> admet deux paramètres : le premier de type <code>double</code> et le deuxième de type <code>String</code>.</td></tr>
+      <tr><td><code>somme = conversion(apport, monnaieSrc);</code></td><td>L'appel de la fonction se fait avec deux variables (<code>apport</code> et <code>monnaieSrc</code>).</td></tr>
+      <tr><td><code>somme = conversion(100, "Dollars");</code></td><td>L'appel de la fonction se fait avec deux constantes (<code>100</code> et <code>"Dollars"</code>).</td></tr>
+    </table>
+
+    <p>L'exécution du programme <code>Convertir</code> donne l'affichage suivant :</p>
+    <pre class="code">100.0 Euros font : 86.0 Dollars
+100.0 Dollars font : 117.0 Euros</pre>
+
+    <h2 class="section-title" id="p9-procedures">Procédures avec paramètres</h2>
+    <p>Le passage de paramètres ne concerne pas seulement les fonctions, mais aussi les procédures.</p>
+    <p>Pour le moment les procédures ne seront utilisées que pour l'affichage, exemple :</p>
+    <pre class="code">static void affichage(double montant, double conv, String deviseSrc, String deviseDest) {
+    afficher(montant + " " + deviseSrc + " font : " + conv + " " + deviseDest);
+}</pre>
+    <p>Dans le programme principal, son appel se ferait comme suit :</p>
+    <pre class="code">affichage(apport, somme, monnaieSrc, monnaieDest);</pre>
+    <div class="info">
+      Nous verrons plus tard, lorsque nous étudierons la POO, que les procédures peuvent avoir d'autres utilités.
+    </div>
+
+    <h2 class="section-title" id="p9-signature">La signature d'un sous-programme</h2>
+    <p>On aura remarqué que le nom des paramètres formels (ceux définis dans la fonction ou la procédure) et ceux des paramètres réels (variables ou constantes utilisés lors de l'appel) sont totalement indépendants. Par contre il faut absolument respecter ce que l'on appelle la <strong>signature du sous-programme</strong> (procédure ou fonction), à savoir :</p>
+    <ul style="padding-left:1.5rem; margin-bottom:1rem;">
+      <li>le nombre de paramètres,</li>
+      <li>le type de chacun des paramètres,</li>
+      <li>l'ordre des paramètres.</li>
+    </ul>
+    <p>Reprenons la fonction <code>conversion()</code> : sa signature constituée par ses paramètres formels est la suivante :</p>
+    <ul style="padding-left:1.5rem; margin-bottom:1rem;">
+      <li>nombre de paramètres : <strong>deux</strong></li>
+      <li>type du premier paramètre : <strong>double</strong></li>
+      <li>type du second paramètre : <strong>String</strong></li>
+      <li>ordre des paramètres : <strong>double et String</strong></li>
+    </ul>
+    <p>Cela signifie que les appels suivants sont erronés :</p>
+    
+    <table class="ref">
+      <tr><th>Appels</th><th>Commentaires</th></tr>
+      <tr><td><code>somme = conversion("Dollars", 100);</code></td><td>L'ordre des paramètres n'est pas le bon.</td></tr>
+      <tr><td><code>somme = conversion(apport);</code></td><td>Il manque un paramètre.</td></tr>
+      <tr><td><code>somme = conversion(apport, monnaieSrc, monnaieDest);</code></td><td>Il y a trop de paramètres.</td></tr>
+      <tr><td><code>somme = conversion(apport, 'E');</code></td><td>Le type du deuxième paramètre n'est pas le bon (<code>char</code> au lieu de <code>String</code>).</td></tr>
+    </table>
+
+    <h2 class="section-title" id="p9-portee">Visibilité et portée des variables</h2>
+    <p>Une variable n'a d'existence que dans le module dans lequel elle a été déclarée (programme principal ou sous-programme).</p>
+    <p>Ainsi la variable <code>apport</code> déclarée dans le programme principal n'a d'existence que dans celui-ci et n'est pas connue dans la fonction <code>conversion()</code>. De la même manière, la variable <code>resultat</code> de la fonction <code>conversion()</code> n'a aucune existence dans le programme principal.</p>
+    <p>Le programme principal et chaque sous-programme ont leur <strong>espace mémoire</strong> où il implante ses données et cet espace n'est partagé avec aucun autre sous-programme ou programme principal.</p>
+
+    <h2 class="section-title" id="p9-valeur">Le passage par valeur</h2>
+    <p>Que se passerait-il si l'on modifiait la valeur d'un paramètre dans une fonction ? Imaginons le code suivant :</p>
+    <pre class="code">static double conversion(double montant, String devise) {
+    double resultat;
+    resultat = 0;
+
+    montant /= 2;  // On divise le montant par 2
+
+    if (devise.compareTo("Euros") == 0) {
+        resultat = montant * 0.86;
+    } else {
+        resultat = montant * 1.17;
+    }
+    return resultat;
+}</pre>
+    <p>On divise par deux la valeur de <code>montant</code>. Lorsqu'on lance l'appel suivant :</p>
+    <pre class="code">monnaieSrc = "Euros";
+monnaieDest = "Dollars";
+somme = conversion(apport, monnaieSrc);
+afficher(apport + " " + monnaieSrc + " font : " + somme + " " + monnaieDest);</pre>
+    <p>On obtient l'affichage suivant :</p>
+    <pre class="code">100.0 Euros font : 43.0 Dollars</pre>
+    <p>Lorsqu'on rentre dans la fonction <code>conversion()</code>, on divise par deux la valeur passée en paramètre (100) et on fait donc le calcul sur 50 !</p>
+    <p>Si on a modifié la valeur du paramètre <code>montant</code> (paramètre formel), est-ce que pour autant cela a modifié la valeur de la variable <code>apport</code> (paramètre réel) ? <strong>Non</strong>.</p>
+    <p>En effet, lorsqu'on exécute la ligne suivante : <code>afficher(apport + " " + monnaieSrc + " font : " + somme + " " + monnaieDest);</code> on voit que la variable <code>apport</code> a conservé sa valeur de départ qui était <strong>100</strong> !</p>
+    <div class="note">
+      <strong>À retenir :</strong> cela est tout à fait normal, on dit que le passage de paramètres se fait <strong>par valeur</strong>. Cela signifie que le contenu du paramètre réel (<code>apport</code>) est <strong>copié</strong> dans le paramètre formel (<code>montant</code>) et que donc la modification de <code>montant</code> n'impacte pas <code>apport</code>.
+    </div>
+
+    <h2 class="section-title" id="p9-exos">Exercices</h2>
+
+    <div class="card">
+      <p><strong>Ex1 :</strong> Réaliser une fonction qui retourne la somme de deux nombres entiers passés en paramètres.</p>
+      <div class="note"><strong>Aide :</strong> Quel sera le type de la fonction ?</div>
+      <div class="exo-item"><textarea data-q="p9ex1" style="min-height:80px;"></textarea></div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex2 :</strong> Réaliser le programme qui appelle la fonction réalisée précédemment et affiche le résultat.</p>
+      <div class="exo-item"><textarea data-q="p9ex2" style="min-height:100px;"></textarea></div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex3 :</strong> Même exercice que précédemment, mais cette fois l'affichage se fait dans une procédure.</p>
+      <div class="exo-item"><textarea data-q="p9ex3" style="min-height:120px;"></textarea></div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex4 :</strong> Réaliser une fonction qui retourne le résultat d'une opération entre deux nombres réels passés en paramètres. Le signe de l'opération (<code>+</code>, <code>-</code>, <code>/</code>, ou <code>*</code>) sera lui aussi passé en paramètre.</p>
+      <div class="note"><strong>Aide :</strong> Quel sera le type de la fonction ?</div>
+      <div class="exo-item"><textarea data-q="p9ex4" style="min-height:120px;"></textarea></div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex5 :</strong> Réaliser le programme qui appelle la fonction réalisée précédemment et affiche le résultat dans une procédure sous la forme suivante :</p>
+      <pre class="code" style="text-align:center; font-size:1rem; margin:1rem 0;">8.0 * 4.0 = 32.0</pre>
+      <div class="exo-item"><textarea data-q="p9ex5" style="min-height:140px;"></textarea></div>
+    </div>
+
+    <div class="name-field" id="envoi">
+      <label>Nom, prénom</label>
+      <input type="text" id="nomEleve" placeholder="Votre nom et prénom">
+    </div>
+
+    <div class="send-box">
+      <p style="margin:0;font-weight:600;">Une fois vos réponses complétées :</p>
+      <button class="send-btn" onclick="envoyer()">Envoyer mes réponses à Mme Mbi</button>
+      <p class="error-msg" id="errMsg">Merci d'indiquer votre nom avant d'envoyer.</p>
+      <p class="send-note">Ouvre votre application mail habituelle, avec vos réponses déjà remplies dans le message.</p>
+    </div>
+
+  </main>
+</div>
+
+<footer>Unit 1 — Programming · École Schulz Genève · Algo P9, texte complet</footer>
+
+<script>
+function envoyer() {
+  const nom = document.getElementById("nomEleve").value.trim();
+  const errMsg = document.getElementById("errMsg");
+  if (!nom) { errMsg.style.display = "block"; return; }
+  errMsg.style.display = "none";
+
+  let corps = "Réponses de " + nom + " — Algo P9\n\n";
+
+  ["p9ex1", "p9ex2", "p9ex3", "p9ex4", "p9ex5"].forEach(function(q) {
+    const el = document.querySelector('[data-q="' + q + '"]');
+    if (el) corps += q.toUpperCase() + " :\n" + (el.value.trim() || "(non répondu)") + "\n\n";
+  });
+
+  const sujet = "Algo P9 - " + nom;
+  const lien = "mailto:t.mbi@ecole-schulz.ch?subject=" + encodeURIComponent(sujet) + "&body=" + encodeURIComponent(corps);
+  window.location.href = lien;
+}
+</script>
+
+</body>
+</html>

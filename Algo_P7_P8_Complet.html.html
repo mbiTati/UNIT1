@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Algo P7 + P8 — Collections et Sous-programmes | Unit 1</title>
+<style>
+:root { --teal:#0D7377; --cyan:#14A3C7; --mint:#32E0C4; --ink:#1B2B2B; --muted:#5A6B6B; --bg-card:#F7F9F8; --code-bg:#1E2B2B; --code-fg:#E1F5EE; --gold:#BA7517; --navy:#16294D; --purple:#6D28D9; --success:#085041; --error:#A32D2D; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system, Segoe UI, Calibri, sans-serif; color:var(--ink); background:#FFFFFF; line-height:1.65; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+header { background:var(--teal); color:white; padding:2.5rem 2rem; }
+header .kicker { font-size:0.85rem; letter-spacing:0.05em; color:var(--mint); font-weight:600; }
+header h1 { margin:0.5rem 0 0.3rem; font-size:1.9rem; }
+header p { margin:0; color:#BFEFE9; font-size:1rem; }
+.layout { display:grid; grid-template-columns:250px 1fr; gap:2rem; max-width:1100px; margin:0 auto; padding:2rem; }
+nav.toc { position:sticky; top:1rem; align-self:start; background:var(--bg-card); border-radius:10px; padding:1.1rem; max-height:calc(100vh - 2rem); overflow-y:auto; }
+nav.toc .toc-title { font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); margin-bottom:0.6rem; }
+.toc-link { display:block; padding:0.32rem 0.5rem; border-radius:6px; color:var(--ink); text-decoration:none; font-size:0.85rem; }
+.toc-link:hover { background:#E1F5EE; }
+.toc-part { font-weight:700; color:var(--teal); font-size:0.78rem; text-transform:uppercase; margin:0.9rem 0 0.3rem; letter-spacing:0.04em; }
+main { min-width:0; }
+h2.section-title { font-size:1.2rem; color:var(--teal); border-bottom:2px solid #E1F5EE; padding-bottom:0.4rem; margin-top:2.1rem; }
+h3.part-title { font-size:1.5rem; color:white; background:var(--teal); padding:1rem 1.3rem; border-radius:10px; margin-top:3rem; }
+.code { background:var(--code-bg); color:var(--code-fg); padding:1rem 1.2rem; border-radius:8px; overflow-x:auto; font-family:"Courier New", monospace; font-size:0.87rem; white-space:pre; }
+table.ref { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.88rem; }
+table.ref th, table.ref td { border:1px solid #E0E0E0; padding:0.45rem 0.6rem; text-align:left; }
+table.ref th { background:var(--bg-card); }
+.card { background:var(--bg-card); border-radius:10px; padding:1.1rem 1.3rem; margin:1rem 0; }
+.note { background:#FAEEDA; border-left:4px solid var(--gold); padding:0.7rem 1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.note strong { color:#633806; }
+.info { background:#E6F1FB; border-left:4px solid #378ADD; padding:0.7rem 1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.exo-item { margin-bottom:1.2rem; }
+.exo-item label { display:block; font-weight:600; margin-bottom:0.4rem; }
+.exo-item textarea, .exo-item input[type=text] { width:100%; font-family:"Courier New", monospace; font-size:0.88rem; padding:0.55rem 0.75rem; border:1px solid #CCCCCC; border-radius:6px; resize:vertical; }
+.exo-item textarea { min-height:45px; }
+.name-field { margin:1.5rem 0; }
+.name-field label { display:block; font-weight:700; margin-bottom:0.4rem; }
+.name-field input { width:100%; max-width:400px; padding:0.7rem 0.9rem; border:1px solid #CCCCCC; border-radius:6px; font-size:1rem; }
+.send-box { background:#FAEEDA; border-radius:10px; padding:1.5rem; text-align:center; margin:2.5rem 0; }
+.send-btn { background:var(--teal); color:white; border:none; padding:0.9rem 2rem; border-radius:8px; font-size:1.05rem; font-weight:700; cursor:pointer; margin-top:0.8rem; }
+.send-btn:hover { background:var(--cyan); }
+.send-note { font-size:0.85rem; color:#633806; margin-top:0.7rem; }
+.error-msg { color:#A32D2D; font-size:0.9rem; margin-top:0.6rem; display:none; }
+footer { text-align:center; padding:2rem; color:var(--muted); font-size:0.85rem; }
+@media (max-width:800px) { .layout { grid-template-columns:1fr; } nav.toc { position:static; max-height:none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">UNIT 1 — PROGRAMMING</div>
+  <h1>Algo P7 + P8 — Texte complet</h1>
+  <p>Les collections dynamiques (List, ArrayList) et les sous-programmes (fonctions et procédures).</p>
+</header>
+
+<div class="layout">
+  <nav class="toc">
+    <div class="toc-title">Sommaire</div>
+    <div class="toc-part">Partie 7 : Les collections</div>
+    <a class="toc-link" href="#p7-intro">Introduction</a>
+    <a class="toc-link" href="#p7-saisie">Saisie d'une collection</a>
+    <a class="toc-link" href="#p7-methodes">Méthodes des collections</a>
+    <a class="toc-link" href="#p7-parcours">Parcourir une collection</a>
+    <a class="toc-link" href="#p7-suppr">Supprimer / Remplacer</a>
+    <a class="toc-link" href="#p7-exos">Exercices P7</a>
+    <div class="toc-part">Partie 8 : Sous-programmes</div>
+    <a class="toc-link" href="#p8-probleme">Le problème du code répété</a>
+    <a class="toc-link" href="#p8-fonctions">Les fonctions</a>
+    <a class="toc-link" href="#p8-procedures">Les procédures</a>
+    <a class="toc-link" href="#p8-exos">Exercices P8</a>
+    <a class="toc-link" href="#envoi">Envoyer mes réponses</a>
+  </nav>
+
+  <main>
+
+    <h3 class="part-title">Partie 7 — Les collections</h3>
+
+    <h2 class="section-title" id="p7-intro">Introduction</h2>
+    <p>Jusqu'à maintenant on ne pouvait pas traiter des listes de valeurs, en effet une variable ne peut contenir qu'une seule valeur à la fois. Avec les collections nous allons pouvoir résoudre ce problème.</p>
+    
+    <div class="note">
+      <strong>Remarque :</strong> il existe un autre type de structure de données répétitive, ce sont les tableaux. C'était les seules structures répétitives existantes avant que n'apparaissent les collections. Les tableaux ont l'inconvénient d'être statiques en ce sens qu'il faut connaître à l'avance le nombre maximal de valeurs qu'ils peuvent contenir. Si on définissait un nombre trop petit, il fallait modifier les programmes et si on définissait un nombre d'occurrences trop grand, on perdait de la place en mémoire ! À l'inverse les collections sont dynamiques, on peut ajouter autant de valeurs que l'on souhaite sans avoir à modifier le programme. De plus les collections possèdent des fonctionnalités très puissantes que n'ont pas les tableaux. Pour toutes ces raisons les tableaux ne sont pratiquement plus utilisés au profit des collections, donc nous n'étudierons que les collections.
+    </div>
+
+    <h2 class="section-title" id="p7-saisie">Saisie d'une collection</h2>
+    <pre class="code">program Collection {
+    List&lt;String&gt; noms;
+    String nom;
+    
+    noms = new ArrayList&lt;String&gt;();
+    saisir(nom);
+    
+    while (nom.compareTo("") != 0) {
+        noms.add(nom);
+        saisir(nom);
+    }
+}</pre>
+    <p>Ce programme permet de saisir des noms et de les stocker dans une collection tant que l'on ne saisit pas une chaîne vide.</p>
+
+    <h3 style="font-size:1rem; color:var(--cyan); margin-top:1rem;">Analyse</h3>
+    <p>On commence par déclarer une collection. Une collection est forcément typée : c'est une collection de <code>String</code>, ou de <code>Integer</code>, ou de <code>Double</code>. D'autre part l'usage veut (mais ce n'est pas une contrainte technique) que les noms des collections soient toujours <strong>au pluriel</strong>, pour bien les distinguer des variables simples.</p>
+    <pre class="code">List&lt;String&gt; noms;</pre>
+    <p>Il faut ensuite <strong>créer</strong> la collection, c'est-à-dire lui donner une existence dans l'espace mémoire du programme. Pour le moment, il faut prendre l'expression ci-dessous telle quelle (nous reviendrons dessus avec la POO).</p>
+    <pre class="code">noms = new ArrayList&lt;String&gt;();</pre>
+    <p>Pour ajouter une valeur dans la collection, on utilise la méthode <code>add()</code>.</p>
+    <pre class="code">noms.add(nom);</pre>
+
+    <h2 class="section-title" id="p7-methodes">Les méthodes des collections</h2>
+    <p>Les collections possèdent des méthodes très puissantes qui permettent d'effectuer dessus des traitements. Voici les principales :</p>
+    <table class="ref">
+      <tr><th>Méthode</th><th>Commentaires</th></tr>
+      <tr><td><code>size()</code></td><td>Fournit la taille (nombre de valeurs) de la collection.</td></tr>
+      <tr><td><code>get(indice)</code></td><td>Récupère la valeur placée à la indice<sup>ème</sup> position de la collection.</td></tr>
+      <tr><td><code>remove(valeur)</code></td><td>Supprime cette valeur de la collection.</td></tr>
+      <tr><td><code>add(valeur)</code></td><td>Ajoute une valeur à la fin de la collection.</td></tr>
+      <tr><td><code>set(indice, new_valeur)</code></td><td>Remplace la valeur positionnée à la indice<sup>ème</sup> place par new_valeur.</td></tr>
+      <tr><td><code>contains(valeur)</code></td><td>Retourne <code>true</code> si la collection contient <code>valeur</code> et <code>false</code> sinon.</td></tr>
+      <tr><td><code>indexOf(valeur)</code></td><td>Fournit l'indice d'une valeur (sa position) dans la collection si la valeur existe.</td></tr>
+    </table>
+
+    <h2 class="section-title" id="p7-parcours">Parcourir une collection</h2>
+
+    <h3 style="font-size:1rem; color:var(--cyan); margin-top:1rem;">Avec un <code>while</code></h3>
+    <pre class="code">program Collection {
+    List&lt;String&gt; noms;
+    String nom;
+    int taille, cpt;
+    
+    noms = new ArrayList&lt;String&gt;();
+    saisir(nom);
+    
+    while (nom.compareTo("") != 0) {
+        noms.add(nom);
+        saisir(nom);
+    }
+    
+    taille = noms.size();
+    cpt = 0;
+    while (cpt &lt; taille) {
+        afficher(noms.get(cpt));
+        cpt++;
+    }
+}</pre>
+    <div class="note">
+      <strong>Remarque :</strong> on aurait tout aussi bien pu écrire <code>while (cpt &lt; noms.size()) { ... }</code> directement.
+    </div>
+    <p>Pour parcourir une collection on a d'abord besoin de sa taille. En effet si on tente d'accéder à la 20ème valeur d'une collection qui n'en compte que 19, on provoque une <strong>erreur fatale</strong> qui a pour effet d'arrêter le programme. Pour récupérer une occurrence, on utilise la méthode <code>get(indice)</code>.</p>
+
+    <h3 style="font-size:1rem; color:var(--cyan); margin-top:1rem;">Avec un <code>for</code></h3>
+    <pre class="code">program CollectionV2 {
+    List&lt;String&gt; noms;
+    ...
+    for (int i=0; i &lt; taille; i++) {
+        System.out.println(noms.get(i));
+    }
+}</pre>
+    <div class="info">
+      <strong>Note :</strong> lorsque nous étudierons la POO, nous verrons qu'il existe un autre type de boucle <code>for</code> spécifique aux collections (le <em>for-each</em>).
+    </div>
+
+    <h2 class="section-title" id="p7-suppr">Rechercher et supprimer une occurrence</h2>
+    <pre class="code">program CollectionV3 {
+    List&lt;String&gt; noms;
+    ...
+    saisir(nom);
+    if (noms.contains(nom)) {
+        noms.remove(nom);
+    }
+}</pre>
+    <p>La suppression d'une occurrence a pour effet de réduire la taille de la collection de 1 et de décaler vers le haut le reste des occurrences. Illustration :</p>
+    
+    <table class="ref" style="width:auto; margin:1rem 0;">
+      <tr><th>Position</th><th>Valeur</th></tr>
+      <tr><td>0</td><td>Pierre</td></tr>
+      <tr><td>1</td><td>Marie</td></tr>
+      <tr><td>2</td><td>Jacques</td></tr>
+      <tr><td>3</td><td>Anne</td></tr>
+      <tr><td>4</td><td>Paul</td></tr>
+    </table>
+    <p>Taille : 5</p>
+
+    <p><strong>Collection après suppression de "Jacques" :</strong></p>
+    <table class="ref" style="width:auto; margin:1rem 0;">
+      <tr><th>Position</th><th>Valeur</th></tr>
+      <tr><td>0</td><td>Pierre</td></tr>
+      <tr><td>1</td><td>Marie</td></tr>
+      <tr><td>2</td><td>Anne</td></tr>
+      <tr><td>3</td><td>Paul</td></tr>
+    </table>
+    <p>Taille : 4</p>
+    <div class="note">
+      <strong>Attention :</strong> la suppression d'une occurrence à l'intérieur d'une boucle parcourant cette même collection peut provoquer une erreur d'exécution si l'on passe par une variable. Dans ce cas il est préférable d'utiliser directement la méthode <code>size()</code>.
+    </div>
+
+    <h2 class="section-title" id="p7-exos">Exercices — Partie 7</h2>
+
+    <div class="card">
+      <p><strong>Ex1 :</strong> Saisir une liste de prénoms et afficher cette liste du dernier au premier.</p>
+      <div class="exo-item"><textarea data-q="p7ex1" style="min-height:120px;"></textarea></div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex2 :</strong> Saisir une liste de villes et copier chacune de ces villes dans une autre collection en commençant par la dernière, puis afficher la liste des villes de la deuxième collection.</p>
+      <div class="exo-item"><textarea data-q="p7ex2" style="min-height:120px;"></textarea></div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex3 :</strong> Afficher la position d'un nom (nom saisi par l'utilisateur) dans une liste de noms. Attention : pour trouver la position d'un nom il faut d'abord s'assurer que celui-ci fasse partie de la collection !</p>
+      <div class="exo-item"><textarea data-q="p7ex3" style="min-height:100px;"></textarea></div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex4 :</strong> Dans une liste de couleurs, remplacer la première par la dernière, puis la deuxième par l'avant-dernière et ainsi de suite, à la fin afficher la liste inversée.</p>
+      <div class="note">
+        <strong>Aide :</strong> on va avoir besoin d'une variable intermédiaire. Voyons ce qui se passe avec une simple liste de lettres : <code>A B C D E</code>. Remplacement de A par E : <code>E B C D E</code> — on a perdu le A ! La méthode consiste à mettre A dans une variable intermédiaire, remplacer A par E, puis remplacer E par le contenu de la variable intermédiaire.
+      </div>
+      <div class="exo-item"><textarea data-q="p7ex4" style="min-height:150px;"></textarea></div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex5 :</strong> Même exercice que l'exercice 2, mais chaque fois que l'on copie une ville dans l'autre liste, on la supprime de la première.</p>
+      <div class="note">
+        <strong>Aide :</strong> cet exercice est particulièrement délicat. On peut résoudre le problème en copiant systématiquement la première ville de la collection, puis on supprime cette ville.
+      </div>
+      <div class="exo-item"><textarea data-q="p7ex5" style="min-height:150px;"></textarea></div>
+    </div>
+
+    <h3 class="part-title">Partie 8 — Les sous-programmes (Fonctions et Procédures)</h3>
+
+    <h2 class="section-title" id="p8-probleme">Le problème du code répété</h2>
+    <p>Lorsque les programmes deviennent complexes et comportent de nombreuses lignes de code, il devient nécessaire de les découper en sous-programmes (procédures ou fonctions) soit pour partager du code en plusieurs endroits, soit pour les rendre plus lisibles et donc plus facilement maintenables.</p>
+    
+    <p>Supposons un programme demandant à un utilisateur de saisir les coordonnées de quatre points d'un rectangle, sachant que l'ordonnée doit être comprise entre 0 et 480 et l'abscisse entre 0 et 640. L'algorithme pourrait ressembler à ceci :</p>
+    <pre class="code">program Points {
+    saisir(ordonnee);
+    saisir(abscisse);
+    if ((ordonnee >= 0) && (abscisse <= 480) && (abscisse >= 0) && (abscisse <= 640)) {
+        point1 = true;
+    } else {
+        point1 = false;
+    }
+    saisir(ordonnee);
+    saisir(abscisse);
+    if ((ordonnee >= 0) && (abscisse <= 480) && (abscisse >= 0) && (abscisse <= 640)) {
+        point2 = true;
+    } else {
+        point2 = false;
+    }
+    // ... répété 4 fois
+}</pre>
+    <div class="note">
+      <strong>Important :</strong> on voit bien que le test de validité des coordonnées est répété plusieurs fois. Pour éviter cela on va mettre en facteur commun les instructions réalisant ce test, il suffira d'appeler ces lignes pour en récupérer le résultat.
+    </div>
+
+    <h2 class="section-title" id="p8-fonctions">Les fonctions</h2>
+    <p>Voici comment extraire le test dans une fonction <code>verifie()</code> :</p>
+    <pre class="code">program PointsV2 {
+    saisir(ordonnee);
+    saisir(abscisse);
+    point1 = verifie();
+
+    saisir(ordonnee);
+    saisir(abscisse);
+    point2 = verifie();
+    // ...
+}
+
+static boolean verifie() {
+    boolean point;
+    if ((ordonnee >= 0) && (abscisse <= 480) && (abscisse >= 0) && (abscisse <= 640)) {
+        point = true;
+    } else {
+        point = false;
+    }
+    return point;
+}</pre>
+    <div class="info">
+      <strong>Note :</strong> pour le moment nous ignorerons le mot <code>static</code> qui figure au début de la déclaration de la fonction <code>verifie()</code>.
+    </div>
+
+    <h3 style="font-size:1rem; color:var(--cyan); margin-top:1rem;">Analyse du pointeur de programme</h3>
+    <table class="ref">
+      <tr><th>Étape</th><th>Instruction</th><th>Commentaire</th></tr>
+      <tr><td>1</td><td><code>saisir (ordonnee); saisir (abscisse);</code></td><td>Saisie des valeurs dans les variables <code>ordonnee</code> et <code>abscisse</code>.</td></tr>
+      <tr><td>2</td><td><code>point1 = verifie();</code></td><td>La variable <code>point1</code> doit être affectée par une valeur fournie par l'élément à droite. Cet élément n'étant ni une constante, ni une variable, il s'agit donc d'une fonction. Le pointeur de programme va se déplacer jusqu'à la première instruction de cette fonction.</td></tr>
+      <tr><td>3</td><td><code>if (...) { point = true; } else { point = false; }</code></td><td>Nous sommes dans la fonction <code>verifie()</code> et on procède à l'évaluation des conditions. On utilise la variable locale <code>point</code> pour gérer la valeur retournée.</td></tr>
+      <tr><td>4</td><td><code>return point;</code></td><td>Sortie de la fonction en mettant le contenu de la variable <code>point</code> dans une zone tampon du programme.</td></tr>
+      <tr><td>5</td><td><code>point1 &lt; verifie()</code></td><td>Affectation du contenu de la zone tampon à la variable <code>point1</code>.</td></tr>
+      <tr><td>6</td><td><code>saisir (ordonnee); saisir (abscisse);</code></td><td>Suite du programme sur le même principe.</td></tr>
+    </table>
+
+    <p><strong>Indicateurs d'une fonction :</strong></p>
+    <ol style="padding-left:1.3rem;">
+      <li>Elle est typée (ici <code>boolean</code>) : <code>boolean verifie() {</code></li>
+      <li>Elle retourne une valeur du même type que celui déclaré : <code>return point;</code></li>
+    </ol>
+    <p>Comme c'est une fonction, on peut donc utiliser la valeur retournée pour affecter une variable : <code>point1 = verifie();</code>.</p>
+
+    <h2 class="section-title" id="p8-procedures">Les procédures</h2>
+    <p>Imaginons que nous voulions mettre en facteur commun la saisie de l'ordonnée et de l'abscisse. On ne peut pas utiliser une fonction, car une fonction ne retourne qu'une seule valeur alors qu'on a besoin de deux valeurs. On va donc utiliser une <strong>procédure</strong> :</p>
+    <pre class="code">program PointsV2 {
+    saisie();
+    point1 = verifie();
+
+    saisie();
+    point2 = verifie();
+    // ...
+}
+
+static void saisie() {
+    saisir(ordonnee);
+    saisir(abscisse);
+}
+
+static boolean verifie() {
+    // ... (inchangé)
+}</pre>
+
+    <p><strong>Indicateurs d'une procédure :</strong></p>
+    <ol style="padding-left:1.3rem;">
+      <li>Son type est <code>void</code> (vide), donc il n'est pas typé : <code>static void saisie() {</code></li>
+      <li>Il n'y a pas de <code>return</code> dedans.</li>
+    </ol>
+    <p>On peut constater que notre programme a gagné en lisibilité et en taille ! Au lieu d'écrire 4 fois les deux instructions de saisie, on écrit seulement 4 fois l'appel à la procédure <code>saisie();</code>.</p>
+
+    <h2 class="section-title" id="p8-exos">Exercices — Partie 8</h2>
+
+    <div class="card">
+      <p><strong>Ex1 :</strong> Parmi les appels suivants, déterminer ceux qui sont des fonctions et ceux qui sont des procédures.</p>
+      <div class="exo-item">
+        <label>a) <code>int edition = lancer();</code></label>
+        <textarea data-q="p8ex1a"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>b) <code>saisie_cde();</code></label>
+        <textarea data-q="p8ex1b"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>c) <code>double x = perimetre();</code></label>
+        <textarea data-q="p8ex1c"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>d) <code>if (dernier() &gt; 9)</code></label>
+        <textarea data-q="p8ex1d"></textarea>
+      </div>
+      <div class="exo-item">
+        <label>e) <code>while (ouvert() == true)</code></label>
+        <textarea data-q="p8ex1e"></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <p><strong>Ex2 :</strong> Transformer le programme suivant en y introduisant des procédures et/ou fonctions là où c'est possible.</p>
+      <pre class="code">program Geometrie {
+    int long, large, perimetre1, perimetre2, perimetre3;
+    boolean ok;
+
+    ok = false;
+    while (ok == false) {
+        saisir(long);
+        saisir(large);
+        if (long > large) {
+            ok = true;
+        }
+    }
+    perimetre1 = (long + large) * 2;
+
+    ok = false;
+    while (ok == false) {
+        saisir(long);
+        saisir(large);
+        if (long > large) {
+            ok = true;
+        }
+    }
+    perimetre2 = (long + large) * 2;
+
+    ok = false;
+    while (ok == false) {
+        saisir(long);
+        saisir(large);
+        if (long > large) {
+            ok = true;
+        }
+    }
+    perimetre3 = (long + large) * 2;
+}</pre>
+      <div class="exo-item"><textarea data-q="p8ex2" style="min-height:180px;"></textarea></div>
+    </div>
+
+    <div class="name-field" id="envoi">
+      <label>Nom, prénom</label>
+      <input type="text" id="nomEleve" placeholder="Votre nom et prénom">
+    </div>
+
+    <div class="send-box">
+      <p style="margin:0;font-weight:600;">Une fois vos réponses complétées :</p>
+      <button class="send-btn" onclick="envoyer()">Envoyer mes réponses à Mme Mbi</button>
+      <p class="error-msg" id="errMsg">Merci d'indiquer votre nom avant d'envoyer.</p>
+      <p class="send-note">Ouvre votre application mail habituelle, avec vos réponses déjà remplies dans le message.</p>
+    </div>
+
+  </main>
+</div>
+
+<footer>Unit 1 — Programming · École Schulz Genève · Algo P7 + P8, texte complet</footer>
+
+<script>
+function envoyer() {
+  const nom = document.getElementById("nomEleve").value.trim();
+  const errMsg = document.getElementById("errMsg");
+  if (!nom) { errMsg.style.display = "block"; return; }
+  errMsg.style.display = "none";
+
+  let corps = "Réponses de " + nom + " — Algo P7 + P8\n\n";
+
+  corps += "=== PARTIE 7 — Exercice 1 ===\n";
+  corps += (document.querySelector('[data-q="p7ex1"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 7 — Exercice 2 ===\n";
+  corps += (document.querySelector('[data-q="p7ex2"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 7 — Exercice 3 ===\n";
+  corps += (document.querySelector('[data-q="p7ex3"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 7 — Exercice 4 ===\n";
+  corps += (document.querySelector('[data-q="p7ex4"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 7 — Exercice 5 ===\n";
+  corps += (document.querySelector('[data-q="p7ex5"]').value.trim() || "(non répondu)") + "\n";
+
+  corps += "\n=== PARTIE 8 — Exercice 1 ===\n";
+  ["p8ex1a","p8ex1b","p8ex1c","p8ex1d","p8ex1e"].forEach(function(q) {
+    const el = document.querySelector('[data-q="' + q + '"]');
+    if (el) corps += q + " : " + (el.value.trim() || "(non répondu)") + "\n";
+  });
+
+  corps += "\n=== PARTIE 8 — Exercice 2 ===\n";
+  corps += (document.querySelector('[data-q="p8ex2"]').value.trim() || "(non répondu)") + "\n";
+
+  const sujet = "Algo P7+P8 - " + nom;
+  const lien = "mailto:t.mbi@ecole-schulz.ch?subject=" + encodeURIComponent(sujet) + "&body=" + encodeURIComponent(corps);
+  window.location.href = lien;
+}
+</script>
+
+</body>
+</html>

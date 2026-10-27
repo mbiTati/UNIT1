@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>POO01 — Classes et Objets | Unit 1</title>
+<style>
+:root { --teal:#0D7377; --cyan:#14A3C7; --mint:#32E0C4; --ink:#1B2B2B; --muted:#5A6B6B; --bg-card:#F7F9F8; --code-bg:#1E2B2B; --code-fg:#E1F5EE; --gold:#BA7517; --navy:#16294D; --purple:#6D28D9; --success:#085041; --error:#A32D2D; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system, Segoe UI, Calibri, sans-serif; color:var(--ink); background:#FFFFFF; line-height:1.65; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); }
+header { background:var(--teal); color:white; padding:2.5rem 2rem; }
+header .kicker { font-size:0.85rem; letter-spacing:0.05em; color:var(--mint); font-weight:600; }
+header h1 { margin:0.5rem 0 0.3rem; font-size:1.9rem; }
+header p { margin:0; color:#BFEFE9; font-size:1rem; max-width:850px; }
+.layout { display:grid; grid-template-columns:250px 1fr; gap:2rem; max-width:1100px; margin:0 auto; padding:2rem; }
+nav.toc { position:sticky; top:1rem; align-self:start; background:var(--bg-card); border-radius:10px; padding:1.1rem; max-height:calc(100vh - 2rem); overflow-y:auto; }
+nav.toc .toc-title { font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); margin-bottom:0.6rem; }
+.toc-link { display:block; padding:0.32rem 0.5rem; border-radius:6px; color:var(--ink); text-decoration:none; font-size:0.85rem; }
+.toc-link:hover { background:#E1F5EE; }
+.toc-part { font-weight:700; color:var(--teal); font-size:0.78rem; text-transform:uppercase; margin:0.9rem 0 0.3rem; letter-spacing:0.04em; }
+main { min-width:0; }
+h2.section-title { font-size:1.2rem; color:var(--teal); border-bottom:2px solid #E1F5EE; padding-bottom:0.4rem; margin-top:2.1rem; }
+h3.sub { font-size:1.05rem; color:var(--cyan); margin:1.4rem 0 0.5rem; }
+.code { background:var(--code-bg); color:var(--code-fg); padding:1rem 1.2rem; border-radius:8px; overflow-x:auto; font-family:"Courier New", monospace; font-size:0.85rem; white-space:pre; line-height:1.5; }
+.code .kw { color:#FF9E64; }
+.code .str { color:#9ECE6A; }
+.code .cmt { color:#7A8B8B; font-style:italic; }
+.code .fn { color:#7AA2F7; }
+.code .num { color:#E0AF68; }
+table.ref { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.88rem; }
+table.ref th, table.ref td { border:1px solid #E0E0E0; padding:0.5rem 0.7rem; text-align:left; vertical-align:top; }
+table.ref th { background:var(--bg-card); }
+.card { background:var(--bg-card); border-radius:10px; padding:1.2rem 1.4rem; margin:1.2rem 0; }
+.note { background:#FAEEDA; border-left:4px solid var(--gold); padding:0.8rem 1.1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.note strong { color:#633806; }
+.info { background:#E6F1FB; border-left:4px solid #378ADD; padding:0.8rem 1.1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.important { background:#FBE9E7; border-left:4px solid var(--error); padding:0.8rem 1.1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.important strong { color:var(--error); }
+.uml { background:#FFFFFF; border:2px solid var(--teal); border-radius:8px; padding:1rem; margin:1rem 0; font-family:"Courier New", monospace; font-size:0.85rem; }
+.uml-header { background:#E1F5EE; padding:0.5rem; text-align:center; font-weight:700; border-bottom:2px solid var(--teal); }
+.uml-body { padding:0.5rem; border-bottom:1px solid #D0D0D0; }
+.uml-foot { padding:0.5rem; }
+.uml-minus { color:var(--error); font-weight:700; }
+.uml-plus { color:var(--success); font-weight:700; }
+footer { text-align:center; padding:2rem; color:var(--muted); font-size:0.85rem; }
+@media (max-width:800px) { .layout { grid-template-columns:1fr; } nav.toc { position:static; max-height:none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">UNIT 1 — PROGRAMMING · POO01</div>
+  <h1>Classes et Objets</h1>
+  <p>Introduction à la Programmation Orientée Objet : classes, propriétés, méthodes, encapsulation, constructeurs, surcharge et notation UML.</p>
+</header>
+
+<div class="layout">
+  <nav class="toc">
+    <div class="toc-title">Sommaire</div>
+    <a class="toc-link" href="#intro">Introduction</a>
+    <a class="toc-link" href="#classe">La Classe</a>
+    <a class="toc-link" href="#proprietes">Les propriétés</a>
+    <a class="toc-link" href="#accesseurs">Accesseurs et mutateurs</a>
+    <a class="toc-link" href="#methodes">Les méthodes métier</a>
+    <a class="toc-link" href="#encapsulation">L'encapsulation</a>
+    <a class="toc-link" href="#objet">L'Objet</a>
+    <a class="toc-link" href="#constructeur">Le Constructeur</a>
+    <a class="toc-link" href="#utilisation">Utilisation</a>
+    <a class="toc-link" href="#surcharge">La Surcharge</a>
+    <a class="toc-link" href="#uml">Notation UML</a>
+    <a class="toc-link" href="#sources">Sources</a>
+  </nav>
+
+  <main>
+
+    <h2 class="section-title" id="intro">Introduction</h2>
+    <p>Il y a deux types de programmation : la <strong>programmation procédurale</strong> où l'on découpe un problème en procédures et fonctions afin de le résoudre au mieux, et la <strong>programmation orientée objet</strong> où l'on aborde une problématique sous l'angle d'objets de gestion (un peu comme dans la méthodologie Merise pour le MCD) que l'on appellera des <strong>Classes</strong>.</p>
+    <p>Ces objets de gestion (<em>Facture</em>, <em>Client</em>, <em>Article</em>...) sont envisagés à la fois sous l'angle des <strong>données</strong> (Propriétés) — par exemple un Client a un nom, une adresse, un chiffre d'affaires — et sous l'angle des <strong>traitements</strong> (Méthodes) — par exemple pour le Client : créer un nouveau client, ajouter une facture à son chiffre d'affaires, calculer son taux de remise, etc.</p>
+    <p>Une fois que l'on a déterminé de quelles Classes on a besoin, la construction de notre application consistera essentiellement à faire <strong>interagir ces Classes entre elles</strong>.</p>
+    <div class="info">
+      <strong>À noter :</strong> la POO est un paradigme qui améliore la <strong>réutilisation du code</strong>, la <strong>maintenabilité</strong> et la <strong>scalabilité</strong> des applications. Il permet de modéliser le logiciel de manière à représenter fidèlement les entités du monde réel.
+    </div>
+    <div class="note">
+      <strong>Important :</strong> toutes proportions gardées, on se retrouve avec la POO comme on était en abordant pour la première fois l'algorithmique. Nous allons aborder des concepts assez ardus, il ne faut donc pas s'étonner au début de "n'y comprendre rien", c'est tout à fait normal, les choses vont se mettre en place petit à petit. Le couple Cours/TD est très important : le cours expose les concepts et le TD les met en œuvre.
+    </div>
+
+    <h2 class="section-title" id="classe">La Classe</h2>
+    <h3 class="sub">Définition</h3>
+    <p>Une <strong>classe</strong> est un <strong>modèle conceptuel</strong> (ou <em>blueprint</em>) permettant de représenter un objet du monde réel. Une classe est dotée d'<strong>attributs</strong> définissant ses caractéristiques et de <strong>méthodes</strong> définissant son comportement.</p>
+    <p>En Java, une classe est un <strong>type de données défini par l'utilisateur</strong> qui regroupe des données et des comportements. Elle peut contenir des champs, des méthodes, des constructeurs, des classes imbriquées et des interfaces.</p>
+    <pre class="code"><span class="kw">public class</span> CompteBancaire {
+    <span class="kw">private</span> String numeroCompte;
+    <span class="kw">private double</span> solde;
+
+    <span class="kw">public void</span> <span class="fn">setSolde</span>(<span class="kw">double</span> s) {
+        <span class="kw">this</span>.solde = s;
+    }
+    <span class="kw">public double</span> <span class="fn">getSolde</span>() {
+        <span class="kw">return this</span>.solde;
+    }
+    <span class="kw">public void</span> <span class="fn">setNumeroCompte</span>(String n) {
+        <span class="kw">this</span>.numeroCompte = n;
+    }
+    <span class="kw">public</span> String <span class="fn">getNumeroCompte</span>() {
+        <span class="kw">return this</span>.numeroCompte;
+    }
+    <span class="kw">public void</span> <span class="fn">verser</span>(<span class="kw">double</span> montant) {
+        setSolde(getSolde() + montant);
+    }
+    <span class="kw">public double</span> <span class="fn">retirer</span>(<span class="kw">double</span> montant) {
+        setSolde(getSolde() - montant);
+        <span class="kw">return</span> getSolde();
+    }
+}</pre>
+    <p>Une classe est comparable à un <strong>moule</strong>, par exemple celui d'une casserole. Toutes les casseroles issues de ce moule seront identiques, comme tous les objets créés à partir d'une classe seront identiques. Mais si toutes les casseroles ont la même contenance (propriété) et la même façon de verser le contenu (méthode), elles ne contiendront pas toutes la même chose (soupe, eau, bœuf bourguignon...) et leur contenu ne sera pas versé au même moment par la même personne. Il en va de même avec les classes et les objets.</p>
+    <div class="info">
+      <strong>Exemple concret :</strong> <code>Chien</code> est une classe, <code>Tommy</code> est un objet de cette classe. De la même manière, <code>Voiture</code> est une classe, tandis que <code>BMW</code>, <code>Mercedes</code> et <code>Audi</code> sont des objets (instances) créés à partir de cette classe.
+    </div>
+
+    <h2 class="section-title" id="proprietes">Les propriétés</h2>
+    <p>Elles définissent les <strong>caractéristiques</strong> de la classe. Elles sont typées, en accès <strong>privé</strong>, et sont accessibles via les <strong>accesseurs</strong> <code>getXXX()</code> et les <strong>mutateurs</strong> <code>setXXX()</code> qui doivent être publics.</p>
+    <pre class="code"><span class="kw">private</span> String numeroCompte;
+<span class="kw">private double</span> solde;</pre>
+    <div class="note">
+      <strong>Note :</strong> le fait de mettre <code>private</code> transforme une simple variable (<code>numeroCompte</code> ou <code>solde</code>) en une <strong>propriété</strong>. Ce sont ces propriétés qui stockeront les données de la classe.
+    </div>
+
+    <h2 class="section-title" id="accesseurs">Accesseurs et mutateurs</h2>
+
+    <h3 class="sub">Les mutateurs (setters)</h3>
+    <p>Ce sont des <strong>procédures</strong> admettant un paramètre dont la valeur sera affectée à la propriété. La norme veut que l'on commence toujours un mutateur par <code>set</code> suivi du nom de la propriété (ex. <code>setSolde()</code>). Pour bien marquer que l'on parle de la propriété, on la préfixe de <code>this</code>.</p>
+    <pre class="code"><span class="kw">public void</span> <span class="fn">setSolde</span>(<span class="kw">double</span> s) {
+    <span class="kw">this</span>.solde = s;
+}
+<span class="kw">public void</span> <span class="fn">setNumeroCompte</span>(String n) {
+    <span class="kw">this</span>.numeroCompte = n;
+}</pre>
+    <div class="info">
+      <strong>Le préfixe <code>this</code> :</strong> il désigne la classe. Quand on écrit <code>this.solde</code>, c'est comme si on disait « je parle de la propriété <code>solde</code> de la classe <code>CompteBancaire</code> ».
+    </div>
+    <p><strong>Remarque :</strong> ici le nom des paramètres est différent du nom des propriétés, mais on voit souvent dans des programmes que le développeur utilise le même nom. On aurait tout aussi bien pu écrire :</p>
+    <pre class="code"><span class="kw">public void</span> <span class="fn">setSolde</span>(<span class="kw">double</span> solde) {
+    <span class="kw">this</span>.solde = solde;
+}</pre>
+
+    <h3 class="sub">Les accesseurs (getters)</h3>
+    <p>Ce sont des <strong>fonctions</strong> qui retournent le contenu des propriétés. Par exemple <code>getSolde()</code> va retourner le contenu de la propriété <code>solde</code>. Pour bien marquer que l'on parle de la propriété, on la préfixe également de <code>this</code>.</p>
+    <pre class="code"><span class="kw">public double</span> <span class="fn">getSolde</span>() {
+    <span class="kw">return this</span>.solde;
+}
+<span class="kw">public</span> String <span class="fn">getNumeroCompte</span>() {
+    <span class="kw">return this</span>.numeroCompte;
+}</pre>
+    <div class="important">
+      <strong>Règle :</strong> les propriétés privées ne sont accessibles que depuis l'intérieur de la classe et doivent toujours être préfixées de <code>this</code>. Normalement, même à l'intérieur de la classe, on ne devrait accéder aux propriétés que par les accesseurs et mutateurs (sauf bien sûr pour les accesseurs et mutateurs eux-mêmes, qui ne peuvent pas faire autrement).
+    </div>
+    <p><strong>Note :</strong> pour le moment nos propriétés sont constituées par des variables de types simples (<code>String</code>, <code>Double</code>, <code>int</code>...). On verra plus tard qu'une classe peut avoir d'autres classes comme propriétés.</p>
+
+    <h2 class="section-title" id="methodes">Les méthodes métier</h2>
+    <p>Peuvent être des <strong>fonctions</strong> (retournent une valeur) ou des <strong>procédures</strong>, <strong>privées</strong> (uniquement accessibles depuis l'intérieur de la classe) ou <strong>publiques</strong> (accessibles depuis l'intérieur et l'extérieur) qui ont pour rôle de « faire » quelque chose.</p>
+    <p>Par exemple la méthode <code>verser()</code> va ajouter le montant passé en paramètre au solde :</p>
+    <pre class="code"><span class="kw">public void</span> <span class="fn">verser</span>(<span class="kw">double</span> montant) {
+    setSolde(getSolde() + montant);
+}</pre>
+    <p>Ici on met dans <code>solde</code> le montant actuel de <code>solde</code> (récupéré via <code>getSolde()</code>) auquel on ajoute le montant passé en paramètre.</p>
+    <pre class="code"><span class="kw">public double</span> <span class="fn">retirer</span>(<span class="kw">double</span> montant) {
+    setSolde(getSolde() - montant);
+    <span class="kw">return</span> getSolde();
+}</pre>
+    <p>Ici on met dans <code>solde</code> le montant actuel de <code>solde</code> auquel on retire le montant passé en paramètre.</p>
+    <div class="note">
+      <strong>Remarque :</strong> on aurait pu écrire <code>this.solde = this.solde + montant;</code> mais cela aurait été moins « propre ». De même, on aurait pu écrire <code>return this.solde;</code> à la place de <code>return getSolde();</code> — là aussi, moins « propre ».
+    </div>
+
+    <h2 class="section-title" id="encapsulation">L'encapsulation</h2>
+    <p>L'<strong>encapsulation</strong> est le principe permettant de <strong>rendre public ce que peut faire une classe</strong> (ses méthodes) tout en <strong>masquant comment cela est fait</strong>.</p>
+    <div class="info">
+      <strong>Avantages de l'encapsulation :</strong>
+      <ul style="margin:0.4rem 0; padding-left:1.2rem;">
+        <li><strong>Protection des données :</strong> les propriétés ne peuvent être modifiées que via les méthodes prévues.</li>
+        <li><strong>Maintenabilité :</strong> on peut changer l'implémentation interne sans impacter l'extérieur.</li>
+        <li><strong>Contrôle :</strong> on peut valider les valeurs avant de les affecter (ex. vérifier que le solde n'est pas négatif).</li>
+      </ul>
+    </div>
+
+    <h2 class="section-title" id="objet">L'Objet</h2>
+    <p>Un <strong>objet</strong> est la <strong>réalisation d'une classe</strong>. C'est une instance de la classe qui représente une entité du monde réel et permet d'accéder à ses variables et méthodes.</p>
+    <p><strong>Instancier un objet</strong>, c'est créer un objet à partir d'une classe en invoquant son constructeur. Exemple dans une application :</p>
+    <pre class="code">CompteBancaire unCompteBancaire;
+unCompteBancaire = <span class="kw">new</span> CompteBancaire();
+
+<span class="cmt">// ou en une seule ligne :</span>
+CompteBancaire unCompteBancaire = <span class="kw">new</span> CompteBancaire();</pre>
+    <p><code>unCompteBancaire</code> est un objet de la classe <code>CompteBancaire</code> et la clause <code>new</code> instancie (réalise) l'objet <code>unCompteBancaire</code>.</p>
+    <p><strong>Parallèle avec les variables classiques :</strong></p>
+    <ul>
+      <li><code>CompteBancaire</code> serait le <strong>type</strong> et <code>unCompteBancaire</code> la <strong>variable</strong>.</li>
+      <li><code>new CompteBancaire()</code> serait l'<strong>affectation d'une valeur</strong> à la variable.</li>
+    </ul>
+    <div class="note">
+      <strong>Attention :</strong> il ne s'agit là que d'un parallèle pour se « raccrocher » à quelque chose de connu. En réalité, <code>unCompteBancaire</code> est un <strong>objet</strong> et <code>CompteBancaire</code> est une <strong>Classe</strong>.
+    </div>
+    <div class="info">
+      <strong>Les 3 caractéristiques d'un objet :</strong>
+      <ul style="margin:0.4rem 0; padding-left:1.2rem;">
+        <li><strong>État (<em>State</em>) :</strong> les valeurs stockées dans les champs de l'objet.</li>
+        <li><strong>Comportement (<em>Behavior</em>) :</strong> les actions définies par les méthodes.</li>
+        <li><strong>Identité (<em>Identity</em>) :</strong> chaque objet a une identité unique en mémoire, même si deux objets contiennent les mêmes données.</li>
+      </ul>
+    </div>
+
+    <h2 class="section-title" id="constructeur">Le Constructeur</h2>
+    <p>Le <strong>constructeur</strong> est une <strong>méthode minimale</strong> d'une classe portant le nom de la classe et permettant d'<strong>initialiser les propriétés</strong> de la classe. Il est automatiquement invoqué lors de la création d'un objet.</p>
+    <p><strong>Caractéristiques d'un constructeur :</strong></p>
+    <ul>
+      <li>Son nom est <strong>identique</strong> au nom de la classe.</li>
+      <li>Il n'a <strong>aucun type de retour</strong> (pas même <code>void</code>).</li>
+      <li>Il est appelé automatiquement lors de l'utilisation du mot-clé <code>new</code>.</li>
+    </ul>
+    <p>Une classe peut disposer de <strong>plusieurs constructeurs</strong> (surcharge) sous réserve que leurs signatures (nombre, types et ordre des paramètres) soient différentes :</p>
+    <pre class="code"><span class="kw">public class</span> CompteBancaire {
+
+    <span class="cmt">// Constructeur minimal qui initialise à leur valeur par défaut</span>
+    <span class="cmt">// Ici null pour numeroCompte et 0 pour solde</span>
+    <span class="kw">public</span> <span class="fn">CompteBancaire</span>() {
+    }
+
+    <span class="cmt">// Constructeur partiel qui n'initialisera que la propriété numeroCompte</span>
+    <span class="kw">public</span> <span class="fn">CompteBancaire</span>(String numero) {
+        <span class="kw">this</span>.numeroCompte = numero;
+    }
+
+    <span class="cmt">// Constructeur complet qui initialisera toutes les propriétés</span>
+    <span class="kw">public</span> <span class="fn">CompteBancaire</span>(String numero, <span class="kw">double</span> s) {
+        setNumeroCompte(numero);
+        setSolde(s);
+    }
+}</pre>
+    <div class="info">
+      <strong>Types de constructeurs (GeeksforGeeks) :</strong>
+      <ul style="margin:0.4rem 0; padding-left:1.2rem;">
+        <li><strong>Constructeur par défaut :</strong> ne prend aucun paramètre et initialise l'objet avec des valeurs par défaut.</li>
+        <li><strong>Constructeur paramétré :</strong> accepte des paramètres pour initialiser l'objet avec des valeurs spécifiques.</li>
+        <li><strong>Constructeur de copie :</strong> crée un nouvel objet en copiant les données d'un autre objet de la même classe.</li>
+        <li><strong>Constructeur privé :</strong> empêche la création d'objets depuis l'extérieur de la classe.</li>
+      </ul>
+    </div>
+
+    <h2 class="section-title" id="utilisation">Utilisation</h2>
+    <p>On se situe maintenant dans une application qui veut utiliser la classe <code>CompteBancaire</code>. Nous allons envisager plusieurs situations :</p>
+
+    <h3 class="sub">a) Aucune valeur disponible → constructeur minimal</h3>
+    <pre class="code">CompteBancaire unCompteBancaire = <span class="kw">new</span> CompteBancaire();</pre>
+    <p>Les propriétés sont initialisées à leur valeur par défaut : ici <code>numeroCompte</code> sera une chaîne vide et <code>solde</code> vaudra 0.</p>
+
+    <h3 class="sub">b) Seulement le numéro → constructeur intermédiaire</h3>
+    <pre class="code">CompteBancaire unCompteBancaire = <span class="kw">new</span> CompteBancaire(<span class="str">"0478523A"</span>);</pre>
+    <p>Le numéro du compte aura la valeur <code>"0478523A"</code>, et le solde aura la valeur par défaut (0).</p>
+
+    <h3 class="sub">c) Toutes les informations → constructeur complet</h3>
+    <pre class="code">CompteBancaire unCompteBancaire = <span class="kw">new</span> CompteBancaire(<span class="str">"0478523A"</span>, <span class="num">100.25</span>);</pre>
+    <p>Le numéro du compte aura la valeur <code>"0478523A"</code>, et le solde aura la valeur <code>100.25</code>.</p>
+
+    <h2 class="section-title" id="surcharge">La Surcharge</h2>
+    <p>La <strong>surcharge</strong> (<em>overloading</em>) est un dispositif permettant de donner le <strong>même nom</strong> à plusieurs méthodes, mais en changeant la <strong>signature</strong> (nombre, types et ordre des paramètres).</p>
+    <pre class="code"><span class="kw">public void</span> <span class="fn">ajouterSomme</span>(String numero, <span class="kw">double</span> valeur) { ... }
+<span class="kw">public void</span> <span class="fn">ajouterSomme</span>(String numero, <span class="kw">double</span> valeur, String nom) { ... }
+<span class="kw">public void</span> <span class="fn">ajouterSomme</span>(String nom, <span class="kw">double</span> valeur, CompteBancaire unCpt) { ... }</pre>
+    <p>Nous avons vu un premier exemple de surcharge avec les différents constructeurs, et nous aurons l'occasion de revenir sur ce concept.</p>
+
+    <h2 class="section-title" id="uml">Notation UML</h2>
+    <p><strong>UML</strong> (<em>Unified Modeling Language</em>) est un langage de modélisation des différents composants de la Programmation Orientée Objet. Tout au long de ce cours nous utiliserons une de ses représentations graphiques : le <strong>Diagramme de Classes</strong>.</p>
+
+    <h3 class="sub">Représentation graphique d'une classe dans UML</h3>
+    <div class="uml">
+      <div class="uml-header">Nom de la classe</div>
+      <div class="uml-body">
+        <span class="uml-minus">-</span> Liste des propriétés
+      </div>
+      <div class="uml-foot">
+        <span class="uml-plus">+</span> Liste des méthodes
+      </div>
+    </div>
+    <p>Le signe <span class="uml-minus">-</span> indique que l'élément (propriété ou méthode) est <strong>privé</strong>, et le signe <span class="uml-plus">+</span> indique que l'élément est <strong>public</strong>.</p>
+
+    <h3 class="sub">Exemple — Classe Compte</h3>
+    <div class="uml">
+      <div class="uml-header">Compte</div>
+      <div class="uml-body">
+        <span class="uml-minus">-</span> numero &nbsp;: String<br>
+        <span class="uml-minus">-</span> solde &nbsp;&nbsp;&nbsp;: Double<br>
+        <span class="uml-minus">-</span> decouvert : Double
+      </div>
+      <div class="uml-foot">
+        <span class="uml-plus">+</span> retirer(double montant) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: boolean<br>
+        <span class="uml-plus">+</span> virer(double montant, Compte compte) : boolean<br>
+        <span class="uml-plus">+</span> verser(double montant) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: void
+      </div>
+    </div>
+    <div class="note">
+      <strong>Note :</strong> cet exemple est loin d'être complet, nous étudierons le Diagramme de Classes de façon plus approfondie plus tard.
+    </div>
+
+    <h2 class="section-title" id="sources">Sources</h2>
+    <ul style="font-size:0.9rem;">
+      <li>GeeksforGeeks — <em>Classes and Objects in Java</em></li>
+      <li>GeeksforGeeks — <em>Java OOP (Object Oriented Programming) Concepts</em></li>
+    </ul>
+
+  </main>
+</div>
+
+<footer>Unit 1 — Programming · École Schulz Genève · POO01 — Classes et Objets</footer>
+
+</body>
+</html>

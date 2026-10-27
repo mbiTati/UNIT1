@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LO3 — Implémentation dans un IDE | Unit 1</title>
+<style>
+:root { --teal:#0D7377; --cyan:#14A3C7; --mint:#32E0C4; --ink:#1B2B2B; --muted:#5A6B6B; --bg-card:#F7F9F8; --code-bg:#1E2B2B; --code-fg:#E1F5EE; --gold:#BA7517; --navy:#16294D; --purple:#6D28D9; --success:#085041; --error:#A32D2D; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system, Segoe UI, Calibri, sans-serif; color:var(--ink); background:#FFFFFF; line-height:1.65; }
+header { background:linear-gradient(135deg, var(--teal) 0%, var(--cyan) 100%); color:white; padding:2.5rem 2rem; }
+header .kicker { font-size:0.85rem; letter-spacing:0.05em; color:var(--mint); font-weight:600; }
+header h1 { margin:0.5rem 0 0.3rem; font-size:1.9rem; }
+header p { margin:0; color:#BFEFE9; font-size:1rem; max-width:850px; }
+.layout { display:grid; grid-template-columns:250px 1fr; gap:2rem; max-width:1100px; margin:0 auto; padding:2rem; }
+nav.toc { position:sticky; top:1rem; align-self:start; background:var(--bg-card); border-radius:10px; padding:1.1rem; max-height:calc(100vh - 2rem); overflow-y:auto; }
+nav.toc .toc-title { font-weight:700; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--muted); margin-bottom:0.6rem; }
+.toc-link { display:block; padding:0.32rem 0.5rem; border-radius:6px; color:var(--ink); text-decoration:none; font-size:0.85rem; }
+.toc-link:hover { background:#E1F5EE; }
+.toc-part { font-weight:700; color:var(--teal); font-size:0.78rem; text-transform:uppercase; margin:0.9rem 0 0.3rem; }
+main { min-width:0; }
+h2.section-title { font-size:1.2rem; color:var(--teal); border-bottom:2px solid #E1F5EE; padding-bottom:0.4rem; margin-top:2.1rem; }
+h3.sub { font-size:1.05rem; color:var(--cyan); margin:1.4rem 0 0.5rem; }
+.code { background:var(--code-bg); color:var(--code-fg); padding:1rem 1.2rem; border-radius:8px; overflow-x:auto; font-family:"Courier New", monospace; font-size:0.85rem; white-space:pre; line-height:1.5; }
+.code .kw { color:#FF9E64; }
+.code .str { color:#9ECE6A; }
+.code .cmt { color:#7A8B8B; font-style:italic; }
+.code .num { color:#E0AF68; }
+table.ref { width:100%; border-collapse:collapse; margin:1rem 0; font-size:0.88rem; }
+table.ref th, table.ref td { border:1px solid #E0E0E0; padding:0.5rem 0.7rem; text-align:left; vertical-align:top; }
+table.ref th { background:var(--bg-card); }
+.card { background:var(--bg-card); border-radius:10px; padding:1.2rem 1.4rem; margin:1.2rem 0; }
+.note { background:#FAEEDA; border-left:4px solid var(--gold); padding:0.8rem 1.1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.note strong { color:#633806; }
+.info { background:#E6F1FB; border-left:4px solid #378ADD; padding:0.8rem 1.1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.important { background:#FBE9E7; border-left:4px solid var(--error); padding:0.8rem 1.1rem; border-radius:0 8px 8px 0; margin:1rem 0; font-size:0.92rem; }
+.important strong { color:var(--error); }
+footer { text-align:center; padding:2rem; color:var(--muted); font-size:0.85rem; }
+@media (max-width:800px) { .layout { grid-template-columns:1fr; } nav.toc { position:static; max-height:none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">UNIT 1 · LO3 · IMPLÉMENTATION</div>
+  <h1>Implémenter des algorithmes de base dans un IDE</h1>
+  <p>Développer des applications simples, écrire du code logique et maintenable, prendre en compte la sécurité et déployer le code dans l'environnement cible.</p>
+</header>
+
+<div class="layout">
+  <nav class="toc">
+    <div class="toc-title">Sommaire</div>
+    <a class="toc-link" href="#intro">Introduction</a>
+    <a class="toc-link" href="#ide">L'IDE : environnement de développement</a>
+    <a class="toc-link" href="#cycle">Le cycle de vie du code</a>
+    <a class="toc-link" href="#dev">Développer une application simple</a>
+    <a class="toc-link" href="#logique">Code logique et maintenable</a>
+    <a class="toc-link" href="#securite">Considérations de sécurité</a>
+    <a class="toc-link" href="#build">Build et déploiement</a>
+    <a class="toc-link" href="#synthese">Synthèse et checklist</a>
+  </nav>
+
+  <main>
+
+    <h2 class="section-title" id="intro">Introduction</h2>
+    <p>Le critère <strong>LO3</strong> du BTEC te demande de démontrer que tu sais utiliser un <strong>IDE</strong> (Integrated Development Environment) pour transformer un algorithme en application exécutable. Cela couvre quatre compétences :</p>
+    <ol>
+      <li>Développer des applications simples qui implémentent des algorithmes de base.</li>
+      <li>Écrire du code <strong>logique et maintenable</strong>.</li>
+      <li>Prendre en compte les <strong>considérations de sécurité</strong> et proposer des solutions.</li>
+      <li><strong>Compiler, gérer et déployer</strong> le code dans l'environnement cible.</li>
+    </ol>
+    <div class="info">
+      <strong>IDE recommandé :</strong> <strong>IntelliJ IDEA</strong> (Community Edition) ou <strong>Eclipse</strong>. Les deux sont gratuits, puissants et largement utilisés en entreprise. Ce cours utilise IntelliJ IDEA comme référence.
+    </div>
+
+    <h2 class="section-title" id="ide">L'IDE : environnement de développement</h2>
+    <p>Un IDE est un logiciel qui regroupe tous les outils nécessaires au développement :</p>
+    <table class="ref">
+      <tr><th>Outil</th><th>Rôle</th><th>Exemple dans IntelliJ</th></tr>
+      <tr><td><strong>Éditeur de code</strong></td><td>Écrire le code avec coloration syntaxique et auto-complétion.</td><td>Éditeur principal avec <em>code completion</em>.</td></tr>
+      <tr><td><strong>Compilateur</strong></td><td>Traduire le code source Java en bytecode.</td><td><code>javac</code> intégré, compilation à la volée.</td></tr>
+      <tr><td><strong>Débogueur</strong></td><td>Exécuter le code pas à pas pour trouver les bugs.</td><td>Breakpoints, <em>watch list</em>, pas-à-pas.</td></tr>
+      <tr><td><strong>Gestionnaire de build</strong></td><td>Automatiser la compilation et le packaging.</td><td>Maven ou Gradle intégré.</td></tr>
+      <tr><td><strong>Gestionnaire de versions</strong></td><td>Suivre les modifications du code.</td><td>Intégration Git.</td></tr>
+    </table>
+    <div class="note">
+      <strong>Pourquoi un IDE plutôt qu'un simple éditeur de texte ?</strong> Un IDE te fait gagner du temps (auto-complétion, refactoring), t'aide à éviter les erreurs (soulignement rouge, suggestions) et facilite le débogage (exécution pas à pas). C'est l'outil standard en entreprise.
+    </div>
+
+    <h2 class="section-title" id="cycle">Le cycle de vie du code dans un IDE</h2>
+    <p>Voici les étapes que tu vas suivre pour chaque projet :</p>
+    <div style="display: flex; flex-direction: column; gap: 0.3rem; margin: 1rem 0; font-family: monospace; font-size: 0.9rem; align-items: center;">
+      <div style="background: #E1F5EE; border: 2px solid #0D7377; border-radius: 6px; padding: 0.5rem 1.5rem; width: 100%; text-align: center;">1. Écrire le code source (<code>.java</code>)</div>
+      <div style="color: #0D7377; font-size: 1.2rem;">↓</div>
+      <div style="background: #E1F5EE; border: 2px solid #0D7377; border-radius: 6px; padding: 0.5rem 1.5rem; width: 100%; text-align: center;">2. Compiler → bytecode (<code>.class</code>)</div>
+      <div style="color: #0D7377; font-size: 1.2rem;">↓</div>
+      <div style="background: #E1F5EE; border: 2px solid #0D7377; border-radius: 6px; padding: 0.5rem 1.5rem; width: 100%; text-align: center;">3. Exécuter / Tester</div>
+      <div style="color: #0D7377; font-size: 1.2rem;">↓</div>
+      <div style="background: #E1F5EE; border: 2px solid #0D7377; border-radius: 6px; padding: 0.5rem 1.5rem; width: 100%; text-align: center;">4. Packager (JAR) et déployer</div>
+    </div>
+    <p>Dans IntelliJ IDEA, ces étapes sont largement automatisées : tu cliques sur ▶️ pour exécuter, et l'IDE compile et exécute pour toi.</p>
+
+    <h2 class="section-title" id="dev">Développer une application simple</h2>
+    <p>Voici un exemple complet d'application Java qui implémente un algorithme de base (calcul de moyenne) :</p>
+    <pre class="code"><span class="kw">public class</span> CalculMoyenne {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="kw">int</span>[] notes = {12, 15, 8, 17, 10};
+        <span class="kw">int</span> somme = 0;
+
+        <span class="kw">for</span> (<span class="kw">int</span> note : notes) {
+            somme += note;
+        }
+
+        <span class="kw">double</span> moyenne = (<span class="kw">double</span>) somme / notes.length;
+        System.out.println(<span class="str">"Moyenne : "</span> + moyenne);
+    }
+}</pre>
+    <div class="info">
+      <strong>Exemple concret de projet :</strong> dans le cadre de ClubConnect, tu pourrais développer une classe <code>Membre</code> avec une méthode <code>calculerCotisation()</code>, puis une classe <code>GestionClub</code> qui utilise une liste de membres et calcule le total des cotisations. C'est exactement le type d'application simple attendu par le LO3.
+    </div>
+
+    <h2 class="section-title" id="logique">Code logique et maintenable</h2>
+    <p>Un code <strong>logique</strong> est un code qui se lit de haut en bas et dont chaque méthode fait une seule chose. Un code <strong>maintenable</strong> est un code que quelqu'un d'autre (ou toi dans 6 mois) peut comprendre et modifier sans tout casser.</p>
+
+    <h3 class="sub">Les 5 règles d'or</h3>
+    <table class="ref">
+      <tr><th>Règle</th><th>Mauvaise pratique</th><th>Bonne pratique</th></tr>
+      <tr>
+        <td><strong>Nommer clairement</strong></td>
+        <td><code>int x = 5;</code></td>
+        <td><code>int nombreDeMembres = 5;</code></td>
+      </tr>
+      <tr>
+        <td><strong>Une méthode = une action</strong></td>
+        <td><code>void traiter() { ... 50 lignes ... }</code></td>
+        <td><code>void valider()</code> + <code>void enregistrer()</code> + <code>void afficher()</code></td>
+      </tr>
+      <tr>
+        <td><strong>Éviter la duplication (DRY)</strong></td>
+        <td>Copier-coller le même calcul 3 fois.</td>
+        <td>Extraire dans une fonction réutilisable.</td>
+      </tr>
+      <tr>
+        <td><strong>Indenter et commenter</strong></td>
+        <td>Tout sur une ligne, sans commentaire.</td>
+        <td>Code indenté, commentaires sur le "pourquoi", pas le "comment".</td>
+      </tr>
+      <tr>
+        <td><strong>Gérer les cas d'erreur</strong></td>
+        <td>Ignorer les erreurs potentielles.</td>
+        <td>Vérifier les paramètres, utiliser <code>try/catch</code>.</td>
+      </tr>
+    </table>
+
+    <h3 class="sub">Exemple — refactorisation</h3>
+    <p><strong>Avant (code peu maintenable) :</strong></p>
+    <pre class="code"><span class="kw">public void</span> <span class="fn">traiter</span>() {
+    <span class="cmt">// 50 lignes de code qui font tout</span>
+}</pre>
+    <p><strong>Après (code maintenable) :</strong></p>
+    <pre class="code"><span class="kw">public void</span> <span class="fn">traiter</span>() {
+    <span class="kw">if</span> (!<span class="fn">valider</span>()) <span class="kw">return</span>;
+    <span class="fn">enregistrer</span>();
+    <span class="fn">afficher</span>();
+}
+
+<span class="kw">private boolean</span> <span class="fn">valider</span>() { ... }
+<span class="kw">private void</span> <span class="fn">enregistrer</span>() { ... }
+<span class="kw">private void</span> <span class="fn">afficher</span>() { ... }</pre>
+
+    <h2 class="section-title" id="securite">Considérations de sécurité</h2>
+    <p>La sécurité est un critère <strong>essentiel</strong> du LO3. Un code qui fonctionne mais qui est vulnérable n'est pas un bon code. Voici les 4 menaces principales à connaître :</p>
+
+    <table class="ref">
+      <tr><th>Menace</th><th>Description</th><th>Solution</th></tr>
+      <tr>
+        <td><strong>Injection SQL</strong></td>
+        <td>Un utilisateur saisit du code SQL dans un champ, qui est exécuté par la base de données.</td>
+        <td><strong>Requêtes préparées</strong> (<code>PreparedStatement</code>) avec paramètres liés. Ne jamais concaténer les entrées utilisateur dans une requête.</td>
+      </tr>
+      <tr>
+        <td><strong>Injection de commandes</strong></td>
+        <td>Un utilisateur saisit une commande système qui est exécutée par le programme.</td>
+        <td>Valider les entrées avec une <strong>liste blanche</strong> (allow-list) de caractères autorisés.</td>
+      </tr>
+      <tr>
+        <td><strong>XSS (Cross-Site Scripting)</strong></td>
+        <td>Un utilisateur injecte du code JavaScript dans une page web.</td>
+        <td><strong>Échapper</strong> les caractères spéciaux (<code>&lt;</code>, <code>&gt;</code>, <code>&amp;</code>) avant affichage.</td>
+      </tr>
+      <tr>
+        <td><strong>Débordement de tampon</strong></td>
+        <td>Un utilisateur saisit plus de caractères que prévu, ce qui écrase la mémoire.</td>
+        <td>Utiliser des types de données adaptés (ex. <code>String</code> plutôt qu'un tableau de taille fixe) et valider la longueur.</td>
+      </tr>
+    </table>
+
+    <h3 class="sub">Exemple concret — Validation des entrées</h3>
+    <p><strong>Mauvaise pratique (vulnérable) :</strong></p>
+    <pre class="code"><span class="cmt">// Ne JAMAIS faire ça</span>
+String nom = champNom.getText();
+<span class="kw">if</span> (nom != <span class="kw">null</span> && nom.length() > 0) {
+    <span class="cmt">// Accepte n'importe quoi, y compris des caractères malveillants</span>
+}</pre>
+    <p><strong>Bonne pratique (sécurisée) :</strong></p>
+    <pre class="code"><span class="kw">private boolean</span> <span class="fn">validerNom</span>(String nom) {
+    <span class="kw">if</span> (nom == <span class="kw">null</span> || nom.trim().isEmpty()) {
+        <span class="kw">return false</span>; <span class="cmt">// Rejeter les noms vides</span>
+    }
+    <span class="kw">if</span> (nom.length() > 50) {
+        <span class="kw">return false</span>; <span class="cmt">// Rejeter les noms trop longs</span>
+    }
+    <span class="cmt">// Liste blanche : uniquement lettres, espaces et tirets</span>
+    <span class="kw">return</span> nom.matches(<span class="str">"[a-zA-ZÀ-ÿ\\s-]+"</span>);
+}</pre>
+    <div class="important">
+      <strong>Règle d'or :</strong> toute entrée utilisateur doit être considérée comme <strong>potentiellement malveillante</strong>. On ne fait jamais confiance à ce qui vient de l'extérieur (formulaire, fichier, réseau).
+    </div>
+
+    <h2 class="section-title" id="build">Build et déploiement</h2>
+    <p>Une fois le code écrit et testé, il faut le <strong>compiler</strong>, le <strong>packager</strong> et le <strong>déployer</strong> pour qu'il puisse être utilisé.</p>
+
+    <h3 class="sub">Les outils de build : Maven et Gradle</h3>
+    <table class="ref">
+      <tr><th>Outil</th><th>Rôle</th><th>Commande</th></tr>
+      <tr><td><strong>Maven</strong></td><td>Gère les dépendances et le cycle de build via un fichier <code>pom.xml</code>.</td><td><code>mvn clean package</code></td></tr>
+      <tr><td><strong>Gradle</strong></td><td>Même rôle, mais plus rapide et plus flexible.</td><td><code>./gradlew build</code></td></tr>
+    </table>
+    <p>Ces commandes produisent un fichier <strong>JAR</strong> (Java ARchive) qui contient le bytecode et les dépendances, prêt à être exécuté.</p>
+
+    <h3 class="sub">Le cycle de déploiement</h3>
+    <ol>
+      <li><strong>Développer</strong> le code dans l'IDE.</li>
+      <li><strong>Compiler</strong> avec <code>mvn clean package</code> ou <code>gradle build</code>.</li>
+      <li><strong>Tester</strong> localement l'exécutable (ex. <code>java -jar monApp.jar</code>).</li>
+      <li><strong>Déployer</strong> sur le serveur ou la plateforme cible (serveur d'application, conteneur Docker, cloud...).</li>
+    </ol>
+    <div class="note">
+      <strong>Pour ClubConnect :</strong> dans un premier temps, l'application sera une application console Java. Le déploiement consistera simplement à produire un JAR exécutable et à le lancer avec la commande <code>java -jar ClubConnect.jar</code>.
+    </div>
+
+    <h2 class="section-title" id="synthese">Synthèse et checklist</h2>
+    <div class="card">
+      <h3 class="sub">Checklist LO3 — avant de rendre un projet</h3>
+      <ul>
+        <li>✅ Mon application <strong>compile sans erreur</strong> dans l'IDE.</li>
+        <li>✅ Mon application <strong>s'exécute</strong> et produit les résultats attendus.</li>
+        <li>✅ Mon code est <strong>indenté</strong> et les noms de variables/méthodes sont <strong>clairs</strong>.</li>
+        <li>✅ Chaque méthode fait <strong>une seule chose</strong>.</li>
+        <li>✅ J'ai <strong>validé les entrées utilisateur</strong> (taille, type, caractères autorisés).</li>
+        <li>✅ J'ai <strong>géré les cas d'erreur</strong> (try/catch, valeurs par défaut).</li>
+        <li>✅ J'ai <strong>testé</strong> mon application avec des données normales et des données invalides.</li>
+        <li>✅ J'ai produit un <strong>JAR exécutable</strong> et je sais le lancer.</li>
+      </ul>
+    </div>
+
+  </main>
+</div>
+
+<footer>Unit 1 — Programming · École Schulz Genève · LO3 — Implémentation dans un IDE</footer>
+
+</body>
+</html>
